@@ -1,0 +1,37 @@
+<resources>
+    <string name="app_name">AppAi</string>
+    <string name="action_settings">Settings</string>
+    <string name="enter_text">Please enter text</string>
+    <string name="enter_text_btn">Enter</string>
+    <string name="avatar_description">Avatarai</string>
+    <string name="settings">Settings</string>
+    <string name="clear">Clear</string>
+    <string name="api">Api</string>
+    <string name="api_key">Api Key</string>
+    <string name="stream_mode">Stream Mode</string>
+    <string name="user_disc">This is user image</string>
+    <string name="OpeninBrowser">Open openAi.com site Browser in app</string>
+    <string name="title_activity_settings">Settings</string>
+    <string name="title_activity_browser">BrowserActivity</string>
+    <string name="title_activity_main2">MainActivity2</string>
+    <string name="copy_watermark">Getting from AppAi</string>
+    <string name="text_copy">Text copied!</string>
+    <string name="api_not_correct">You Api Key not correct. Check You Api key. (top right three dots -> settings -> API key)</string>
+    <string name="no_intenet">No Internet connection pleeeeeeease turn on intertnet.</string>
+    <string name="fatal_error">Fatal Exception. Please dont worry.</string>
+    <string name="bot_writting">Bot writting…</string>
+    <string name="time_out">Time for Response out</string>
+    <string name="save_data">Save your data  from file</string>
+    <string name="load_data">Load your data from file</string>
+    <string name="settings_prof">This is professional settings. You dont need to do that, this happends automatically.</string>
+    <string name="spam_detector">Don\'t spam these buttons! It can damage or break something.</string>
+    <string name="instruction_part1">How to get it?</string>
+    <string name="instruction_part2">Visit the Openair website -> Learn about GPT-4 -> Try on ChatGPT Plus -> Register or log in.</string>
+    <string name="instruction_part3">After that, go to the website to get the key. -> -> Create new secret key write its name (whatever) -> Create new secret key -> copy, paste in the field above.</string>
+    <string name="OpeninBrowserKey">Open platform.openai.com/account/api-keys site Browser in app</string>
+    <string name="or">Or</string>
+    <string name="tokens_left">Tokens left: %1$s</string>
+    <string name="key_description">If you get key from me <i>(developer)</i> put it here. </string>
+    <string name="key_key">Key</string>
+    <string name="key_edittext">Put Key here</string>
+</resources>
