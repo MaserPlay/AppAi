@@ -13,9 +13,6 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
 import com.maserplay.AppAi.R
-import com.yandex.mobile.ads.banner.AdSize
-import com.yandex.mobile.ads.banner.BannerAdView
-import com.yandex.mobile.ads.common.AdRequest
 import java.lang.String
 import java.util.Timer
 import java.util.TimerTask
@@ -62,10 +59,6 @@ class SettingsActivity : AppCompatActivity() {
             spamtv.visibility = View.VISIBLE }
             spam = SystemClock.elapsedRealtime()
             ServiceDop().openText() }
-        val mad: BannerAdView = findViewById(R.id.bannerad)
-        //mad.setAdUnitId("demo-banner-yandex")
-        mad.setAdSize(AdSize.stickySize(100000))
-        mad.loadAd(AdRequest.Builder().build())
     }
     fun Timerr(){
         Timer(false).schedule(object : TimerTask() {
