@@ -30,9 +30,8 @@
     <string name="instruction_part2"><i>(В России его легально получить нельзя, придется пользоваться впн и виртуальными номерами).</i> Заходите на сайт Openai -> Learn about GPT-4 -> Try on ChatGPT Plus -> Регистрируетесь или входите.</string>
     <string name="instruction_part3">После этого заходите на сайт получения ключа. -> Create new secret key пишете его название (всеравно какое) -> Create new secret key -> копируете, вставляете в поле выше.</string>
     <string name="OpeninBrowserKey">Открыть platform.openai.com/account/api-keys сайт в браузере</string>
-    <string name="or">Или</string>
-    <string name="tokens_left">Токенов осталось: %1$s</string>
-    <string name="key_description">Если ты получил ключ от меня <i>(разработчка)</i> вставь его сюда</string>
     <string name="key_key">Ключ</string>
     <string name="key_edittext">Вставь ключ сюда</string>
+    <string name="from_github">Это проект с GitHub. Репозиторий этого проекта бесплатен.</string>
+    <string name="to_github">В репозиторий</string>
 </resources>

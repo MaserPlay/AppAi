@@ -28,22 +28,23 @@ internal class ProductAdapter(
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         var convertView = convertView
-        //if (convertView == null) {
-            convertView = if (who[position].who == 1) {
-                inflater.inflate(layout, parent, false)
-            } else if (who[position].who == 2) {
-                inflater.inflate(layout2, parent, false)
-            } else if (who[position].who == 3) {
-                inflater.inflate(layout3, parent, false)
-            } else {
-                Log.e("Adapter", "Error")
-                inflater.inflate(layout3, parent, false)
+            convertView = when (who[position].who) {
+                1 -> {
+                    inflater.inflate(layout, parent, false)
+                }
+                2 -> {
+                    inflater.inflate(layout2, parent, false)
+                }
+                3 -> {
+                    inflater.inflate(layout3, parent, false)
+                }
+                else -> {
+                    Log.e("Adapter", "Error")
+                    inflater.inflate(layout3, parent, false)
+                }
             }
         val viewHolder: ViewHolder = ViewHolder(convertView)
             convertView.tag = viewHolder
-        //} else {
-        //    viewHolder = convertView.tag as ViewHolder
-        //}
         val product = productList[position]
         viewHolder.nameView.text = product.name
 

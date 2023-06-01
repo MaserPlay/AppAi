@@ -4,16 +4,17 @@ import android.R.attr.label
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.view.animation.Animation
-import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
+import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.ListAdapter
 import android.widget.ListView
@@ -22,6 +23,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.material.snackbar.Snackbar
 import com.maserplay.AppAi.R
 
 
@@ -30,7 +32,14 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
+        val snack = Snackbar.make(
+            findViewById(android.R.id.content), getString(R.string.from_github), Snackbar.LENGTH_SHORT).setAction(getString(R.string.to_github)
+        ) { startActivity( Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/dimaisaev1/AppAi") ) ) }
+        val view = snack.view
+        val params = view.layoutParams as FrameLayout.LayoutParams
+        params.gravity = Gravity.TOP
+        view.layoutParams = params
+        snack.show()
         val btn: Button = findViewById(R.id.button_enter)
         val edt: EditText = findViewById(R.id.EdTxt)
         model = ViewModelProvider(this)[HomeViewModel::class.java]
@@ -71,7 +80,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.main, menu)
         return true
     }

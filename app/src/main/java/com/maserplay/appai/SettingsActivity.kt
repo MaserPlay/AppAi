@@ -5,7 +5,6 @@ import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
 import android.os.SystemClock
-import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -13,7 +12,6 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
 import com.maserplay.AppAi.R
-import java.lang.String
 import java.util.Timer
 import java.util.TimerTask
 
@@ -36,9 +34,6 @@ class SettingsActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         val apiedt: EditText = findViewById(R.id.EdtApi)
         val prefEditor: SharedPreferences.Editor = getSharedPreferences(PREFSFILE, MODE_PRIVATE).edit()
-        val res = resources
-        val i = 100
-        findViewById<TextView>(R.id.textlatest).text = String.format(res.getString(R.string.tokens_left), i.toString())
         spamtv = findViewById(R.id.spamtv)
         apiedt.setText(applicationContext.getSharedPreferences(PREFSFILE, MODE_PRIVATE).getString(PREFNAME, ""))
         apiedt.addTextChangedListener {
@@ -60,7 +55,7 @@ class SettingsActivity : AppCompatActivity() {
             spam = SystemClock.elapsedRealtime()
             ServiceDop().openText() }
     }
-    fun Timerr(){
+    private fun Timerr(){
         Timer(false).schedule(object : TimerTask() {
             override fun run() {
                 runOnUiThread { spamtv.visibility = View.GONE }

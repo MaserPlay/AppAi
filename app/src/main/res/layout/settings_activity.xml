@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingHorizontal="10dp"
@@ -21,30 +20,9 @@
             android:paddingHorizontal="10dp"
             android:paddingVertical="10dp">
 
-            <TextView
-                android:id="@+id/textlatest"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/tokens_left"
-                android:textAllCaps="true"
-                android:textSize="25sp"
-                android:textStyle="bold"
-                android:visibility="gone" />
-
-            <TextView
-                android:id="@+id/textOr"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/textlatest"
-                android:text="@string/or"
-                android:textAlignment="center"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:visibility="gone" />
             <LinearLayout
                 android:id="@+id/llApi"
                 android:layout_width="match_parent"
-                android:layout_below="@id/textOr"
                 android:layout_height="40dp"
                 android:orientation="horizontal">
 
@@ -144,53 +122,6 @@
                 android:textAlignment="center"
                 android:textSize="15sp"
                 android:visibility="gone" />
-
-            <View
-                android:id="@+id/vie2"
-                android:layout_width="match_parent"
-                android:layout_height="5dp"
-                android:layout_below="@id/spamtv"
-                android:background="@color/purple_500"
-                android:visibility="gone" />
-
-            <TextView
-                android:id="@+id/textforKey"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/vie2"
-                android:text="@string/key_description"
-                android:textSize="15sp"
-                android:visibility="gone" />
-
-            <LinearLayout
-                android:id="@+id/llKey"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_below="@id/textforKey"
-                android:orientation="horizontal"
-                android:visibility="gone">
-
-                <TextView
-                    android:id="@+id/TvKey"
-                    android:layout_width="70dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:text="@string/key_key"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    android:visibility="gone" />
-
-                <EditText
-                    android:id="@+id/EdtKey"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:autofillHints="password"
-                    android:hint="@string/key_edittext"
-                    android:inputType="textPassword"
-                    android:visibility="gone" />
-
-            </LinearLayout>
 
         </RelativeLayout>
     </ScrollView>

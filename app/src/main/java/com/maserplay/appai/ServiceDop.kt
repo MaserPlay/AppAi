@@ -10,7 +10,7 @@ import java.lang.reflect.Type
 import kotlin.collections.List as List
 
 class ServiceDop(){
-    val FILE_NAME = "release"
+    private val FILE_NAME = "release"
     companion object {
         lateinit var fdir: File
         @OptIn(BetaOpenAI::class)

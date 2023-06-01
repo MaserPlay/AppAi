@@ -29,9 +29,8 @@
     <string name="instruction_part2">Visit the Openair website -> Learn about GPT-4 -> Try on ChatGPT Plus -> Register or log in.</string>
     <string name="instruction_part3">After that, go to the website to get the key. -> -> Create new secret key write its name (whatever) -> Create new secret key -> copy, paste in the field above.</string>
     <string name="OpeninBrowserKey">Open platform.openai.com/account/api-keys site Browser in app</string>
-    <string name="or">Or</string>
-    <string name="tokens_left">Tokens left: %1$s</string>
-    <string name="key_description">If you get key from me <i>(developer)</i> put it here. </string>
     <string name="key_key">Key</string>
     <string name="key_edittext">Put Key here</string>
+    <string name="from_github">This is a project from Github. Repository of this project is free</string>
+    <string name="to_github">To repository</string>
 </resources>
