@@ -60,7 +60,7 @@ class HomeViewModel : ViewModel() {
             )
             try {
                 val completion = openAI.chatCompletion(chatCompletionRequest)
-                pr.name =  completion.choices[0].message?.content
+                pr.name = completion.choices[0].message?.content.toString()
                 completion.choices[0].message?.let { ServiceNeed.add(it) }
                 ada.postValue(adapter)
                 writen.postValue(true)

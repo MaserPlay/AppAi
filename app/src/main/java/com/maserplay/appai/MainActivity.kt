@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         val snack = Snackbar.make(
             findViewById(android.R.id.content), getString(R.string.from_github), Snackbar.LENGTH_SHORT).setAction(getString(R.string.to_github)
-        ) { startActivity( Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/dimaisaev1/AppAi") ) ) }
+        ) { startActivity( Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/Maserplay/AppAi") ) ) }
         val view = snack.view
         val params = view.layoutParams as FrameLayout.LayoutParams
         params.gravity = Gravity.TOP
