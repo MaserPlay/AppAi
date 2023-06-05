@@ -34,4 +34,7 @@
     <string name="key_edittext">Вставь ключ сюда</string>
     <string name="from_github">Это проект с GitHub. Репозиторий этого проекта бесплатен.</string>
     <string name="to_github">В репозиторий</string>
+    <string name="gptavatar_descr">Аватар GPT</string>
+    <string name="Useravatar_desr">Иконка Пользователя</string>
+    <string name="Systemavatar_descr">Аватарка Системы</string>
 </resources>

@@ -33,4 +33,7 @@
     <string name="key_edittext">Put Key here</string>
     <string name="from_github">This is a project from Github. Repository of this project is free</string>
     <string name="to_github">To repository</string>
+    <string name="gptavatar_descr">GPTAvatar</string>
+    <string name="Useravatar_desr">UserAvatar</string>
+    <string name="Systemavatar_descr">SystemAvatar</string>
 </resources>
