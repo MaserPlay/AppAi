@@ -61,12 +61,7 @@ class MainActivity : AppCompatActivity() {
             this.currentFocus?.let { view ->
                 val imm = getSystemService(INPUT_METHOD_SERVICE) as? InputMethodManager
                 imm?.hideSoftInputFromWindow(view.windowToken, 0)
-            }/*
-            val anim = AnimationUtils.loadAnimation(this, R.anim.please_wait_anim)
-            anim.setAnimationListener(object : Animation.AnimationListener { override fun onAnimationStart(arg0: Animation) {} override fun onAnimationRepeat(arg0: Animation) {}
-                override fun onAnimationEnd(arg0: Animation) { Log.d("Temp", "EndAnim")}
-            })
-            edtt.animation = anim*/
+            }
             edtt.visibility = View.GONE
             wait.visibility = View.VISIBLE
             model.exec(edt.text.toString(), applicationContext)
