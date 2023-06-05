@@ -36,4 +36,5 @@
     <string name="gptavatar_descr">GPTAvatar</string>
     <string name="Useravatar_desr">UserAvatar</string>
     <string name="Systemavatar_descr">SystemAvatar</string>
+    <string name="api_key_empty">You Api Key empty. Check You Api key. (top right three dots -> settings -> API key)</string>
 </resources>

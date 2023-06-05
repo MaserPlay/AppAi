@@ -37,4 +37,5 @@
     <string name="gptavatar_descr">Аватар GPT</string>
     <string name="Useravatar_desr">Иконка Пользователя</string>
     <string name="Systemavatar_descr">Аватарка Системы</string>
+    <string name="api_key_empty">Ваш Api ключ не правильный. Убедитесь в правильности его написания. (справа сверху три точки -> настройки -> API ключ)</string>
 </resources>

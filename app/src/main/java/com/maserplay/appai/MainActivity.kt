@@ -29,6 +29,9 @@ import com.maserplay.AppAi.R
 
 class MainActivity : AppCompatActivity() {
     lateinit var model: HomeViewModel
+
+    private val PREF_NAME = "api"
+    private val PREFS_FILE = "Main"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -71,6 +74,13 @@ class MainActivity : AppCompatActivity() {
             val clipboard = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
             clipboard.setPrimaryClip(ClipData.newPlainText(label.toString(), model.getpr()[position].name + " <- " + getString(R.string.copy_watermark)))
             Toast.makeText(applicationContext, getString(R.string.text_copy), Toast.LENGTH_LONG).show() }
+        val api: String = getSharedPreferences(PREFS_FILE, MODE_PRIVATE).getString(PREF_NAME, "alo").toString()
+        if ((api == "alo") || (api == ""))
+        {
+            edtt.visibility = View.GONE
+            wait.text = getString(R.string.api_key_empty)
+            wait.visibility = View.VISIBLE
+        }
 
     }
 
