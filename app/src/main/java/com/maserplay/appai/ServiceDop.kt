@@ -37,7 +37,8 @@ class ServiceDop(){
         }
         File(fdir, FILE_NAME).bufferedReader().use{ f ->
             val json=f.readText()
-            if (json == ""){return}
+            if (json == ""){list = mutableListOf()
+                return}
             val listType: Type = object : TypeToken<List<ChatMessage>>() {}.type
             list = GsonBuilder().create().fromJson(json, listType)
         }
