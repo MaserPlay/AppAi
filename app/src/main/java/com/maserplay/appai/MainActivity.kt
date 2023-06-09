@@ -57,6 +57,9 @@ class MainActivity : AppCompatActivity() {
             edtt.visibility = View.VISIBLE
             wait.visibility = View.GONE
         }
+        model.errortr.observe(this){
+            Error_report_dialog("AppAi $it").show(supportFragmentManager, "error")
+        }
         edt.addTextChangedListener{
             btn.isEnabled = edt.text.toString() != ""
         }
@@ -102,6 +105,9 @@ class MainActivity : AppCompatActivity() {
                 Log.i("Data", "save")
                 ServiceDop().saveText()
                 return true
+            }
+            R.id.report -> {
+                Error_report_user_dialog().show(supportFragmentManager, "error")
             }
         }
         return super.onOptionsItemSelected(item)

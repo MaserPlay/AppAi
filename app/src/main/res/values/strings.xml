@@ -37,4 +37,11 @@
     <string name="Useravatar_desr">UserAvatar</string>
     <string name="Systemavatar_descr">SystemAvatar</string>
     <string name="api_key_empty">You Api Key empty. Check You Api key. (top right three dots -> settings -> API key)</string>
+    <string name="error_tittle">Error</string>
+    <string name="error_desc">An error has occurred in the application, should I report it?</string>
+    <string name="error_pos">Report</string>
+    <string name="error_nega">Cancell</string>
+    <string name="error_thanks">Thanks )</string>
+    <string name="error_descrs">Describe your problem</string>
+    <string name="report_report">Report</string>
 </resources>

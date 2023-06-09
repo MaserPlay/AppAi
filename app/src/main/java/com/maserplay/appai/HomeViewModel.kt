@@ -1,5 +1,6 @@
 package com.maserplay.appai
 
+import android.app.Activity
 import android.content.Context
 import android.util.Log
 import android.widget.Adapter
@@ -12,10 +13,11 @@ import com.aallam.openai.api.BetaOpenAI
 import com.aallam.openai.api.chat.ChatCompletionRequest
 import com.aallam.openai.api.chat.ChatMessage
 import com.aallam.openai.api.chat.ChatRole
-import com.aallam.openai.api.model.ModelId
 import com.aallam.openai.api.exception.AuthenticationException
-import com.aallam.openai.client.OpenAI
 import com.aallam.openai.api.exception.GenericIOException
+import com.aallam.openai.api.exception.OpenAITimeoutException
+import com.aallam.openai.api.model.ModelId
+import com.aallam.openai.client.OpenAI
 import com.maserplay.AppAi.R
 import kotlinx.coroutines.launch
 
@@ -24,6 +26,7 @@ class HomeViewModel : ViewModel() {
 
     val ada: MutableLiveData<Adapter> = MutableLiveData()
     val writen: MutableLiveData<Boolean> = MutableLiveData()
+    val errortr: MutableLiveData<String> = MutableLiveData()
     var products = ArrayList<Product>()
     private lateinit var adapter: Adapter
     private lateinit var ServiceNeed: ServiceDop
@@ -65,22 +68,21 @@ class HomeViewModel : ViewModel() {
                 ada.postValue(adapter)
                 writen.postValue(true)
             } catch (e: AuthenticationException) {
-                Toast.makeText(con, con.getString(R.string.api_not_correct), Toast.LENGTH_LONG).show()
                 products.remove(pr)
                 products.add(Product(con.getString(R.string.api_not_correct), 3))
                 products.add(Product(e.toString(), 3))
                 writen.postValue(true)
             } catch (e: GenericIOException) {
-                Toast.makeText(con, con.getString(R.string.no_intenet), Toast.LENGTH_LONG).show()
                 products.remove(pr)
                 products.add(Product(con.getString(R.string.no_intenet), 3))
                 products.add(Product(e.toString(), 3))
                 writen.postValue(true)
-            } catch (e: com.aallam.openai.api.exception.OpenAITimeoutException) {
+            } catch (e: OpenAITimeoutException) {
                 Toast.makeText(con, con.getString(R.string.time_out), Toast.LENGTH_LONG).show()
                 products.remove(pr)
                 products.add(Product(con.getString(R.string.time_out), 3))
                 products.add(Product(e.toString(), 3))
+                errortr.postValue(e.toString())
                 writen.postValue(true)
             } catch (e: Exception){
                 Toast.makeText(con, con.getString(R.string.fatal_error), Toast.LENGTH_LONG).show()
@@ -88,7 +90,7 @@ class HomeViewModel : ViewModel() {
                 products.add(Product(con.getString(R.string.fatal_error), 3))
                 products.add(Product(e.toString(), 3))
                 writen.postValue(true)
-                Log.e("Exception", e.toString())
+                errortr.postValue(e.toString())
             }
 
         }
