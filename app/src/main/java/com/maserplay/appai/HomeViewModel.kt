@@ -1,6 +1,5 @@
 package com.maserplay.appai
 
-import android.app.Activity
 import android.content.Context
 import android.util.Log
 import android.widget.Adapter
@@ -27,7 +26,7 @@ class HomeViewModel : ViewModel() {
     val ada: MutableLiveData<Adapter> = MutableLiveData()
     val writen: MutableLiveData<Boolean> = MutableLiveData()
     val errortr: MutableLiveData<String> = MutableLiveData()
-    var products = ArrayList<Product>()
+    private var products = ArrayList<Product>()
     private lateinit var adapter: Adapter
     private lateinit var ServiceNeed: ServiceDop
 

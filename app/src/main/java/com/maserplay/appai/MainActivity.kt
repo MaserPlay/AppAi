@@ -28,8 +28,9 @@ import com.maserplay.AppAi.R
 
 
 class MainActivity : AppCompatActivity() {
-    lateinit var model: HomeViewModel
-
+    private lateinit var model: HomeViewModel
+    private lateinit var wait: TextView
+    private lateinit var edtt: LinearLayout
     private val PREF_NAME = "api"
     private val PREFS_FILE = "Main"
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,8 +48,8 @@ class MainActivity : AppCompatActivity() {
         val edt: EditText = findViewById(R.id.EdTxt)
         model = ViewModelProvider(this)[HomeViewModel::class.java]
         val l: ListView = findViewById(R.id.list)
-        val wait: TextView = findViewById(R.id.wait)
-        val edtt: LinearLayout = findViewById(R.id.ll)
+        wait = findViewById(R.id.wait)
+        edtt = findViewById(R.id.ll)
         model.start(this)
         model.ada.observe(this){
             l.adapter = it as ListAdapter?
@@ -77,6 +78,11 @@ class MainActivity : AppCompatActivity() {
             val clipboard = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
             clipboard.setPrimaryClip(ClipData.newPlainText(label.toString(), model.getpr()[position].name + " <- " + getString(R.string.copy_watermark)))
             Toast.makeText(applicationContext, getString(R.string.text_copy), Toast.LENGTH_LONG).show() }
+
+    }
+
+    override fun onResume() {
+        super.onResume()
         val api: String = getSharedPreferences(PREFS_FILE, MODE_PRIVATE).getString(PREF_NAME, "alo").toString()
         if ((api == "alo") || (api == ""))
         {
@@ -84,7 +90,6 @@ class MainActivity : AppCompatActivity() {
             wait.text = getString(R.string.api_key_empty)
             wait.visibility = View.VISIBLE
         }
-
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

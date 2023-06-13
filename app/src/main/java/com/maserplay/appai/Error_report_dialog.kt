@@ -3,7 +3,6 @@ package com.maserplay.appai
 import android.app.AlertDialog
 import android.app.Dialog
 import android.os.Build.VERSION
-import android.os.Build.VERSION_CODES
 import android.os.Bundle
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
