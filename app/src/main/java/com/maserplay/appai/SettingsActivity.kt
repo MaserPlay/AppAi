@@ -28,6 +28,7 @@ class SettingsActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
     lateinit var spamtv: TextView
     private val tim: Timer = Timer(false)
     private var spam: Long = 0
+    lateinit var gpterdescr: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,6 +42,7 @@ class SettingsActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
         val apiedt: EditText = findViewById(R.id.EdtApi)
         prefEditor = getSharedPreferences(PREFSFILE, MODE_PRIVATE).edit()
         spamtv = findViewById(R.id.spamtv)
+        gpterdescr = findViewById(R.id.gptver_descr)
         apiedt.setText(applicationContext.getSharedPreferences(PREFSFILE, MODE_PRIVATE).getString(PREFNAME, ""))
         apiedt.addTextChangedListener {
             prefEditor.putString(PREFNAME, apiedt.text.toString())
@@ -71,10 +73,14 @@ class SettingsActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
         }
         spinner.onItemSelectedListener = this
         when (getSharedPreferences(PREFSFILE, MODE_PRIVATE).getString(PREFNAMEVER, "gpt-3.5-turbo")) {
-            "gpt-3.5-turbo" -> { spinner.setSelection(0) }
-            "gpt-3.5-turbo-0301" -> {spinner.setSelection(1)}
-            "gpt-3.5-turbo-0613" -> {spinner.setSelection(2)}
-            "gpt-3.5-turbo-16k" -> {spinner.setSelection(3)}
+            "gpt-3.5-turbo" -> { spinner.setSelection(0)
+                getdescr(0) }
+            "gpt-3.5-turbo-0301" -> {spinner.setSelection(1)
+                getdescr(1)}
+            "gpt-3.5-turbo-0613" -> {spinner.setSelection(2)
+                getdescr(2)}
+            "gpt-3.5-turbo-16k" -> {spinner.setSelection(3)
+                getdescr(3)}
         }
     }
     private fun Timerr(){
@@ -90,21 +96,32 @@ class SettingsActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
         when (position) {
             0 -> {
                 prefEditor.putString(PREFNAMEVER, "gpt-3.5-turbo")
+                getdescr(0)
             }
             1 -> {
                 prefEditor.putString(PREFNAMEVER, "gpt-3.5-turbo-0301")
+                getdescr(1)
             }
             2 -> {
                 prefEditor.putString(PREFNAMEVER, "gpt-3.5-turbo-0613")
+                getdescr(2)
             }
             3 -> {
                 prefEditor.putString(PREFNAMEVER, "gpt-3.5-turbo-16k")
+                getdescr(3)
             } else -> {
             Log.e("TAG", "error$position")}
         }
         prefEditor.apply()
     }
-
+ fun getdescr(pos: Int){
+     when (getSharedPreferences(PREFSFILE, MODE_PRIVATE).getString(PREFNAMEVER, "gpt-3.5-turbo")) {
+         "gpt-3.5-turbo" -> { gpterdescr.text = getString(R.string.gptver_basic) }
+         "gpt-3.5-turbo-0301" -> {gpterdescr.text = getString(R.string.gptver_basic)}
+         "gpt-3.5-turbo-0613" -> {gpterdescr.text = getString(R.string.gptver_0613)}
+         "gpt-3.5-turbo-16k" -> {gpterdescr.text = getString(R.string.gptver_16k)}
+     }
+ }
     override fun onNothingSelected(parent: AdapterView<*>?) {
         return
     }

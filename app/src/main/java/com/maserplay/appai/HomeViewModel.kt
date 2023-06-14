@@ -15,10 +15,13 @@ import com.aallam.openai.api.chat.ChatRole
 import com.aallam.openai.api.exception.AuthenticationException
 import com.aallam.openai.api.exception.GenericIOException
 import com.aallam.openai.api.exception.OpenAITimeoutException
+import com.aallam.openai.api.http.Timeout
 import com.aallam.openai.api.model.ModelId
 import com.aallam.openai.client.OpenAI
+import com.aallam.openai.client.OpenAIConfig
 import com.maserplay.AppAi.R
 import kotlinx.coroutines.launch
+import kotlin.time.Duration.Companion.seconds
 
 
 class HomeViewModel : ViewModel() {
@@ -56,7 +59,11 @@ class HomeViewModel : ViewModel() {
         viewModelScope.launch {
             val apiKey = con.getSharedPreferences(PREFS_FILE, AppCompatActivity.MODE_PRIVATE).getString(PREF_NAME, "alo")
             val gptver = con.getSharedPreferences(PREFS_FILE, AppCompatActivity.MODE_PRIVATE).getString(PREFNAMEVER, "gpt-3.5-turbo")
-            val openAI = OpenAI(apiKey.toString())
+            val openAI = OpenAI(
+                OpenAIConfig(
+                token = apiKey.toString(),
+                timeout = Timeout(socket = 60.seconds))
+            )
             val chatCompletionRequest = ChatCompletionRequest(
                 model = ModelId(gptver.toString()),
                 messages = ServiceNeed.GetList()

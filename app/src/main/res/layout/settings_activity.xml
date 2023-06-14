@@ -107,11 +107,19 @@
 
             </LinearLayout>
 
+            <TextView
+                android:id="@+id/gptver_descr"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/llgptApi"
+                android:textSize="15sp"
+                android:text="@string/gptver_name" />
+
             <View
                 android:id="@+id/vie"
                 android:layout_width="match_parent"
                 android:layout_height="5dp"
-                android:layout_below="@id/llgptApi"
+                android:layout_below="@id/gptver_descr"
                 android:background="@color/purple_500" />
 
             <TextView
