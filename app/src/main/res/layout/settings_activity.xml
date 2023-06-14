@@ -82,11 +82,36 @@
                 android:layout_below="@id/textanoafBr"
                 android:text="@string/OpeninBrowserKey" />
 
+
+            <LinearLayout
+                android:id="@+id/llgptApi"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_below="@id/inBrowserappKey"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/TvgptApi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:text="@string/gptver_name"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <Spinner
+                    android:id="@+id/EdtgptApi"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+
+            </LinearLayout>
+
             <View
                 android:id="@+id/vie"
                 android:layout_width="match_parent"
                 android:layout_height="5dp"
-                android:layout_below="@id/inBrowserappKey"
+                android:layout_below="@id/llgptApi"
                 android:background="@color/purple_500" />
 
             <TextView

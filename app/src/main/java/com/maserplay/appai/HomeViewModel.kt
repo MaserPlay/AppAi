@@ -31,6 +31,7 @@ class HomeViewModel : ViewModel() {
     private lateinit var ServiceNeed: ServiceDop
 
     private val PREF_NAME = "api"
+    private val PREFNAMEVER = "gptver"
     private val PREFS_FILE = "Main"
     fun getpr(): ArrayList<Product>{
         return products
@@ -54,9 +55,10 @@ class HomeViewModel : ViewModel() {
 
         viewModelScope.launch {
             val apiKey = con.getSharedPreferences(PREFS_FILE, AppCompatActivity.MODE_PRIVATE).getString(PREF_NAME, "alo")
+            val gptver = con.getSharedPreferences(PREFS_FILE, AppCompatActivity.MODE_PRIVATE).getString(PREFNAMEVER, "gpt-3.5-turbo")
             val openAI = OpenAI(apiKey.toString())
             val chatCompletionRequest = ChatCompletionRequest(
-                model = ModelId("gpt-3.5-turbo"),
+                model = ModelId(gptver.toString()),
                 messages = ServiceNeed.GetList()
 
             )

@@ -44,4 +44,5 @@
     <string name="error_thanks">Thanks )</string>
     <string name="error_descrs">Describe your problem</string>
     <string name="report_report">Report</string>
+    <string name="gptver_name">gptver_name</string>
 </resources>

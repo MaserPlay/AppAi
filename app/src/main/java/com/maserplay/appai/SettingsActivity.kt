@@ -5,9 +5,13 @@ import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
 import android.os.SystemClock
+import android.util.Log
 import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Spinner
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
@@ -16,12 +20,14 @@ import java.util.Timer
 import java.util.TimerTask
 
 
-class SettingsActivity : AppCompatActivity() {
+class SettingsActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     private val PREFSFILE = "Main"
     private val PREFNAME = "api"
+    private val PREFNAMEVER = "gptver"
+    private lateinit var prefEditor: SharedPreferences.Editor
     lateinit var spamtv: TextView
-    val tim: Timer = Timer(false)
-    var spam: Long = 0
+    private val tim: Timer = Timer(false)
+    private var spam: Long = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,7 +39,7 @@ class SettingsActivity : AppCompatActivity() {
         }
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         val apiedt: EditText = findViewById(R.id.EdtApi)
-        val prefEditor: SharedPreferences.Editor = getSharedPreferences(PREFSFILE, MODE_PRIVATE).edit()
+        prefEditor = getSharedPreferences(PREFSFILE, MODE_PRIVATE).edit()
         spamtv = findViewById(R.id.spamtv)
         apiedt.setText(applicationContext.getSharedPreferences(PREFSFILE, MODE_PRIVATE).getString(PREFNAME, ""))
         apiedt.addTextChangedListener {
@@ -54,6 +60,22 @@ class SettingsActivity : AppCompatActivity() {
             spamtv.visibility = View.VISIBLE }
             spam = SystemClock.elapsedRealtime()
             ServiceDop().openText() }
+        val spinner: Spinner = findViewById(R.id.EdtgptApi)
+        ArrayAdapter.createFromResource(
+            this,
+            R.array.GPTs,
+            android.R.layout.simple_spinner_item
+        ).also { adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            spinner.adapter = adapter
+        }
+        spinner.onItemSelectedListener = this
+        when (getSharedPreferences(PREFSFILE, MODE_PRIVATE).getString(PREFNAMEVER, "gpt-3.5-turbo")) {
+            "gpt-3.5-turbo" -> { spinner.setSelection(0) }
+            "gpt-3.5-turbo-0301" -> {spinner.setSelection(1)}
+            "gpt-3.5-turbo-0613" -> {spinner.setSelection(2)}
+            "gpt-3.5-turbo-16k" -> {spinner.setSelection(3)}
+        }
     }
     private fun Timerr(){
         Timer(false).schedule(object : TimerTask() {
@@ -62,6 +84,29 @@ class SettingsActivity : AppCompatActivity() {
             }
         }, 3000)
 
+    }
+
+    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+        when (position) {
+            0 -> {
+                prefEditor.putString(PREFNAMEVER, "gpt-3.5-turbo")
+            }
+            1 -> {
+                prefEditor.putString(PREFNAMEVER, "gpt-3.5-turbo-0301")
+            }
+            2 -> {
+                prefEditor.putString(PREFNAMEVER, "gpt-3.5-turbo-0613")
+            }
+            3 -> {
+                prefEditor.putString(PREFNAMEVER, "gpt-3.5-turbo-16k")
+            } else -> {
+            Log.e("TAG", "error$position")}
+        }
+        prefEditor.apply()
+    }
+
+    override fun onNothingSelected(parent: AdapterView<*>?) {
+        return
     }
 
 }
