@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
+import com.google.gson.GsonBuilder
 import com.maserplay.AppAi.R
 import okhttp3.Call
 import okhttp3.Callback
