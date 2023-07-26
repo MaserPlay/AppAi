@@ -20,9 +20,16 @@
             android:paddingHorizontal="10dp"
             android:paddingVertical="10dp">
 
+            <Button
+                android:id="@+id/login"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/login_login" />
+
             <LinearLayout
                 android:id="@+id/llApi"
                 android:layout_width="match_parent"
+                android:layout_below="@id/login"
                 android:layout_height="40dp"
                 android:orientation="horizontal">
 
