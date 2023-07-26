@@ -1,20 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">AppAi</string>
     <string name="action_settings">Настройки</string>
     <string name="enter_text">Пожалуста, введите текст</string>
     <string name="enter_text_btn">Ввод</string>
     <string name="avatar_description">Аватар</string>
     <string name="settings">Настройки</string>
     <string name="clear">Очистить</string>
-    <string name="api">Api</string>
-    <string name="api_key">Api key</string>
-    <string name="stream_mode">Stream mode</string>
     <string name="user_disc">Это пользовательская картинка</string>
     <string name="OpeninBrowser">Открыть openai.com сайт в браузере</string>
     <string name="title_activity_settings">Настройки</string>
     <string name="title_activity_browser">Браузер</string>
-    <string name="title_activity_main2">ма2</string>
     <string name="copy_watermark">" Взято из приложения AppAi"</string>
     <string name="text_copy">Текст скопирован.</string>
     <string name="api_not_correct">Ваш Api ключ не правильный. Убедитесь в правильности его написания. (справа сверху три точки -> настройки -> API ключ)</string>
@@ -50,9 +45,14 @@
     <string name="gptver_16k">Те же возможности, что и у стандартной модели gpt-3.5-turbo, но в 4 раза больше возможностей.</string>
     <string name="gptver_0613">Снимок gpt-3.5-turbo от 13 июня 2023 года с данными вызова функции. В отличие от gpt-3.5-turbo, эта модель не будет получать обновлений и будет признана устаревшей через 3 месяца после выхода новой версии.</string>
     <string name="login_login">Войти / Зарегестрироваться</string>
-    <string name="login_email">Емаил</string>
     <string name="login_password">Пароль</string>
     <string name="login_with">через games.m2023.ru</string>
-    <string name="login_error_email">Емаил не правильный</string>
     <string name="login_error_password">Пароль не правильный</string>
+    <string name="login_twoauth">Вход при помощи двухфакторной аутентификации</string>
+    <string name="login_totp">Введите код из своего приложения по генерированию Totp кодов:</string>
+    <string name="login_codehint">Код</string>
+    <string name="login_emailaccept">Мы выслали на вашу почту письмо со ссылкой на подтверждение входа:</string>
+    <string name="login_check">Проверить подтверждение</string>
+    <string name="login_loginlogin">Войти</string>
+    <string name="login_back">НАзад</string>
 </resources>

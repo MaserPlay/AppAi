@@ -1,19 +1,19 @@
 <resources>
-    <string name="app_name">AppAi</string>
+    <string name="app_name" translatable="false">AppAi</string>
     <string name="action_settings">Settings</string>
     <string name="enter_text">Please enter text</string>
     <string name="enter_text_btn">Enter</string>
     <string name="avatar_description">Avatarai</string>
     <string name="settings">Settings</string>
     <string name="clear">Clear</string>
-    <string name="api">Api</string>
-    <string name="api_key">Api Key</string>
-    <string name="stream_mode">Stream Mode</string>
+    <string name="api" translatable="false">Api</string>
+    <string name="api_key" translatable="false">Api Key</string>
+    <string name="stream_mode" translatable="false">Stream Mode</string>
     <string name="user_disc">This is user image</string>
     <string name="OpeninBrowser">Open openAi.com site Browser in app</string>
     <string name="title_activity_settings">Settings</string>
     <string name="title_activity_browser">BrowserActivity</string>
-    <string name="title_activity_main2">MainActivity2</string>
+    <string name="title_activity_main2" translatable="false">MainActivity2</string>
     <string name="copy_watermark">Getting from AppAi</string>
     <string name="text_copy">Text copied!</string>
     <string name="api_not_correct">You Api Key not correct. Check You Api key. (top right three dots -> settings -> API key)</string>
@@ -51,9 +51,16 @@
     <string name="login_login">Login / Register</string>
     <!-- Strings used for fragments for navigation -->
 
-    <string name="login_email">Email</string>
+    <string name="login_email" translatable="false">Email</string>
     <string name="login_password">Password</string>
     <string name="login_with">with games.m2023.ru</string>
-    <string name="login_error_email">Email not right</string>
+    <string name="login_error_email" translatable="false">Email not right</string>
     <string name="login_error_password">Password not rignt</string>
+    <string name="login_twoauth">Login using two-factor authentication</string>
+    <string name="login_totp">Enter the code from your Totp code generation application:</string>
+    <string name="login_codehint">Code</string>
+    <string name="login_emailaccept">We have sent an email to your email with a link to the login confirmation:</string>
+    <string name="login_check">Check Email accept</string>
+    <string name="login_loginlogin">Login</string>
+    <string name="login_back">Back</string>
 </resources>
