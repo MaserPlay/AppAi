@@ -53,4 +53,6 @@
     <string name="login_email">Емаил</string>
     <string name="login_password">Пароль</string>
     <string name="login_with">через games.m2023.ru</string>
+    <string name="login_error_email">Емаил не правильный</string>
+    <string name="login_error_password">Пароль не правильный</string>
 </resources>

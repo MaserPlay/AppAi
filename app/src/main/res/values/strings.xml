@@ -54,4 +54,6 @@
     <string name="login_email">Email</string>
     <string name="login_password">Password</string>
     <string name="login_with">with games.m2023.ru</string>
+    <string name="login_error_email">Email not right</string>
+    <string name="login_error_password">Password not rignt</string>
 </resources>
