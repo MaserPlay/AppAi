@@ -15,7 +15,7 @@ import android.widget.Spinner
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
-import com.maserplay.AppAi.LoginActivity
+import com.maserplay.AppAi.Login_games_m2023_ru_Activity
 import com.maserplay.AppAi.R
 import java.util.Timer
 import java.util.TimerTask
@@ -58,7 +58,7 @@ class SettingsActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
             spam = SystemClock.elapsedRealtime()
             ServiceDop().saveText() }
         findViewById<Button>(R.id.login).setOnClickListener {
-            startActivity(Intent(this, LoginActivity::class.java))}
+            startActivity(Intent(this, Login_games_m2023_ru_Activity::class.java))}
         findViewById<Button>(R.id.load).setOnClickListener {
             if (SystemClock.elapsedRealtime() - spam  < 3000) {tim.cancel()
             Timerr()
@@ -77,13 +77,17 @@ class SettingsActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
         spinner.onItemSelectedListener = this
         when (getSharedPreferences(PREFSFILE, MODE_PRIVATE).getString(PREFNAMEVER, "gpt-3.5-turbo")) {
             "gpt-3.5-turbo" -> { spinner.setSelection(0)
-                getdescr(0) }
+                getdescr()
+            }
             "gpt-3.5-turbo-0301" -> {spinner.setSelection(1)
-                getdescr(1)}
+                getdescr()
+            }
             "gpt-3.5-turbo-0613" -> {spinner.setSelection(2)
-                getdescr(2)}
+                getdescr()
+            }
             "gpt-3.5-turbo-16k" -> {spinner.setSelection(3)
-                getdescr(3)}
+                getdescr()
+            }
         }
     }
     private fun Timerr(){
@@ -99,25 +103,25 @@ class SettingsActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
         when (position) {
             0 -> {
                 prefEditor.putString(PREFNAMEVER, "gpt-3.5-turbo")
-                getdescr(0)
+                getdescr()
             }
             1 -> {
                 prefEditor.putString(PREFNAMEVER, "gpt-3.5-turbo-0301")
-                getdescr(1)
+                getdescr()
             }
             2 -> {
                 prefEditor.putString(PREFNAMEVER, "gpt-3.5-turbo-0613")
-                getdescr(2)
+                getdescr()
             }
             3 -> {
                 prefEditor.putString(PREFNAMEVER, "gpt-3.5-turbo-16k")
-                getdescr(3)
+                getdescr()
             } else -> {
             Log.e("TAG", "error$position")}
         }
         prefEditor.apply()
     }
- fun getdescr(pos: Int){
+ fun getdescr() {
      when (getSharedPreferences(PREFSFILE, MODE_PRIVATE).getString(PREFNAMEVER, "gpt-3.5-turbo")) {
          "gpt-3.5-turbo" -> { gpterdescr.text = getString(R.string.gptver_basic) }
          "gpt-3.5-turbo-0301" -> {gpterdescr.text = getString(R.string.gptver_basic)}

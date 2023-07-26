@@ -17,10 +17,11 @@
         android:theme="@style/Theme.Moveto"
         tools:targetApi="31">
         <activity
-            android:name=".LoginActivity"
+            android:name=".Login_games_m2023_ru_Activity"
             android:exported="false"
             android:label="@string/login_login"
-            android:parentActivityName="com.maserplay.appai.SettingsActivity" />
+            android:parentActivityName="com.maserplay.appai.SettingsActivity"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name="com.maserplay.appai.SettingsActivity"
             android:exported="false"
