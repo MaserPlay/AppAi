@@ -29,6 +29,7 @@ import com.maserplay.AppAi.R
 
 class MainActivity : AppCompatActivity() {
     private lateinit var model: HomeViewModel
+    private lateinit var llwait: LinearLayout
     private lateinit var wait: TextView
     private lateinit var edtt: LinearLayout
     private val PREF_NAME = "api"
@@ -49,6 +50,7 @@ class MainActivity : AppCompatActivity() {
         model = ViewModelProvider(this)[HomeViewModel::class.java]
         val l: ListView = findViewById(R.id.list)
         wait = findViewById(R.id.wait)
+        llwait = findViewById(R.id.llwait)
         edtt = findViewById(R.id.ll)
         model.start(this)
         model.ada.observe(this){
@@ -56,7 +58,7 @@ class MainActivity : AppCompatActivity() {
         }
         model.writen.observe(this){
             edtt.visibility = View.VISIBLE
-            wait.visibility = View.GONE
+            llwait.visibility = View.GONE
         }
         model.errortr.observe(this){
             Error_report_dialog("AppAi $it").show(supportFragmentManager, "error")
@@ -70,7 +72,7 @@ class MainActivity : AppCompatActivity() {
                 imm?.hideSoftInputFromWindow(view.windowToken, 0)
             }
             edtt.visibility = View.GONE
-            wait.visibility = View.VISIBLE
+            llwait.visibility = View.VISIBLE
             model.exec(edt.text.toString(), applicationContext)
             edt.setText("")
         }
@@ -88,7 +90,7 @@ class MainActivity : AppCompatActivity() {
         {
             edtt.visibility = View.GONE
             wait.text = getString(R.string.api_key_empty)
-            wait.visibility = View.VISIBLE
+            llwait.visibility = View.VISIBLE
         }
     }
 

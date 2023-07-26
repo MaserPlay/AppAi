@@ -21,14 +21,31 @@
         android:stackFromBottom="true"
         android:transcriptMode="normal"/>
 
-    <TextView
-        android:id="@+id/wait"
+    <LinearLayout
+        android:id="@+id/llwait"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/bot_writting"
-        android:visibility="gone"
-        android:textAlignment="center"
-        android:textSize="20sp" />
+        android:gravity="center_horizontal"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/wait"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:text="@string/bot_writting"
+            android:textAlignment="center"
+            android:textSize="20sp"
+            android:visibility="visible" />
+
+        <ProgressBar
+            android:id="@+id/progressBar2"
+            style="@style/Widget.AppCompat.ProgressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_gravity="end" />
+    </LinearLayout>
+
     <LinearLayout
         android:id="@+id/ll"
         android:layout_width="match_parent"
