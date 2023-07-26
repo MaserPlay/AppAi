@@ -15,6 +15,7 @@ import android.widget.Spinner
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
+import com.maserplay.AppAi.LoginActivity
 import com.maserplay.AppAi.R
 import java.util.Timer
 import java.util.TimerTask
@@ -56,6 +57,8 @@ class SettingsActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
                 spamtv.visibility = View.VISIBLE }
             spam = SystemClock.elapsedRealtime()
             ServiceDop().saveText() }
+        findViewById<Button>(R.id.login).setOnClickListener {
+            startActivity(Intent(this, LoginActivity::class.java))}
         findViewById<Button>(R.id.load).setOnClickListener {
             if (SystemClock.elapsedRealtime() - spam  < 3000) {tim.cancel()
             Timerr()
