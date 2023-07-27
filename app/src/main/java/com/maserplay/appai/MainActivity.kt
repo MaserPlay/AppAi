@@ -55,6 +55,25 @@ class MainActivity : AppCompatActivity() {
         params.gravity = Gravity.TOP
         view.layoutParams = params
         snack.show()
+        val snack = Snackbar.make(
+            findViewById(android.R.id.content),
+            getString(R.string.from_github),
+            Snackbar.LENGTH_SHORT
+        ).setAction(
+            getString(R.string.to_github)
+        ) {
+            startActivity(
+                Intent(
+                    Intent.ACTION_VIEW,
+                    startActivity(Intent(this, Login_games_m2023_ru_Activity::class.java))
+                )
+            )
+        }
+        val view = snack.view
+        val params = view.layoutParams as FrameLayout.LayoutParams
+        params.gravity = Gravity.TOP
+        view.layoutParams = params
+        snack.show()
         val btn: Button = findViewById(R.id.button_enter)
         val edt: EditText = findViewById(R.id.EdTxt)
         model = ViewModelProvider(this)[HomeViewModel::class.java]
