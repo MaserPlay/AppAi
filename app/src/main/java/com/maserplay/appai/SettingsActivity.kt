@@ -5,7 +5,6 @@ import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
 import android.os.SystemClock
-import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -15,7 +14,6 @@ import android.widget.Spinner
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
-import com.maserplay.AppAi.Login_games_m2023_ru_Activity
 import com.maserplay.AppAi.R
 import java.util.Timer
 import java.util.TimerTask
@@ -75,19 +73,20 @@ class SettingsActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
             spinner.adapter = adapter
         }
         spinner.onItemSelectedListener = this
-        when (getSharedPreferences(PREFSFILE, MODE_PRIVATE).getString(PREFNAMEVER, "gpt-3.5-turbo")) {
+        when (val input = getSharedPreferences(PREFSFILE, MODE_PRIVATE).getString(PREFNAMEVER, "gpt-3.5-turbo")) {
             "gpt-3.5-turbo" -> { spinner.setSelection(0)
-                getdescr()
+                getdescr("gpt-3.5-turbo")
             }
             "gpt-3.5-turbo-0301" -> {spinner.setSelection(1)
-                getdescr()
+                getdescr("gpt-3.5-turbo-0301")
             }
             "gpt-3.5-turbo-0613" -> {spinner.setSelection(2)
-                getdescr()
+                getdescr("gpt-3.5-turbo-0613")
             }
             "gpt-3.5-turbo-16k" -> {spinner.setSelection(3)
-                getdescr()
+                getdescr("gpt-3.5-turbo-16k")
             }
+            else -> {Error_report_dialog("AppAi error in set ItemSelected Settings, choose version. Input $input != gpt-3.5-turbo, gpt-3.5-turbo-0301, gpt-3.5-turbo-0613 or gpt-3.5-turbo-16k.").show(supportFragmentManager, "error")}
         }
     }
     private fun Timerr(){
@@ -103,30 +102,31 @@ class SettingsActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
         when (position) {
             0 -> {
                 prefEditor.putString(PREFNAMEVER, "gpt-3.5-turbo")
-                getdescr()
+                getdescr("gpt-3.5-turbo")
             }
             1 -> {
                 prefEditor.putString(PREFNAMEVER, "gpt-3.5-turbo-0301")
-                getdescr()
+                getdescr("gpt-3.5-turbo-0301")
             }
             2 -> {
                 prefEditor.putString(PREFNAMEVER, "gpt-3.5-turbo-0613")
-                getdescr()
+                getdescr("gpt-3.5-turbo-0613")
             }
             3 -> {
                 prefEditor.putString(PREFNAMEVER, "gpt-3.5-turbo-16k")
-                getdescr()
+                getdescr("gpt-3.5-turbo-16k")
             } else -> {
-            Log.e("TAG", "error$position")}
+            Error_report_dialog("AppAi error in OnItemSelected Settings, choose version. Position $position > 3").show(supportFragmentManager, "error")}
         }
         prefEditor.apply()
     }
- fun getdescr() {
-     when (getSharedPreferences(PREFSFILE, MODE_PRIVATE).getString(PREFNAMEVER, "gpt-3.5-turbo")) {
+ fun getdescr(name: String) {
+     when (name) {
          "gpt-3.5-turbo" -> { gpterdescr.text = getString(R.string.gptver_basic) }
          "gpt-3.5-turbo-0301" -> {gpterdescr.text = getString(R.string.gptver_basic)}
          "gpt-3.5-turbo-0613" -> {gpterdescr.text = getString(R.string.gptver_0613)}
          "gpt-3.5-turbo-16k" -> {gpterdescr.text = getString(R.string.gptver_16k)}
+         else -> {Error_report_dialog("AppAi error in getdesr in OnItemSelected Settings, choose version. Input $name != gpt-3.5-turbo, gpt-3.5-turbo-0301, gpt-3.5-turbo-0613 or gpt-3.5-turbo-16k.").show(supportFragmentManager, "error")}
      }
  }
     override fun onNothingSelected(parent: AdapterView<*>?) {

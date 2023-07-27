@@ -6,7 +6,6 @@ import android.content.ClipboardManager
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
@@ -38,8 +37,19 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val snack = Snackbar.make(
-            findViewById(android.R.id.content), getString(R.string.from_github), Snackbar.LENGTH_SHORT).setAction(getString(R.string.to_github)
-        ) { startActivity( Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/Maserplay/AppAi") ) ) }
+            findViewById(android.R.id.content),
+            getString(R.string.from_github),
+            Snackbar.LENGTH_SHORT
+        ).setAction(
+            getString(R.string.to_github)
+        ) {
+            startActivity(
+                Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse("https://github.com/Maserplay/AppAi")
+                )
+            )
+        }
         val view = snack.view
         val params = view.layoutParams as FrameLayout.LayoutParams
         params.gravity = Gravity.TOP
@@ -53,17 +63,17 @@ class MainActivity : AppCompatActivity() {
         llwait = findViewById(R.id.llwait)
         edtt = findViewById(R.id.ll)
         model.start(this)
-        model.ada.observe(this){
+        model.ada.observe(this) {
             l.adapter = it as ListAdapter?
         }
-        model.writen.observe(this){
+        model.writen.observe(this) {
             edtt.visibility = View.VISIBLE
             llwait.visibility = View.GONE
         }
-        model.errortr.observe(this){
+        model.errortr.observe(this) {
             Error_report_dialog("AppAi $it").show(supportFragmentManager, "error")
         }
-        edt.addTextChangedListener{
+        edt.addTextChangedListener {
             btn.isEnabled = edt.text.toString() != ""
         }
         btn.setOnClickListener {
@@ -78,16 +88,23 @@ class MainActivity : AppCompatActivity() {
         }
         l.setOnItemClickListener { _, _, position, _ ->
             val clipboard = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
-            clipboard.setPrimaryClip(ClipData.newPlainText(label.toString(), model.getpr()[position].name + " <- " + getString(R.string.copy_watermark)))
-            Toast.makeText(applicationContext, getString(R.string.text_copy), Toast.LENGTH_LONG).show() }
+            clipboard.setPrimaryClip(
+                ClipData.newPlainText(
+                    label.toString(),
+                    model.getpr()[position].name + " <- " + getString(R.string.copy_watermark)
+                )
+            )
+            Toast.makeText(applicationContext, getString(R.string.text_copy), Toast.LENGTH_LONG)
+                .show()
+        }
 
     }
 
     override fun onResume() {
         super.onResume()
-        val api: String = getSharedPreferences(PREFS_FILE, MODE_PRIVATE).getString(PREF_NAME, "alo").toString()
-        if ((api == "alo") || (api == ""))
-        {
+        val api: String =
+            getSharedPreferences(PREFS_FILE, MODE_PRIVATE).getString(PREF_NAME, "alo").toString()
+        if ((api == "alo") || (api == "")) {
             edtt.visibility = View.GONE
             wait.text = getString(R.string.api_key_empty)
             llwait.visibility = View.VISIBLE
@@ -106,13 +123,14 @@ class MainActivity : AppCompatActivity() {
                 startActivity(Intent(this, SettingsActivity::class.java))
                 return true
             }
+
             R.id.clear -> {
                 model.clear()
                 ServiceDop().clear()
-                Log.i("Data", "save")
                 ServiceDop().saveText()
                 return true
             }
+
             R.id.report -> {
                 Error_report_user_dialog().show(supportFragmentManager, "error")
             }

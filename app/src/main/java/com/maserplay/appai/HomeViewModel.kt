@@ -1,7 +1,6 @@
 package com.maserplay.appai
 
 import android.content.Context
-import android.util.Log
 import android.widget.Adapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -36,33 +35,45 @@ class HomeViewModel : ViewModel() {
     private val PREF_NAME = "api"
     private val PREFNAMEVER = "gptver"
     private val PREFS_FILE = "Main"
-    fun getpr(): ArrayList<Product>{
+    fun getpr(): ArrayList<Product> {
         return products
     }
-    fun start(ma: MainActivity){
-        adapter = ProductAdapter(ma, R.layout.list_item, R.layout.list_item2, R.layout.list_item3, products)
+
+    fun start(ma: MainActivity) {
+        adapter = ProductAdapter(
+            ma,
+            R.layout.list_item,
+            R.layout.list_item2,
+            R.layout.list_item3,
+            products
+        )
         ada.postValue(adapter)
         ServiceNeed = ServiceDop()
     }
-    fun clear(){
+
+    fun clear() {
         products.clear()
         ada.postValue(adapter)
     }
+
     @OptIn(BetaOpenAI::class)
     fun exec(prompt: String, con: Context) {
         products.add(Product(prompt, 2))
-        val pr = Product(con.getString(R.string.bot_writting) , 1)
+        val pr = Product(con.getString(R.string.bot_writting), 1)
         products.add(pr)
         ada.postValue(adapter)
-        ServiceNeed.add(ChatMessage( role = ChatRole.User, content = prompt ))
+        ServiceNeed.add(ChatMessage(role = ChatRole.User, content = prompt))
 
         viewModelScope.launch {
-            val apiKey = con.getSharedPreferences(PREFS_FILE, AppCompatActivity.MODE_PRIVATE).getString(PREF_NAME, "alo")
-            val gptver = con.getSharedPreferences(PREFS_FILE, AppCompatActivity.MODE_PRIVATE).getString(PREFNAMEVER, "gpt-3.5-turbo")
+            val apiKey = con.getSharedPreferences(PREFS_FILE, AppCompatActivity.MODE_PRIVATE)
+                .getString(PREF_NAME, "alo")
+            val gptver = con.getSharedPreferences(PREFS_FILE, AppCompatActivity.MODE_PRIVATE)
+                .getString(PREFNAMEVER, "gpt-3.5-turbo")
             val openAI = OpenAI(
                 OpenAIConfig(
-                token = apiKey.toString(),
-                timeout = Timeout(socket = 60.seconds))
+                    token = apiKey.toString(),
+                    timeout = Timeout(socket = 60.seconds)
+                )
             )
             val chatCompletionRequest = ChatCompletionRequest(
                 model = ModelId(gptver.toString()),
@@ -92,7 +103,7 @@ class HomeViewModel : ViewModel() {
                 products.add(Product(e.toString(), 3))
                 errortr.postValue(e.toString())
                 writen.postValue(true)
-            } catch (e: Exception){
+            } catch (e: Exception) {
                 Toast.makeText(con, con.getString(R.string.fatal_error), Toast.LENGTH_LONG).show()
                 products.remove(pr)
                 products.add(Product(con.getString(R.string.fatal_error), 3))
@@ -106,7 +117,6 @@ class HomeViewModel : ViewModel() {
 
     override fun onCleared() {
         super.onCleared()
-        Log.i("Data", "save")
         ServiceDop().saveText()
     }
 

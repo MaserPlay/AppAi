@@ -63,4 +63,7 @@
     <string name="login_check">Check Email accept</string>
     <string name="login_loginlogin">Login</string>
     <string name="login_back">Back</string>
+    <string name="request_error">An error occurred during the request, check your internet connection and try again later</string>
+    <string name="login_error_code">Code not right</string>
+    <string name="login_errorinput_mail">Email not verifered</string>
 </resources>

@@ -9,4 +9,5 @@ class App : Application() {
         Log.i("Data", "load")
         ServiceDop(filesDir).openText()
     }
+
 }

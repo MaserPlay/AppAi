@@ -4,7 +4,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".Login_games_m2023_ru_Activity"
+    tools:context="com.maserplay.appai.Login_games_m2023_ru_Activity"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -138,7 +138,6 @@
                 android:hint="@string/login_codehint"
                 android:inputType="number"
                 android:maxLength="6"
-                android:onClick="totpaccept"
                 android:paddingVertical="20dp"
                 android:visibility="gone" />
 
@@ -167,7 +166,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="TextView"
+                android:text="@string/login_errorinput_mail"
                 android:visibility="gone" />
 
             <Button

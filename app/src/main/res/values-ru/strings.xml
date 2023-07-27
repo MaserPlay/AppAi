@@ -55,4 +55,7 @@
     <string name="login_check">Проверить подтверждение</string>
     <string name="login_loginlogin">Войти</string>
     <string name="login_back">НАзад</string>
+    <string name="request_error">Произошла ошибка, вовремязапроса,проверьтесвоеподключениекинтернетуиповторитепопыткупозже</string>
+    <string name="login_error_code">"Код не правильный "</string>
+    <string name="login_errorinput_mail">Емаил не подтвержден</string>
 </resources>
