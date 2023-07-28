@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val snack = Snackbar.make(
+        var snack = Snackbar.make(
             findViewById(android.R.id.content),
             getString(R.string.from_github),
             Snackbar.LENGTH_SHORT
@@ -50,27 +50,22 @@ class MainActivity : AppCompatActivity() {
                 )
             )
         }
-        val view = snack.view
-        val params = view.layoutParams as FrameLayout.LayoutParams
+        var view = snack.view
+        var params = view.layoutParams as FrameLayout.LayoutParams
         params.gravity = Gravity.TOP
         view.layoutParams = params
         snack.show()
-        val snack = Snackbar.make(
+        snack = Snackbar.make(
             findViewById(android.R.id.content),
             getString(R.string.from_github),
             Snackbar.LENGTH_SHORT
         ).setAction(
             getString(R.string.to_github)
         ) {
-            startActivity(
-                Intent(
-                    Intent.ACTION_VIEW,
                     startActivity(Intent(this, Login_games_m2023_ru_Activity::class.java))
-                )
-            )
         }
-        val view = snack.view
-        val params = view.layoutParams as FrameLayout.LayoutParams
+        view = snack.view
+        params = view.layoutParams as FrameLayout.LayoutParams
         params.gravity = Gravity.TOP
         view.layoutParams = params
         snack.show()
