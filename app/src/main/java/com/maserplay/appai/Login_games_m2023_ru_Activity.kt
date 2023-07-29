@@ -232,6 +232,7 @@ class Login_games_m2023_ru_Activity : AppCompatActivity() {
     }
 
     fun emailaccept(view: View) {
+        model.request("/accountlogin/acceptlogin/email", "{\"acceptcookie\": \"" + model.cookie + "\"}", 1)
         val st = "{\"acceptcookie\": \"" + model.cookie + "\"}"
         val postBody: RequestBody = st.toRequestBody("application/json".toMediaType())
         OkHttpClient().newCall(
