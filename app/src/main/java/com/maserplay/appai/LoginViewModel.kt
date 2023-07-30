@@ -1,39 +1,25 @@
 package com.maserplay.appai
 
-import androidx.lifecycle.MutableLiveData
+import android.view.View
 import androidx.lifecycle.ViewModel
-import okhttp3.Call
-import okhttp3.Callback
-import okhttp3.MediaType.Companion.toMediaType
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import okhttp3.RequestBody
-import okhttp3.RequestBody.Companion.toRequestBody
-import okhttp3.Response
-import java.io.IOException
+import retrofit2.Retrofit
+import retrofit2.converter.scalars.ScalarsConverterFactory
 
 class LoginViewModel : ViewModel() {
-    val bool: MutableLiveData<Int> = MutableLiveData()
+
+    var emaillogin: Int = View.GONE
+    var totp: Int = View.GONE
+    var twofactorll: Int = View.GONE
+    var loginll: Int = View.VISIBLE
     lateinit var cookie: String
     var sum: Int = 0
 
-    fun request(to: String, st:String, i: Int) {
-        val postBody: RequestBody = st.toRequestBody("application/json".toMediaType())
-        OkHttpClient().newCall(
-            Request.Builder().post(postBody)
-                .url("https://games.m2023.ru$to").build()
-        ).enqueue(object : Callback {
-            override fun onFailure(call: Call, e: IOException) {
-                bool.postValue(i)
-                e.printStackTrace()
-            }
-
-            override fun onResponse(call: Call, response: Response) {
-                response.use {
-                    bool.postValue(i)
-                }
-            }
-        })
+    fun request(to: String, st:String): retrofit2.Call<String> {
+        return Retrofit.Builder()
+            .baseUrl(games_web.Base)
+            .addConverterFactory(ScalarsConverterFactory.create())
+            .build()
+            .create(games_web::class.java).POSTJson(st, to)
 
     }
 
