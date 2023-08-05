@@ -15,6 +15,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
 import com.maserplay.AppAi.R
+import com.maserplay.appai.login.LoginActivity
 import java.util.Timer
 import java.util.TimerTask
 
@@ -56,7 +57,7 @@ class SettingsActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
             spam = SystemClock.elapsedRealtime()
             ServiceDop().saveText() }
         findViewById<Button>(R.id.login).setOnClickListener {
-            startActivity(Intent(this, Login_games_m2023_ru_Activity::class.java))}
+            startActivity(Intent(this, LoginActivity::class.java))}
         findViewById<Button>(R.id.load).setOnClickListener {
             if (SystemClock.elapsedRealtime() - spam  < 3000) {tim.cancel()
             Timerr()

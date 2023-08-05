@@ -1,3 +1,5 @@
 # AppAi
-Hi! This project is not finished yet, and it is unlikely that it will ever be finished at all, due to the complexity of its business scheme.
-This is an application through which you can communicate with chatgpt directly from your phone using an API key
+### **en**
+This application allows you to chat with ChatGPT through your phone, will (next update) sync this application with my other ChatGPT solutions, there is a possibility to customize this chatbot. This is my 2nd programming project, most likely the last update is being developed for it at the moment. I have been developing this bot since the beginning of March, at the beginning I developed it specifically for a friend, but then I decided to finalize it and put it on the market. Due to the complexity of his business scheme, I had to remove him from the market. Since then, it has been hanging in limbo. <br />
+### **ru**
+Это приложение позволяет общаться с ChatGPT через твой телефон, будет (следующей обновой) синхронизация этого приложения с моими другими ChatGPT решениями, есть возможность настройки этого чат-бота. Это мой 2-й проект по программированию, на данный момент для него разрабатывается скорее всего последняя обнова. Этого бота я развиваю с начала марта, в начале я его разрабатывал конкретно - другу, но потом решил его доработать и выложить в маркет. В связи со сложность его бизнес - схемы мне пришлось его удалить с маркета. С тех пор он и висит в подвешанном состоянии.

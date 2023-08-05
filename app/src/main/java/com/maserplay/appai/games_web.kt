@@ -1,11 +1,13 @@
 package com.maserplay.appai
 
-import retrofit2.Call
+import com.maserplay.appai.login.LoginClass
+import com.maserplay.appai.login.LoginResponseClass
+import com.maserplay.appai.login.LoginVerifyClass
+import com.maserplay.appai.login.LoginVerifySendClass
+import retrofit2.Response
 import retrofit2.http.Body
-import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.POST
-import retrofit2.http.Path
 
 interface games_web {
     companion object {
@@ -13,10 +15,16 @@ interface games_web {
             get() = "https://games.m2023.ru/"
     }
     @Headers("Content-Type: application/json")
-    @POST("{method}")
-    fun POSTJson(@Body body: String, @Path("method") method: String): Call<String>
-
-    @GET("{method}")
-    fun GETJson(@Path("method") method: String): Call<String>
+    @POST("/accountlogin")
+    suspend fun login(@Body body: LoginClass): Response<LoginResponseClass>
+    @Headers("Content-Type: application/json")
+    @POST("/accountlogin/acceptlogin/email")
+    suspend fun emailaccept(@Body body: LoginVerifySendClass): Response<LoginVerifyClass>
+    @Headers("Content-Type: application/json")
+    @POST("/accountlogin/acceptlogin/totp")
+    suspend fun totpaccept(@Body body: LoginVerifySendClass): Response<LoginVerifyClass>
+    @Headers("Content-Type: application/json")
+    @POST("/accountlogin/acceptlogin/check")
+    suspend fun checkaccept(@Body body: LoginVerifySendClass): Response<LoginResponseClass>
 
 }

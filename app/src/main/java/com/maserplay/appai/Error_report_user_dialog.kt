@@ -8,7 +8,6 @@ import android.os.Bundle
 import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
-import com.google.gson.GsonBuilder
 import com.maserplay.AppAi.R
 import okhttp3.Call
 import okhttp3.Callback
@@ -46,12 +45,14 @@ class Error_report_user_dialog() : DialogFragment() {
             Request.Builder().post(postBody).url("https://games.m2023.ru/api/crash").build()
         ).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
+                Toast.makeText(context, getString(R.string.request_error), Toast.LENGTH_LONG).show()
                 e.printStackTrace()
             }
 
             override fun onResponse(call: Call, response: Response) {
                 response.use {
                     if (!response.isSuccessful) {
+                        Toast.makeText(context, getString(R.string.request_error), Toast.LENGTH_LONG).show()
                         throw IOException("Запрос к серверу не был успешен:" +
                                 " ${response.code} ${response.message}")
                     }

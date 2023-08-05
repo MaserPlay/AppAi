@@ -24,6 +24,7 @@ import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
 import com.maserplay.AppAi.R
+import com.maserplay.appai.login.LoginActivity
 
 
 class MainActivity : AppCompatActivity() {
@@ -62,7 +63,7 @@ class MainActivity : AppCompatActivity() {
         ).setAction(
             getString(R.string.to_github)
         ) {
-                    startActivity(Intent(this, Login_games_m2023_ru_Activity::class.java))
+                    startActivity(Intent(this, LoginActivity::class.java))
         }
         view = snack.view
         params = view.layoutParams as FrameLayout.LayoutParams
