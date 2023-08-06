@@ -1,14 +1,18 @@
 package com.maserplay.appai.login
 
 class LoginResponseClass {
-    private var email: Boolean? = null
-        get() = field
-    private var password: Boolean? = null
-        get() = field
-    private var hasaccept: Boolean? = null
-        get() = field
-    private var  acceptcookkie: String? = null
-        get() = field
-    private var  accept: LoginClass? = null
-        get() = field
+    var email: Boolean? = null
+        private set
+    var password: Boolean? = null
+        private set
+    var hasaccept: Boolean? = null
+        private set
+    var  acceptcookie: String? = null
+        private set
+    var  accept: LoginAcceptClass? = null
+        private set
+    var  id: String? = null
+        private set
+    var verificate: Boolean? = null
+        private set
 }

@@ -58,4 +58,6 @@
     <string name="request_error">Произошла ошибка, вовремязапроса,проверьтесвоеподключениекинтернетуиповторитепопыткупозже</string>
     <string name="login_error_code">"Код не правильный "</string>
     <string name="login_errorinput_mail">Емаил не подтвержден</string>
+    <string name="login_verifymail_tittle">Подтвердите свой email</string>
+    <string name="login_verifymail_descr">Регистрация завершенна, но требуется подтверждение своего почтового адреса, Проверьте свой почтовый ящик.</string>
 </resources>

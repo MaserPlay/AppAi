@@ -14,8 +14,6 @@ class LoginViewModel : ViewModel() {
 
     var emaillogin: Int = View.GONE
     var totp: Int = View.GONE
-    var twofactorll: Int = View.GONE
-    var loginll: Int = View.VISIBLE
     val LoginResponseLiveData: MutableLiveData<Response<LoginResponseClass>> = MutableLiveData()
     val LoginAcceptResponseLiveData: MutableLiveData<Response<LoginVerifyClass>> = MutableLiveData()
     lateinit var cookie: String
