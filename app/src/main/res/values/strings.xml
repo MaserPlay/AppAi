@@ -68,4 +68,5 @@
     <string name="login_errorinput_mail">Email not verifered</string>
     <string name="login_verifymail_tittle">Confirm your email</string>
     <string name="login_verifymail_descr">Registration is completed, but confirmation of your mailing address is required, Check your mailbox.</string>
+    <string name="login_logout">Log Out</string>
 </resources>

@@ -105,7 +105,7 @@ class LoginVerifyActivity : AppCompatActivity() {
                 val resp: String = it.body().toString()
                 val json = JSONObject(resp)
                 getSharedPreferences("Main", MODE_PRIVATE).edit()
-                    .putString("cookie", json["id"].toString()).apply()
+                    .putString("cookie", json["id"].toString()).putString("nickname", json["id"].toString()).apply()
             }
         }
 

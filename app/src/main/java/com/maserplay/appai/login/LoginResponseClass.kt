@@ -15,4 +15,6 @@ class LoginResponseClass {
         private set
     var verificate: Boolean? = null
         private set
+    var  nickname: String? = null
+        private set
 }

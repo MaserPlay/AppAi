@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProvider
 import com.maserplay.AppAi.R
+import com.maserplay.appai.SettingsActivity
 
 class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,7 +58,10 @@ class LoginActivity : AppCompatActivity() {
                                     model.sum--
                                 }
                                 startActivity(Intent(this, LoginVerifyActivity::class.java))
-                            } else { if (resp.verificate == true) { TODO("noverifauth")} else {
+                            } else { if (resp.verificate == true) {
+                                getSharedPreferences("Main", MODE_PRIVATE).edit()
+                                    .putString("cookie", resp.id).putString("nickname", resp.nickname).apply()
+                                startActivity(Intent(this, SettingsActivity::class.java))} else {
                                 startActivity(Intent(this, LoginVerifyMailActivity::class.java))}}
                         }
                     }

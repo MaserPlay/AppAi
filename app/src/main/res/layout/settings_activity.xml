@@ -20,8 +20,32 @@
             android:paddingHorizontal="10dp"
             android:paddingVertical="10dp">
 
+            <LinearLayout
+                android:id="@+id/lllogin"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+                <Button
+                    android:id="@+id/button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="logout"
+                    android:text="@string/login_logout" />
+
+                <TextView
+                    android:id="@+id/nickname"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="example@example.com"
+                    android:textSize="20sp" />
+            </LinearLayout>
+
             <Button
                 android:id="@+id/login"
+                android:layout_below="@id/lllogin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/login_login"
