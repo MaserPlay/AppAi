@@ -2,15 +2,11 @@ package com.maserplay.appai.login
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
-import android.widget.ScrollView
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProvider
 import com.maserplay.AppAi.R
 import com.maserplay.appai.SettingsActivity
@@ -58,11 +54,16 @@ class LoginActivity : AppCompatActivity() {
                                     model.sum--
                                 }
                                 startActivity(Intent(this, LoginVerifyActivity::class.java))
-                            } else { if (resp.verificate == true) {
-                                getSharedPreferences("Main", MODE_PRIVATE).edit()
-                                    .putString("cookie", resp.id).putString("nickname", resp.nickname).apply()
-                                startActivity(Intent(this, SettingsActivity::class.java))} else {
-                                startActivity(Intent(this, LoginVerifyMailActivity::class.java))}}
+                            } else {
+                                if (resp.verificate == true) {
+                                    getSharedPreferences("Main", MODE_PRIVATE).edit()
+                                        .putString("cookie", resp.id)
+                                        .putString("nickname", resp.nickname).apply()
+                                    startActivity(Intent(this, SettingsActivity::class.java))
+                                } else {
+                                    startActivity(Intent(this, LoginVerifyMailActivity::class.java))
+                                }
+                            }
                         }
                     }
                 }

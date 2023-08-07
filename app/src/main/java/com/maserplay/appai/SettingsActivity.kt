@@ -51,6 +51,7 @@ class SettingsActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
                 .getString("cookie", "") != ""
         ) {
             findViewById<Button>(R.id.login).visibility = View.GONE
+            findViewById<TextView>(R.id.why).visibility = View.GONE
             findViewById<TextView>(R.id.nickname).text =
                 applicationContext.getSharedPreferences(PREFSFILE, MODE_PRIVATE)
                     .getString("nickname", "example@example.com")
@@ -207,6 +208,7 @@ class SettingsActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
 fun logout (v:View){getSharedPreferences("Main", MODE_PRIVATE).edit()
     .putString("cookie", null).putString("nickname", null).apply()
     findViewById<Button>(R.id.login).visibility = View.VISIBLE
+    findViewById<TextView>(R.id.why).visibility = View.VISIBLE
     findViewById<LinearLayout>(R.id.lllogin).visibility = View.GONE}
     override fun onNothingSelected(parent: AdapterView<*>?) {
         return

@@ -69,4 +69,5 @@
     <string name="login_verifymail_tittle">Confirm your email</string>
     <string name="login_verifymail_descr">Registration is completed, but confirmation of your mailing address is required, Check your mailbox.</string>
     <string name="login_logout">Log Out</string>
+    <string name="login_why" translatable="false">Login / Register to sync your data with games.m2023.ru</string>
 </resources>
