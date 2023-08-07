@@ -1,15 +1,19 @@
 package com.maserplay.appai.login
 
+import android.app.Dialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.maserplay.AppAi.R
 import com.maserplay.appai.SettingsActivity
+
 
 class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,7 +63,17 @@ class LoginActivity : AppCompatActivity() {
                                     getSharedPreferences("Main", MODE_PRIVATE).edit()
                                         .putString("cookie", resp.id)
                                         .putString("nickname", resp.nickname).apply()
-                                    startActivity(Intent(this, SettingsActivity::class.java))
+                                    AlertDialog.Builder(this)
+                                        .setTitle("Перед тобой два стула:")
+                                        .setMessage("Или ты оставляешь текущие настройки, или ты берешь настройки с сервера. Решай")
+                                        .setPositiveButton("Сохранить серверные настройки", DialogInterface.OnClickListener { _, _ ->  startActivity(Intent(this, SettingsActivity::class.java))})
+                                        .setPositiveButton("Сохранить текущие настройки",DialogInterface.OnClickListener { _, _ ->  startActivity(Intent(this, SettingsActivity::class.java))})
+                                        .setNegativeButton("Выйти из аккаунта", DialogInterface.OnClickListener { _, _ ->
+                                            getSharedPreferences("Main", MODE_PRIVATE).edit()
+                                                .putString("cookie", null).putString("nickname", null).apply()
+                                            startActivity(Intent(this, SettingsActivity::class.java))
+                                        })
+                                        .create()
                                 } else {
                                     startActivity(Intent(this, LoginVerifyMailActivity::class.java))
                                 }
