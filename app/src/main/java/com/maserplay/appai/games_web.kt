@@ -5,7 +5,10 @@ import com.maserplay.appai.login.LoginResponseClass
 import com.maserplay.appai.login.LoginVerifyClass
 import com.maserplay.appai.login.LoginVerifySendClass
 import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Body
+import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.POST
 
@@ -26,5 +29,8 @@ interface games_web {
     @Headers("Content-Type: application/json")
     @POST("/accountlogin/acceptlogin/check")
     suspend fun checkaccept(@Body body: LoginVerifySendClass): Response<LoginResponseClass>
+    @Headers("Content-Type: application/json")
+    @GET("/time")
+    suspend fun gettime(): Response<String>
 
 }

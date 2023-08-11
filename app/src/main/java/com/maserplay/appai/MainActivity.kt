@@ -25,10 +25,12 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
 import com.maserplay.AppAi.R
 import com.maserplay.appai.login.LoginActivity
+import com.maserplay.appai.sync.SyncViewModel
 
 
 class MainActivity : AppCompatActivity() {
     private lateinit var model: HomeViewModel
+    private lateinit var datetimemodel: SyncViewModel
     private lateinit var llwait: LinearLayout
     private lateinit var wait: TextView
     private lateinit var edtt: LinearLayout
@@ -73,6 +75,7 @@ class MainActivity : AppCompatActivity() {
         val btn: Button = findViewById(R.id.button_enter)
         val edt: EditText = findViewById(R.id.EdTxt)
         model = ViewModelProvider(this)[HomeViewModel::class.java]
+        datetimemodel = ViewModelProvider(this)[SyncViewModel::class.java]
         val l: ListView = findViewById(R.id.list)
         wait = findViewById(R.id.wait)
         llwait = findViewById(R.id.llwait)
@@ -100,6 +103,17 @@ class MainActivity : AppCompatActivity() {
             llwait.visibility = View.VISIBLE
             model.exec(edt.text.toString(), applicationContext)
             edt.setText("")
+            datetimemodel.datetime.observe(this) {
+                if (!it.isSuccessful) {
+                    Toast.makeText(
+                        applicationContext,
+                        getString(R.string.request_error),
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+                getSharedPreferences("Main", MODE_PRIVATE).edit().putString("lastupdate", it.body()).apply()
+            }
+            datetimemodel.getdatetime()
         }
         l.setOnItemClickListener { _, _, position, _ ->
             val clipboard = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager

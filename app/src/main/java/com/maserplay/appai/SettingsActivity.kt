@@ -13,15 +13,19 @@ import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.Spinner
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
+import androidx.lifecycle.ViewModelProvider
 import com.maserplay.AppAi.R
 import com.maserplay.appai.login.LoginActivity
+import com.maserplay.appai.sync.SyncViewModel
 import java.util.Timer
 import java.util.TimerTask
 
 
 class SettingsActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
+    private lateinit var datetimemodel: SyncViewModel
     private val PREFSFILE = "Main"
     private val PREFNAME = "api"
     private val PREFNAMEVER = "gptver"
@@ -32,6 +36,7 @@ class SettingsActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
     lateinit var gpterdescr: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.settings_activity)
         if (savedInstanceState == null) {
@@ -42,6 +47,7 @@ class SettingsActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         val apiedt: EditText = findViewById(R.id.EdtApi)
         prefEditor = getSharedPreferences(PREFSFILE, MODE_PRIVATE).edit()
+        datetimemodel = ViewModelProvider(this)[SyncViewModel::class.java]
         spamtv = findViewById(R.id.spamtv)
         gpterdescr = findViewById(R.id.gptver_descr)
         apiedt.setText(
@@ -59,6 +65,17 @@ class SettingsActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
         }
         apiedt.addTextChangedListener {
             prefEditor.putString(PREFNAME, apiedt.text.toString()).apply()
+            datetimemodel.datetime.observe(this) {
+                if (!it.isSuccessful) {
+                    Toast.makeText(
+                        applicationContext,
+                        getString(R.string.request_error),
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+                getSharedPreferences("Main", MODE_PRIVATE).edit().putString("lastupdate", it.body()).apply()
+            }
+            datetimemodel.getdatetime()
         }
         findViewById<Button>(R.id.inBrowserappKey).setOnClickListener {
             startActivity(
@@ -176,6 +193,17 @@ class SettingsActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
                 )
             }
         }
+        datetimemodel.datetime.observe(this) {
+            if (!it.isSuccessful) {
+                Toast.makeText(
+                    applicationContext,
+                    getString(R.string.request_error),
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+            getSharedPreferences("Main", MODE_PRIVATE).edit().putString("lastupdate", it.body()).apply()
+        }
+        datetimemodel.getdatetime()
         prefEditor.apply()
     }
 
