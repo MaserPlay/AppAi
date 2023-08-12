@@ -1,5 +1,7 @@
 package com.maserplay.appai.login
 
+import android.accounts.Account
+import android.accounts.AccountManager
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -70,5 +72,27 @@ class LoginActivity : AppCompatActivity() {
             }
             model.Login(LoginClass(email.text.toString(), password.text.toString()))
         }
+    }
+    fun onTokenReceived(account: Account, password: String?, token: String?) {
+        val am = AccountManager.get(this)
+        val result = Bundle()
+        if (am.addAccountExplicitly(account, password, Bundle())) {
+            result.putString(AccountManager.KEY_ACCOUNT_NAME, account.name)
+            result.putString(AccountManager.KEY_ACCOUNT_TYPE, account.type)
+            result.putString(AccountManager.KEY_AUTHTOKEN, token)
+            am.setAuthToken(account, account.type, token)
+        } else {
+            result.putString(
+                AccountManager.KEY_ERROR_MESSAGE,
+                getString(R.string.account_already_exists)
+            )
+        }
+        setAccountAuthenticatorResult(result)
+        setResult(RESULT_OK)
+        finish()
+    }
+
+    companion object {
+        val EXTRA_TOKEN_TYPE = "com.maserplay.appai.EXTRA_TOKEN_TYPE"
     }
 }
