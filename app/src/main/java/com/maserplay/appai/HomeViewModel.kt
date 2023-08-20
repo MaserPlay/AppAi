@@ -1,7 +1,6 @@
 package com.maserplay.appai
 
 import android.content.Context
-import android.content.Context.MODE_PRIVATE
 import android.widget.Adapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -20,10 +19,7 @@ import com.aallam.openai.api.model.ModelId
 import com.aallam.openai.client.OpenAI
 import com.aallam.openai.client.OpenAIConfig
 import com.maserplay.AppAi.R
-import com.maserplay.appai.login.LoginVerifySendClass
 import kotlinx.coroutines.launch
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import kotlin.time.Duration.Companion.seconds
 
 

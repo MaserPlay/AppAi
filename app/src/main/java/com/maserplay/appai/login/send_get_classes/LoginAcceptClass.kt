@@ -1,6 +1,4 @@
-package com.maserplay.appai.login
-
-import kotlin.properties.Delegates
+package com.maserplay.appai.login.send_get_classes
 
 class LoginAcceptClass {
     var emailaccept: Boolean? = null

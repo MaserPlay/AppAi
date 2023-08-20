@@ -1,4 +1,4 @@
-package com.maserplay.appai.login
+package com.maserplay.appai.login.Activity
 
 import android.accounts.Account
 import android.accounts.AccountManager
@@ -10,7 +10,9 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import com.maserplay.appai.login.LoginViewModel
 import com.maserplay.AppAi.R
+import com.maserplay.appai.login.send_get_classes.LoginClass
 
 
 class LoginActivity : AppCompatActivity() {
@@ -58,10 +60,10 @@ class LoginActivity : AppCompatActivity() {
                                 startActivity(Intent(this, LoginVerifyActivity::class.java))
                             } else {
                                 if (resp.verificate == true) {
-                                    getSharedPreferences("Main", MODE_PRIVATE).edit()
-                                        .putString("cookie", resp.id)
-                                        .putString("nickname", resp.nickname).apply()
-                                    TODO("synchronizate")
+                                    val ac = Account(resp.nickname, "com.maserplay.login.type")
+                                    val acm = AccountManager.get(this)
+                                    acm.addAccountExplicitly(ac, null, null)
+                                    acm.setAuthToken(ac,"cookie" , resp.id)
                                 } else {
                                     startActivity(Intent(this, LoginVerifyMailActivity::class.java))
                                 }
@@ -72,27 +74,5 @@ class LoginActivity : AppCompatActivity() {
             }
             model.Login(LoginClass(email.text.toString(), password.text.toString()))
         }
-    }
-    fun onTokenReceived(account: Account, password: String?, token: String?) {
-        val am = AccountManager.get(this)
-        val result = Bundle()
-        if (am.addAccountExplicitly(account, password, Bundle())) {
-            result.putString(AccountManager.KEY_ACCOUNT_NAME, account.name)
-            result.putString(AccountManager.KEY_ACCOUNT_TYPE, account.type)
-            result.putString(AccountManager.KEY_AUTHTOKEN, token)
-            am.setAuthToken(account, account.type, token)
-        } else {
-            result.putString(
-                AccountManager.KEY_ERROR_MESSAGE,
-                getString(R.string.account_already_exists)
-            )
-        }
-        setAccountAuthenticatorResult(result)
-        setResult(RESULT_OK)
-        finish()
-    }
-
-    companion object {
-        val EXTRA_TOKEN_TYPE = "com.maserplay.appai.EXTRA_TOKEN_TYPE"
     }
 }

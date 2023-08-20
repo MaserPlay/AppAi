@@ -1,16 +1,17 @@
-package com.maserplay.appai.login
+package com.maserplay.appai.login.Activity
 
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
-import android.widget.ScrollView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProvider
+import com.maserplay.appai.login.LoginViewModel
 import com.maserplay.AppAi.R
+import com.maserplay.appai.login.send_get_classes.LoginVerifySendClass
 import org.json.JSONObject
 
 class LoginVerifyActivity : AppCompatActivity() {

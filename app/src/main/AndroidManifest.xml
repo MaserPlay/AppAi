@@ -21,17 +21,17 @@
         android:theme="@style/Theme.Moveto"
         tools:targetApi="31">
         <activity
-            android:name="com.maserplay.appai.login.LoginVerifyMailActivity"
+            android:name="com.maserplay.appai.login.Activity.LoginVerifyMailActivity"
             android:exported="false"
             android:label="@string/login_login"
-            android:parentActivityName="com.maserplay.appai.login.LoginActivity" />
+            android:parentActivityName="com.maserplay.appai.login.Activity.LoginActivity" />
         <activity
-            android:name="com.maserplay.appai.login.LoginVerifyActivity"
+            android:name="com.maserplay.appai.login.Activity.LoginVerifyActivity"
             android:exported="false"
             android:label="@string/login_login"
-            android:parentActivityName="com.maserplay.appai.login.LoginActivity" />
+            android:parentActivityName="com.maserplay.appai.login.Activity.LoginActivity" />
         <activity
-            android:name="com.maserplay.appai.login.LoginActivity"
+            android:name="com.maserplay.appai.login.Activity.LoginActivity"
             android:exported="false"
             android:label="@string/login_login"
             android:parentActivityName="com.maserplay.appai.SettingsActivity"
@@ -41,6 +41,17 @@
             android:exported="false"
             android:label="@string/title_activity_settings"
             android:parentActivityName="com.maserplay.appai.MainActivity" />
+        <service
+            android:name="com.maserplay.appai.login.MaserPlayAuthService"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.accounts.AccountAuthenticator"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.accounts.AccountAuthenticator"
+                android:resource="@xml/auth"/>
+        </service>
         <activity
             android:name="com.maserplay.appai.MainActivity"
             android:exported="true">

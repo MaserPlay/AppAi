@@ -61,4 +61,6 @@
     <string name="login_verifymail_tittle">Подтвердите свой email</string>
     <string name="login_verifymail_descr">Регистрация завершенна, но требуется подтверждение своего почтового адреса, Проверьте свой почтовый ящик.</string>
     <string name="login_logout">Выйти</string>
+    <string name="error_toomanyaccounts_desrr">Похожие на твоем телефоне создано слишком много аккаунтов ( больше одного ). Тебе придется их удалить для работы этого приложения.</string>
+    <string name="error_settings">Открыть настройки</string>
 </resources>

@@ -1,5 +1,7 @@
 package com.maserplay.appai
 
+import android.accounts.Account
+import android.accounts.AccountManager
 import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
@@ -18,7 +20,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProvider
 import com.maserplay.AppAi.R
-import com.maserplay.appai.login.LoginActivity
+import com.maserplay.appai.dialogfragment.ErrorDialog
+import com.maserplay.appai.dialogfragment.TooManyAccountsDialog
+import com.maserplay.appai.login.Activity.LoginActivity
 import com.maserplay.appai.sync.SyncViewModel
 import java.util.Timer
 import java.util.TimerTask
@@ -30,14 +34,17 @@ class SettingsActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
     private val PREFNAME = "api"
     private val PREFNAMEVER = "gptver"
     private lateinit var prefEditor: SharedPreferences.Editor
+    private lateinit var acm: AccountManager
+    private var ac: Account? = null
     lateinit var spamtv: TextView
     private val tim: Timer = Timer(false)
     private var spam: Long = 0
     lateinit var gpterdescr: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
         super.onCreate(savedInstanceState)
+        acm = AccountManager.get(this)
+        ac = GetAC()
         setContentView(R.layout.settings_activity)
         if (savedInstanceState == null) {
             supportFragmentManager
@@ -53,14 +60,10 @@ class SettingsActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
         apiedt.setText(
             applicationContext.getSharedPreferences(PREFSFILE, MODE_PRIVATE).getString(PREFNAME, "")
         )
-        if (applicationContext.getSharedPreferences(PREFSFILE, MODE_PRIVATE)
-                .getString("cookie", "") != ""
-        ) {
+        if (ac != null) {
             findViewById<Button>(R.id.login).visibility = View.GONE
             findViewById<TextView>(R.id.why).visibility = View.GONE
-            findViewById<TextView>(R.id.nickname).text =
-                applicationContext.getSharedPreferences(PREFSFILE, MODE_PRIVATE)
-                    .getString("nickname", "example@example.com")
+            findViewById<TextView>(R.id.nickname).text = ac!!.name
             findViewById<LinearLayout>(R.id.lllogin).visibility = View.VISIBLE
         }
         apiedt.addTextChangedListener {
@@ -147,14 +150,23 @@ class SettingsActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
             }
 
             else -> {
-                Error_report_dialog("AppAi error in set ItemSelected Settings, choose version. Input $input != gpt-3.5-turbo, gpt-3.5-turbo-0301, gpt-3.5-turbo-0613 or gpt-3.5-turbo-16k.").show(
+                ErrorDialog("AppAi error in set ItemSelected Settings, choose version. Input $input != gpt-3.5-turbo, gpt-3.5-turbo-0301, gpt-3.5-turbo-0613 or gpt-3.5-turbo-16k.").show(
                     supportFragmentManager,
                     "error"
                 )
             }
         }
     }
-
+    private fun GetAC() : Account? {
+        val acs = acm.accounts
+        return if (acs.size > 1) { TooManyAccountsDialog().show(supportFragmentManager, "error")
+            null
+        } else if (acs.isEmpty()) {
+            null
+        } else {
+            acs[0]
+        }
+    }
     private fun Timerr() {
         Timer(false).schedule(object : TimerTask() {
             override fun run() {
@@ -187,7 +199,7 @@ class SettingsActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
             }
 
             else -> {
-                Error_report_dialog("AppAi error in OnItemSelected Settings, choose version. Position $position > 3").show(
+                ErrorDialog("AppAi error in OnItemSelected Settings, choose version. Position $position > 3").show(
                     supportFragmentManager,
                     "error"
                 )
@@ -226,15 +238,15 @@ class SettingsActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
             }
 
             else -> {
-                Error_report_dialog("AppAi error in getdesr in OnItemSelected Settings, choose version. Input $name != gpt-3.5-turbo, gpt-3.5-turbo-0301, gpt-3.5-turbo-0613 or gpt-3.5-turbo-16k.").show(
+                ErrorDialog("AppAi error in getdesr in OnItemSelected Settings, choose version. Input $name != gpt-3.5-turbo, gpt-3.5-turbo-0301, gpt-3.5-turbo-0613 or gpt-3.5-turbo-16k.").show(
                     supportFragmentManager,
                     "error"
                 )
             }
         }
     }
-fun logout (v:View){getSharedPreferences("Main", MODE_PRIVATE).edit()
-    .putString("cookie", null).putString("nickname", null).apply()
+fun logout (v:View){acm.removeAccountExplicitly(ac)
+    ac = null
     findViewById<Button>(R.id.login).visibility = View.VISIBLE
     findViewById<TextView>(R.id.why).visibility = View.VISIBLE
     findViewById<LinearLayout>(R.id.lllogin).visibility = View.GONE}

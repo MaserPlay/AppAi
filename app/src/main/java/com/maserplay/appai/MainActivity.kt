@@ -24,7 +24,9 @@ import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
 import com.maserplay.AppAi.R
-import com.maserplay.appai.login.LoginActivity
+import com.maserplay.appai.dialogfragment.ErrorDialog
+import com.maserplay.appai.dialogfragment.ErrorUserDialog
+import com.maserplay.appai.login.Activity.LoginActivity
 import com.maserplay.appai.sync.SyncViewModel
 
 
@@ -89,7 +91,7 @@ class MainActivity : AppCompatActivity() {
             llwait.visibility = View.GONE
         }
         model.errortr.observe(this) {
-            Error_report_dialog("AppAi $it").show(supportFragmentManager, "error")
+            ErrorDialog("AppAi $it").show(supportFragmentManager, "error")
         }
         edt.addTextChangedListener {
             btn.isEnabled = edt.text.toString() != ""
@@ -161,7 +163,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             R.id.report -> {
-                Error_report_user_dialog().show(supportFragmentManager, "error")
+                ErrorUserDialog().show(supportFragmentManager, "error")
             }
         }
         return super.onOptionsItemSelected(item)

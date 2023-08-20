@@ -1,22 +1,25 @@
 package com.maserplay.appai
 
-import com.maserplay.appai.login.LoginClass
-import com.maserplay.appai.login.LoginResponseClass
-import com.maserplay.appai.login.LoginVerifyClass
-import com.maserplay.appai.login.LoginVerifySendClass
+import com.maserplay.appai.login.send_get_classes.LoginClass
+import com.maserplay.appai.login.send_get_classes.LoginResponseClass
+import com.maserplay.appai.login.send_get_classes.LoginVerifyClass
+import com.maserplay.appai.login.send_get_classes.LoginVerifySendClass
+import okhttp3.ResponseBody
+import retrofit2.Call
 import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.POST
 
-interface games_web {
+interface web {
     companion object {
          val Base: String
             get() = "https://games.m2023.ru/"
     }
+    @Headers("Content-Type: application/json")
+    @POST("/api/crash")
+    fun errorreport(@Body body: ErrorSendClass): Call<ResponseBody>
     @Headers("Content-Type: application/json")
     @POST("/accountlogin")
     suspend fun login(@Body body: LoginClass): Response<LoginResponseClass>

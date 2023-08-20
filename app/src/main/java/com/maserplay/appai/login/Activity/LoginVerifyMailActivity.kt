@@ -1,4 +1,4 @@
-package com.maserplay.appai.login
+package com.maserplay.appai.login.Activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

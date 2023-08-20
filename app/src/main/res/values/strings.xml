@@ -70,4 +70,7 @@
     <string name="login_verifymail_descr">Registration is completed, but confirmation of your mailing address is required, Check your mailbox.</string>
     <string name="login_logout">Log Out</string>
     <string name="login_why" translatable="false">Login / Register to sync your data with games.m2023.ru</string>
+    <string name="login_name" translatable="false">games.m2023.ru</string>
+    <string name="error_toomanyaccounts_desrr">Similar there are too many accounts created on your phone (more than one). You will have to delete them for this application to work.</string>
+    <string name="error_settings">Open Settings</string>
 </resources>
