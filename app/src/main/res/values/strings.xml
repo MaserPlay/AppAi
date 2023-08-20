@@ -73,4 +73,5 @@
     <string name="login_name" translatable="false">games.m2023.ru</string>
     <string name="error_toomanyaccounts_desrr">Similar there are too many accounts created on your phone (more than one). You will have to delete them for this application to work.</string>
     <string name="error_settings">Open Settings</string>
+    <string name="error_toomany">You already have account!</string>
 </resources>

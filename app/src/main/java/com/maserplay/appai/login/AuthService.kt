@@ -5,7 +5,7 @@ import android.content.Intent
 import android.os.IBinder
 import android.util.Log
 
-class MaserPlayAuthService : Service() {
+class AuthService : Service() {
     private lateinit var mAuthenticator: AuthAccount
 
     override fun onCreate() {
@@ -13,7 +13,6 @@ class MaserPlayAuthService : Service() {
         super.onCreate()
         mAuthenticator = AuthAccount(applicationContext)
     }
-
     override fun onBind(intent: Intent?): IBinder {
         Log.i("LoginTAG", "BindToService")
         return mAuthenticator.iBinder

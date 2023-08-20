@@ -10,6 +10,8 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
+import com.maserplay.AppAi.R
 import com.maserplay.appai.login.Activity.LoginActivity
 
 
@@ -26,7 +28,10 @@ class AuthAccount(private val context: Context) : AbstractAccountAuthenticator(c
     override fun addAccount(
         response: AccountAuthenticatorResponse?, accountType: String?, authTokenType: String?,
         requiredFeatures: Array<String?>?, options: Bundle?
-    ): Bundle {
+    ): Bundle? {
+        if (AccountManager.get(context).accounts.isNotEmpty()) {
+            Toast.makeText(context, context.getString(R.string.error_toomany), Toast.LENGTH_LONG).show()
+        return null}
         val intent = Intent(context, LoginActivity::class.java)
         intent.putExtra(authTokenType, attr.accountType)
         intent.putExtra(accountType, attr.accountType)

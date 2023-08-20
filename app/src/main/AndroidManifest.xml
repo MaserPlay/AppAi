@@ -42,7 +42,7 @@
             android:label="@string/title_activity_settings"
             android:parentActivityName="com.maserplay.appai.MainActivity" />
         <service
-            android:name="com.maserplay.appai.login.MaserPlayAuthService"
+            android:name="com.maserplay.appai.login.AuthService"
             android:enabled="true"
             android:exported="true">
             <intent-filter>

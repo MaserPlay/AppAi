@@ -63,4 +63,5 @@
     <string name="login_logout">Выйти</string>
     <string name="error_toomanyaccounts_desrr">Похожие на твоем телефоне создано слишком много аккаунтов ( больше одного ). Тебе придется их удалить для работы этого приложения.</string>
     <string name="error_settings">Открыть настройки</string>
+    <string name="error_toomany">У тебя уже есть аккаунт.</string>
 </resources>
