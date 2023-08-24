@@ -10,7 +10,7 @@ class ErrorSendClass(_mess: String) {
     init {
         Message = _mess
         AppVersion = Build.VERSION.RELEASE
-        AppName = "AppAi"
+        AppName = GlobalVariables.APP_NAME
     }
 
 }

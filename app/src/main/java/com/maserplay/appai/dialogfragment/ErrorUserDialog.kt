@@ -9,7 +9,8 @@ import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import com.maserplay.AppAi.R
 import com.maserplay.appai.ErrorSendClass
-import com.maserplay.appai.web
+import com.maserplay.appai.GlobalVariables
+import com.maserplay.appai.Web
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import kotlin.concurrent.thread
@@ -35,10 +36,10 @@ class ErrorUserDialog() : DialogFragment() {
         Toast.makeText(context, getString(R.string.error_thanks), Toast.LENGTH_LONG).show()
         thread {
             Retrofit.Builder()
-                .baseUrl(web.Base)
+                .baseUrl(GlobalVariables.WEB_ADR_FULL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
-                .create(web::class.java).errorreport(ErrorSendClass(input.text.toString()))
+                .create(Web::class.java).errorreport(ErrorSendClass(input.text.toString()))
                 .execute()
         }
     }

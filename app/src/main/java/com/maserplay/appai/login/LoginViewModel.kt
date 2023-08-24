@@ -4,18 +4,18 @@ import android.view.View
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.maserplay.appai.GlobalVariables
 import com.maserplay.appai.login.send_get_classes.LoginClass
 import com.maserplay.appai.login.send_get_classes.LoginResponseClass
 import com.maserplay.appai.login.send_get_classes.LoginVerifyClass
 import com.maserplay.appai.login.send_get_classes.LoginVerifySendClass
-import com.maserplay.appai.web
+import com.maserplay.appai.Web
 import kotlinx.coroutines.launch
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class LoginViewModel : ViewModel() {
-
     var emaillogin: Int = View.GONE
     var totp: Int = View.GONE
     val LoginResponseLiveData: MutableLiveData<Response<LoginResponseClass>> = MutableLiveData()
@@ -23,10 +23,10 @@ class LoginViewModel : ViewModel() {
     lateinit var cookie: String
     var sum: Int = 0
     val api = Retrofit.Builder()
-        .baseUrl(web.Base)
+        .baseUrl(GlobalVariables.WEB_ADR_FULL)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
-        .create(web::class.java)
+        .create(Web::class.java)
 
     fun Login(st: LoginClass) {
         viewModelScope.launch {

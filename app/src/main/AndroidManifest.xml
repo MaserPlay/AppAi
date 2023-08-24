@@ -8,6 +8,8 @@
     <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
     <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
     <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+    <uses-permission android:name="android.permission.READ_SYNC_SETTINGS"/>
+    <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS"/>
 
     <application
         android:name="com.maserplay.appai.App"
@@ -20,18 +22,31 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Moveto"
         tools:targetApi="31">
+        <service
+            android:name="com.maserplay.appai.sync.SyncService"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.content.SyncAdapter" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.content.SyncAdapter"
+                android:resource="@xml/syncadapter" />
+        </service>
+
         <activity
-            android:name="com.maserplay.appai.login.Activity.LoginVerifyMailActivity"
+            android:name="com.maserplay.appai.login.activity.LoginVerifyMailActivity"
             android:exported="false"
             android:label="@string/login_login"
-            android:parentActivityName="com.maserplay.appai.login.Activity.LoginActivity" />
+            android:parentActivityName="com.maserplay.appai.login.activity.LoginActivity" />
         <activity
-            android:name="com.maserplay.appai.login.Activity.LoginVerifyActivity"
+            android:name="com.maserplay.appai.login.activity.LoginVerifyActivity"
             android:exported="false"
             android:label="@string/login_login"
-            android:parentActivityName="com.maserplay.appai.login.Activity.LoginActivity" />
+            android:parentActivityName="com.maserplay.appai.login.activity.LoginActivity" />
         <activity
-            android:name="com.maserplay.appai.login.Activity.LoginActivity"
+            android:name="com.maserplay.appai.login.activity.LoginActivity"
             android:exported="false"
             android:label="@string/login_login"
             android:parentActivityName="com.maserplay.appai.SettingsActivity"
@@ -41,17 +56,20 @@
             android:exported="false"
             android:label="@string/title_activity_settings"
             android:parentActivityName="com.maserplay.appai.MainActivity" />
+
         <service
             android:name="com.maserplay.appai.login.AuthService"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
-                <action android:name="android.accounts.AccountAuthenticator"/>
+                <action android:name="android.accounts.AccountAuthenticator" />
             </intent-filter>
+
             <meta-data
                 android:name="android.accounts.AccountAuthenticator"
-                android:resource="@xml/auth"/>
+                android:resource="@xml/auth" />
         </service>
+
         <activity
             android:name="com.maserplay.appai.MainActivity"
             android:exported="true">
@@ -61,6 +79,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <provider
+            android:name="com.maserplay.appai.sync.SyncProvider"
+            android:authorities="com.maserplay.chtgpt.sync.provider"
+            android:enabled="true"
+            android:exported="false"
+            android:syncable="true" />
     </application>
 
 </manifest>

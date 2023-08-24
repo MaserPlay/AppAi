@@ -16,6 +16,7 @@ internal class ProductAdapter(
     private val layout: Int,
     private val layout2: Int,
     private val layout3: Int,
+    private val layout4: Int,
     private val productList: ArrayList<Product>
 ) : ArrayAdapter<Product>(context, layout, layout2, productList as List<Product> )
 {
@@ -38,12 +39,15 @@ internal class ProductAdapter(
                 3 -> {
                     inflater.inflate(layout3, parent, false)
                 }
+                4 -> {
+                    inflater.inflate(layout4, parent, false)
+                }
                 else -> {
                     Log.e("Adapter", "Error")
                     inflater.inflate(layout3, parent, false)
                 }
             }
-        val viewHolder: ViewHolder = ViewHolder(convertView)
+        val viewHolder = ViewHolder(convertView)
             convertView.tag = viewHolder
         val product = productList[position]
         viewHolder.nameView.text = product.name

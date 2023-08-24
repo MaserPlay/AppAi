@@ -32,9 +32,6 @@ class HomeViewModel : ViewModel() {
     private lateinit var adapter: Adapter
     private lateinit var ServiceNeed: ServiceDop
 
-    private val PREF_NAME = "api"
-    private val PREFNAMEVER = "gptver"
-    private val PREFS_FILE = "Main"
     fun getpr(): ArrayList<Product> {
         return products
     }
@@ -45,6 +42,7 @@ class HomeViewModel : ViewModel() {
             R.layout.list_item,
             R.layout.list_item2,
             R.layout.list_item3,
+            R.layout.list_item4,
             products
         )
         ada.postValue(adapter)
@@ -65,10 +63,9 @@ class HomeViewModel : ViewModel() {
         ServiceNeed.add(ChatMessage(role = ChatRole.User, content = prompt))
 
         viewModelScope.launch {
-            val apiKey = con.getSharedPreferences(PREFS_FILE, AppCompatActivity.MODE_PRIVATE)
-                .getString(PREF_NAME, "alo")
-            val gptver = con.getSharedPreferences(PREFS_FILE, AppCompatActivity.MODE_PRIVATE)
-                .getString(PREFNAMEVER, "gpt-3.5-turbo")
+            val shpref = con.getSharedPreferences(GlobalVariables.SHAREDPREFERENCES_NAME, AppCompatActivity.MODE_PRIVATE)
+            val apiKey = shpref.getString("api", "")
+            val gptver = shpref.getString("gptver", GlobalVariables.GPTVER_DEFVAl)
             val openAI = OpenAI(
                 OpenAIConfig(
                     token = apiKey.toString(),
@@ -89,25 +86,25 @@ class HomeViewModel : ViewModel() {
             } catch (e: AuthenticationException) {
                 products.remove(pr)
                 products.add(Product(con.getString(R.string.api_not_correct), 3))
-                products.add(Product(e.toString(), 3))
+                if (con.getSharedPreferences(GlobalVariables.SHAREDPREFERENCES_NAME, AppCompatActivity.MODE_PRIVATE).getBoolean(GlobalVariables.SHAREDPREFERENCES_DEBUG, false)) { products.add(Product(e.toString(), 4)) }
                 writen.postValue(true)
             } catch (e: GenericIOException) {
                 products.remove(pr)
                 products.add(Product(con.getString(R.string.no_intenet), 3))
-                products.add(Product(e.toString(), 3))
+                if (con.getSharedPreferences(GlobalVariables.SHAREDPREFERENCES_NAME, AppCompatActivity.MODE_PRIVATE).getBoolean(GlobalVariables.SHAREDPREFERENCES_DEBUG, false)) { products.add(Product(e.toString(), 4)) }
                 writen.postValue(true)
             } catch (e: OpenAITimeoutException) {
                 Toast.makeText(con, con.getString(R.string.time_out), Toast.LENGTH_LONG).show()
                 products.remove(pr)
                 products.add(Product(con.getString(R.string.time_out), 3))
-                products.add(Product(e.toString(), 3))
+                if (con.getSharedPreferences(GlobalVariables.SHAREDPREFERENCES_NAME, AppCompatActivity.MODE_PRIVATE).getBoolean(GlobalVariables.SHAREDPREFERENCES_DEBUG, false)) { products.add(Product(e.toString(), 4)) }
                 errortr.postValue(e.toString())
                 writen.postValue(true)
             } catch (e: Exception) {
                 Toast.makeText(con, con.getString(R.string.fatal_error), Toast.LENGTH_LONG).show()
                 products.remove(pr)
                 products.add(Product(con.getString(R.string.fatal_error), 3))
-                products.add(Product(e.toString(), 3))
+                if (con.getSharedPreferences(GlobalVariables.SHAREDPREFERENCES_NAME, AppCompatActivity.MODE_PRIVATE).getBoolean(GlobalVariables.SHAREDPREFERENCES_DEBUG, false)) { products.add(Product(e.toString(), 4)) }
                 writen.postValue(true)
                 errortr.postValue(e.toString())
             }

@@ -12,7 +12,8 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import com.maserplay.AppAi.R
-import com.maserplay.appai.login.Activity.LoginActivity
+import com.maserplay.appai.GlobalVariables
+import com.maserplay.appai.login.activity.LoginActivity
 
 
 class AuthAccount(private val context: Context) : AbstractAccountAuthenticator(context) {
@@ -20,7 +21,7 @@ class AuthAccount(private val context: Context) : AbstractAccountAuthenticator(c
         response: AccountAuthenticatorResponse?,
         accountType: String?
     ): Bundle? {
-        Log.i("LoginTAG", "editProperties")
+        Log.i(GlobalVariables.LOGTAG_LOGIN, "editProperties")
         return null
     }
 
@@ -46,7 +47,7 @@ class AuthAccount(private val context: Context) : AbstractAccountAuthenticator(c
         account: Account?,
         options: Bundle?
     ): Bundle? {
-        Log.i("LoginTAG", "confirmCredentials")
+        Log.i(GlobalVariables.LOGTAG_LOGIN, "confirmCredentials")
         return null
     }
 
@@ -57,12 +58,12 @@ class AuthAccount(private val context: Context) : AbstractAccountAuthenticator(c
         authTokenType: String?,
         options: Bundle?
     ): Bundle? {
-        Log.i("LoginTAG", "getAuthToken")
+        Log.i(GlobalVariables.LOGTAG_LOGIN, "getAuthToken")
         return null
     }
 
     override fun getAuthTokenLabel(authTokenType: String?): String? {
-        Log.i("LoginTAG", "getAuthTokenLabel")
+        Log.i(GlobalVariables.LOGTAG_LOGIN, "getAuthTokenLabel")
         return null
     }
 
@@ -72,7 +73,7 @@ class AuthAccount(private val context: Context) : AbstractAccountAuthenticator(c
         authTokenType: String?,
         options: Bundle?
     ): Bundle? {
-        Log.i("LoginTAG", "updateCredentials")
+        Log.i(GlobalVariables.LOGTAG_LOGIN, "updateCredentials")
         return null
     }
 
@@ -81,7 +82,7 @@ class AuthAccount(private val context: Context) : AbstractAccountAuthenticator(c
         account: Account?,
         features: Array<out String>?
     ): Bundle? {
-        Log.i("LoginTAG", "hasFeatures")
+        Log.i(GlobalVariables.LOGTAG_LOGIN, "hasFeatures")
         return null
     }
 }

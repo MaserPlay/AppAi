@@ -27,7 +27,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.maserplay.AppAi.R
 import com.maserplay.appai.dialogfragment.ErrorDialog
 import com.maserplay.appai.dialogfragment.ErrorUserDialog
-import com.maserplay.appai.login.Activity.LoginActivity
+import com.maserplay.appai.login.activity.LoginActivity
 import com.maserplay.appai.sync.SyncViewModel
 import java.util.Timer
 import java.util.TimerTask
@@ -39,8 +39,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var llwait: LinearLayout
     private lateinit var wait: TextView
     private lateinit var edtt: LinearLayout
-    private val PREF_NAME = "api"
-    private val PREFS_FILE = "Main"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -63,7 +61,7 @@ class MainActivity : AppCompatActivity() {
             llwait.visibility = View.GONE
         }
         model.errortr.observe(this) {
-            ErrorDialog("AppAi $it").show(supportFragmentManager, "error")
+            ErrorDialog(this,"${GlobalVariables.APP_NAME} $it").show(supportFragmentManager, GlobalVariables.DIALOGFRAGMENT_TAG)
         }
         edt.addTextChangedListener {
             btn.isEnabled = edt.text.toString() != ""
@@ -85,7 +83,7 @@ class MainActivity : AppCompatActivity() {
                         Toast.LENGTH_LONG
                     ).show()
                 }
-                getSharedPreferences("Main", MODE_PRIVATE).edit().putString("lastupdate", it.body())
+                getSharedPreferences(GlobalVariables.SHAREDPREFERENCES_NAME, MODE_PRIVATE).edit().putString("lastupdate", it.body())
                     .apply()
             }
             datetimemodel.getdatetime()
@@ -107,8 +105,8 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         val api: String =
-            getSharedPreferences(PREFS_FILE, MODE_PRIVATE).getString(PREF_NAME, "alo").toString()
-        if ((api == "alo") || (api == "")) {
+            getSharedPreferences(GlobalVariables.SHAREDPREFERENCES_NAME, MODE_PRIVATE).getString("api", "").toString()
+        if (api == "") {
             edtt.visibility = View.GONE
             wait.text = getString(R.string.api_key_empty)
             llwait.visibility = View.VISIBLE
@@ -181,7 +179,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             R.id.report -> {
-                ErrorUserDialog().show(supportFragmentManager, "error")
+                ErrorUserDialog().show(supportFragmentManager, GlobalVariables.DIALOGFRAGMENT_TAG)
             }
         }
         return super.onOptionsItemSelected(item)

@@ -1,6 +1,9 @@
-package com.maserplay.appai.login.Activity
+package com.maserplay.appai.login.activity
 
+import android.accounts.Account
+import android.accounts.AccountManager
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -12,7 +15,6 @@ import androidx.lifecycle.ViewModelProvider
 import com.maserplay.appai.login.LoginViewModel
 import com.maserplay.AppAi.R
 import com.maserplay.appai.login.send_get_classes.LoginVerifySendClass
-import org.json.JSONObject
 
 class LoginVerifyActivity : AppCompatActivity() {
     private lateinit var model: LoginViewModel
@@ -24,6 +26,10 @@ class LoginVerifyActivity : AppCompatActivity() {
         emailaccept = findViewById(R.id.checkmail)
         totp = findViewById(R.id.Totp)
         model = ViewModelProvider(this)[LoginViewModel::class.java]
+        val b: Bundle = intent.extras!!
+        model.cookie = b.getString("cookie").toString()
+        model.totp = b.getInt("totp")
+        model.emaillogin = b.getInt("email")
         findViewById<TextView>(R.id.textView6).visibility = model.totp
         totp.visibility = model.totp
         findViewById<TextView>(R.id.textView7).visibility = model.emaillogin
@@ -34,13 +40,13 @@ class LoginVerifyActivity : AppCompatActivity() {
         }
     }
 
-    fun checksum() {
+    private fun checksum() {
         if (model.sum >= 0) {
             findViewById<Button>(R.id.logintwofac).isEnabled = true
         }
     }
 
-    fun totpaccept() {
+    private fun totpaccept() {
         if (totp.text.length == 6) {
             model.LoginAcceptResponseLiveData.observe(this) {
                 if (!it.isSuccessful) {
@@ -51,13 +57,13 @@ class LoginVerifyActivity : AppCompatActivity() {
                     ).show()
 
                 } else {
-                    val resp: String = it.body().toString()
-                    val json = JSONObject(resp)
-                    if (json["verify"] as Boolean) {
+                    val resp = it.body()
+                    if (resp!!.verify) {
                         totp.isEnabled = false
                         model.sum++
                         checksum()
                     } else {
+                        Log.e("TAG", resp.toString())
                         totp.error = resources.getString(R.string.login_error_code)
                     }
                 }
@@ -79,9 +85,8 @@ class LoginVerifyActivity : AppCompatActivity() {
                 ).show()
 
             }
-            val resp: String = it.body().toString()
-            val json = JSONObject(resp)
-            if (json["verify"] as Boolean) {
+            val resp = it.body()
+            if (resp!!.verify) {
                 emailaccept.isEnabled = false
                 findViewById<TextView>(R.id.textView8).visibility = View.GONE
                 model.sum++
@@ -103,14 +108,13 @@ class LoginVerifyActivity : AppCompatActivity() {
                     Toast.LENGTH_LONG
                 ).show()
             } else {
-                val resp: String = it.body().toString()
-                val json = JSONObject(resp)
-                getSharedPreferences("Main", MODE_PRIVATE).edit()
-                    .putString("cookie", json["id"].toString()).putString("nickname", json["id"].toString()).apply()
+                val resp = it.body()!!
+                val ac = Account(resp.nickname, "com.maserplay.login.type")
+                val acm = AccountManager.get(this)
+                acm.addAccountExplicitly(ac, null, null)
+                acm.setAuthToken(ac,"cookie" , resp.id)
             }
         }
-
         model.LoginCheck(LoginVerifySendClass(model.cookie))
-
     }
 }

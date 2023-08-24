@@ -3,12 +3,16 @@ package com.maserplay.appai.sync
 import com.aallam.openai.api.BetaOpenAI
 import com.aallam.openai.api.chat.ChatMessage
 
-class SyncDataClass {
+@OptIn(BetaOpenAI::class)
+class SyncDataClass constructor(_cookie: String, _model: String, _content: MutableList<ChatMessage>, _token: String) {
+    var cookie: String? = null
     var model: String? = null
-        private set
-    @OptIn(BetaOpenAI::class)
     var content: MutableList<ChatMessage>? = null
-        private set
     var token: String? = null
-        private set
+    init {
+        cookie = _cookie
+        model = _model
+        content = _content
+        token = _token
+    }
 }
