@@ -131,18 +131,7 @@ class SettingsActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
         )
         apiedt.addTextChangedListener {
             prefEditor.putString(PREFNAME, apiedt.text.toString()).apply()
-            datetimemodel.datetime.observe(this) {
-                if (!it.isSuccessful) {
-                    Toast.makeText(
-                        applicationContext,
-                        getString(R.string.request_error),
-                        Toast.LENGTH_LONG
-                    ).show()
-                }
-                getSharedPreferences(GlobalVariables.SHAREDPREFERENCES_NAME, MODE_PRIVATE).edit()
-                    .putString("lastupdate", it.body()).apply()
-            }
-            datetimemodel.getdatetime()
+            datetimemodel.setdatetime(this)
         }
         val spinner: Spinner = findViewById(R.id.EdtgptApi)
         ArrayAdapter.createFromResource(
@@ -274,6 +263,7 @@ class SettingsActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
         if (s_au.isChecked) {
             s_ll.visibility = View.VISIBLE
         } else {
+            ContentResolver.removePeriodicSync(GlobalVariables.GetAC(supportFragmentManager, this), GlobalVariables.PROVIDER, Bundle.EMPTY)
             s_ll.visibility = View.GONE
         }
     }
@@ -320,18 +310,7 @@ class SettingsActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
                 gpterdescr.text = ""
             }
         }
-        datetimemodel.datetime.observe(this) {
-            if (!it.isSuccessful) {
-                Toast.makeText(
-                    applicationContext,
-                    getString(R.string.request_error),
-                    Toast.LENGTH_LONG
-                ).show()
-            }
-            getSharedPreferences(GlobalVariables.SHAREDPREFERENCES_NAME, MODE_PRIVATE).edit()
-                .putString("lastupdate", it.body()).apply()
-        }
-        datetimemodel.getdatetime()
+        datetimemodel.setdatetime(this)
         prefEditor.apply()
     }
 
@@ -342,6 +321,7 @@ class SettingsActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
         why.visibility = View.VISIBLE
         loginll.visibility = View.GONE
         syncll.visibility = View.GONE
+        prefEditor.putInt("sync_int", -1).apply()
     }
 
     override fun onNothingSelected(parent: AdapterView<*>?) {

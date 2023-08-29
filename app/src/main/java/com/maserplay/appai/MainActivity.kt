@@ -89,18 +89,7 @@ class MainActivity : AppCompatActivity() {
         llwait.visibility = View.VISIBLE
         model.exec(edt.text.toString(), applicationContext)
         edt.setText("")
-        datetimemodel.datetime.observe(this) {
-            if (!it.isSuccessful) {
-                Toast.makeText(
-                    applicationContext,
-                    getString(R.string.request_error),
-                    Toast.LENGTH_LONG
-                ).show()
-            }
-            getSharedPreferences(GlobalVariables.SHAREDPREFERENCES_NAME, MODE_PRIVATE).edit().putString("lastupdate", it.body())
-                .apply()
-        }
-        datetimemodel.getdatetime()
+        datetimemodel.setdatetime(this)
     }
 
     override fun onResume() {
