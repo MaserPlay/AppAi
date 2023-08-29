@@ -39,13 +39,14 @@ class MainActivity : AppCompatActivity() {
     private lateinit var llwait: LinearLayout
     private lateinit var wait: TextView
     private lateinit var edtt: LinearLayout
+    private lateinit var edt: EditText
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         CreateLoginSnackbar()
         CreateGithubSnackbar()
         val btn: Button = findViewById(R.id.button_enter)
-        val edt: EditText = findViewById(R.id.EdTxt)
+        edt = findViewById(R.id.EdTxt)
         model = ViewModelProvider(this)[HomeViewModel::class.java]
         datetimemodel = ViewModelProvider(this)[SyncViewModel::class.java]
         val l: ListView = findViewById(R.id.list)
@@ -66,28 +67,6 @@ class MainActivity : AppCompatActivity() {
         edt.addTextChangedListener {
             btn.isEnabled = edt.text.toString() != ""
         }
-        btn.setOnClickListener {
-            this.currentFocus?.let { view ->
-                val imm = getSystemService(INPUT_METHOD_SERVICE) as? InputMethodManager
-                imm?.hideSoftInputFromWindow(view.windowToken, 0)
-            }
-            edtt.visibility = View.GONE
-            llwait.visibility = View.VISIBLE
-            model.exec(edt.text.toString(), applicationContext)
-            edt.setText("")
-            datetimemodel.datetime.observe(this) {
-                if (!it.isSuccessful) {
-                    Toast.makeText(
-                        applicationContext,
-                        getString(R.string.request_error),
-                        Toast.LENGTH_LONG
-                    ).show()
-                }
-                getSharedPreferences(GlobalVariables.SHAREDPREFERENCES_NAME, MODE_PRIVATE).edit().putString("lastupdate", it.body())
-                    .apply()
-            }
-            datetimemodel.getdatetime()
-        }
         l.setOnItemClickListener { _, _, position, _ ->
             val clipboard = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
             clipboard.setPrimaryClip(
@@ -100,6 +79,28 @@ class MainActivity : AppCompatActivity() {
                 .show()
         }
 
+    }
+    fun Button_Enter(v: View){
+        this.currentFocus?.let { view ->
+            val imm = getSystemService(INPUT_METHOD_SERVICE) as? InputMethodManager
+            imm?.hideSoftInputFromWindow(view.windowToken, 0)
+        }
+        edtt.visibility = View.GONE
+        llwait.visibility = View.VISIBLE
+        model.exec(edt.text.toString(), applicationContext)
+        edt.setText("")
+        datetimemodel.datetime.observe(this) {
+            if (!it.isSuccessful) {
+                Toast.makeText(
+                    applicationContext,
+                    getString(R.string.request_error),
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+            getSharedPreferences(GlobalVariables.SHAREDPREFERENCES_NAME, MODE_PRIVATE).edit().putString("lastupdate", it.body())
+                .apply()
+        }
+        datetimemodel.getdatetime()
     }
 
     override fun onResume() {

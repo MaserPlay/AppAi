@@ -53,6 +53,7 @@
                     android:id="@+id/login"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:onClick="Loginbtn"
                     android:layout_below="@id/lllogin"
                     android:text="@string/login_login"
                     android:visibility="visible" />
@@ -83,6 +84,7 @@
 
                     <EditText
                         android:id="@+id/EdtApi"
+                        android:minHeight="50dp"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -115,6 +117,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/textanother"
+                    android:onClick="OpenOpenAI"
                     android:text="@string/OpeninBrowser" />
 
                 <TextView
@@ -130,6 +133,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/textanoafBr"
+                    android:onClick="OpenOpenAIKeys"
                     android:text="@string/OpeninBrowserKey" />
 
 
@@ -151,6 +155,7 @@
 
                     <Spinner
                         android:id="@+id/EdtgptApi"
+                        android:minHeight="50dp"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1" />
@@ -271,6 +276,7 @@
 
                     <androidx.appcompat.widget.SwitchCompat
                         android:id="@+id/debug"
+                        android:minHeight="50dp"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1" />
@@ -291,6 +297,7 @@
                     android:id="@+id/save"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:onClick="SaveBtn"
                     android:layout_below="@id/textView121"
                     android:text="@string/save_data" />
 
@@ -298,6 +305,7 @@
                     android:id="@+id/load"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:onClick="LoadBtn"
                     android:layout_below="@id/save"
                     android:text="@string/load_data" />
 

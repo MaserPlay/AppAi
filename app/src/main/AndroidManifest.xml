@@ -13,9 +13,6 @@
 
     <application
         android:name="com.maserplay.appai.App"
-        android:allowBackup="true"
-        android:dataExtractionRules="@xml/data_extraction_rules"
-        android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
@@ -56,7 +53,6 @@
             android:exported="false"
             android:label="@string/title_activity_settings"
             android:parentActivityName="com.maserplay.appai.MainActivity" />
-
         <service
             android:name="com.maserplay.appai.login.AuthService"
             android:enabled="true"
@@ -64,7 +60,6 @@
             <intent-filter>
                 <action android:name="android.accounts.AccountAuthenticator" />
             </intent-filter>
-
             <meta-data
                 android:name="android.accounts.AccountAuthenticator"
                 android:resource="@xml/auth" />

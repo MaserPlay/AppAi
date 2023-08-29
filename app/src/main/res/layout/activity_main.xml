@@ -48,6 +48,7 @@
 
     <LinearLayout
         android:id="@+id/ll"
+        android:minHeight="50dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="bottom"
@@ -59,6 +60,7 @@
         <EditText
             android:id="@+id/EdTxt"
             android:layout_width="0dp"
+            android:minHeight="50dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:autofillHints="text"
@@ -74,6 +76,7 @@
             android:enabled="false"
             android:text="@string/enter_text_btn"
             android:textAlignment="center"
+            android:onClick="Button_Enter"
             android:textColor="#111"
             android:textSize="12sp" />
     </LinearLayout>

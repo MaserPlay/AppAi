@@ -4,7 +4,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.maserplay.appai.login.LoginActivity"
+    tools:context="com.maserplay.appai.login.activity.LoginActivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -74,6 +74,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginVertical="10dp"
+                android:onClick="loginButton"
                 android:layout_weight="1"
                 android:paddingVertical="15dp"
                 android:text="@string/login_login" />

@@ -29,9 +29,7 @@ object GlobalVariables{
     }
     fun GetAC(con: Context) : Account? {
         val acs = AccountManager.get(con).accounts
-        return if (acs.size > 1) {
-            null
-        } else if (acs.isEmpty()) {
+        return if (acs.size > 1 || acs.isEmpty()) {
             null
         } else {
             acs[0]

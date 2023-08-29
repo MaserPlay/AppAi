@@ -21,19 +21,19 @@ interface Web {
     @POST("/test/mirrorjson")
     suspend fun sync(@Body body: SyncDataClass): Response<SyncDataClass>
     @Headers("Content-Type: application/json")
-    @POST("/accountlogin")
+    @POST("/api/accountlogin")
     suspend fun login(@Body body: LoginClass): Response<LoginResponseClass>
     @Headers("Content-Type: application/json")
-    @POST("/accountlogin/acceptlogin/email")
+    @POST("/api/accountlogin/acceptlogin/email")
     suspend fun emailaccept(@Body body: LoginVerifySendClass): Response<LoginVerifyClass>
     @Headers("Content-Type: application/json")
-    @POST("/accountlogin/acceptlogin/totp")
+    @POST("/api/accountlogin/acceptlogin/totp")
     suspend fun totpaccept(@Body body: LoginVerifySendClass): Response<LoginVerifyClass>
     @Headers("Content-Type: application/json")
-    @POST("/accountlogin/acceptlogin/check")
+    @POST("/api/accountlogin/acceptlogin/check")
     suspend fun checkaccept(@Body body: LoginVerifySendClass): Response<LoginResponseClass>
     @Headers("Content-Type: application/json")
-    @GET("/time")
+    @GET("/api/time")
     suspend fun gettime(): Response<String>
 
 }
