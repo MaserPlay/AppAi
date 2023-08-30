@@ -23,6 +23,9 @@ class LoginVerifyActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login_verify)
+        if (AccountManager.get(this).accounts.isNotEmpty()) {
+            Toast.makeText(this, getString(R.string.error_toomany), Toast.LENGTH_LONG).show()
+            finish()}
         emailaccept = findViewById(R.id.checkmail)
         totp = findViewById(R.id.Totp)
         model = ViewModelProvider(this)[LoginViewModel::class.java]

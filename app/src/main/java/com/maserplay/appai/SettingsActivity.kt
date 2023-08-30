@@ -102,7 +102,7 @@ class SettingsActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
         spinnersync.onItemSelectedListener = SyncSpinnerChangeInterval()
         refresh = findViewById(R.id.refresh)
         refresh.setOnRefreshListener {
-            if (ac == null){
+            if (ac == null) {
                 refresh.isRefreshing = false
             } else {
                 val b = Bundle().apply {
@@ -176,10 +176,6 @@ class SettingsActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
                 gpterdescr.text = ""
             }
         }
-        s_au.isChecked = getSharedPreferences(
-            GlobalVariables.SHAREDPREFERENCES_NAME,
-            MODE_PRIVATE
-        ).getBoolean("sync_auto", true)
         debug.isChecked = getSharedPreferences(
             GlobalVariables.SHAREDPREFERENCES_NAME,
             MODE_PRIVATE
@@ -201,6 +197,12 @@ class SettingsActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
     override fun onResume() {
         super.onResume()
         ac = GlobalVariables.GetAC(supportFragmentManager, this)
+        ContentResolver.getPeriodicSyncs(ac, GlobalVariables.PROVIDER)
+        if (ContentResolver.getMasterSyncAutomatically()) {
+            s_au.isChecked = ContentResolver.getSyncAutomatically(ac, GlobalVariables.PROVIDER)
+        } else {
+            s_au.isChecked = false
+        }
         if (ac != null) {
             loginbtn.visibility = View.GONE
             why.visibility = View.GONE
@@ -263,7 +265,11 @@ class SettingsActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
         if (s_au.isChecked) {
             s_ll.visibility = View.VISIBLE
         } else {
-            ContentResolver.removePeriodicSync(GlobalVariables.GetAC(supportFragmentManager, this), GlobalVariables.PROVIDER, Bundle.EMPTY)
+            ContentResolver.removePeriodicSync(
+                GlobalVariables.GetAC(supportFragmentManager, this),
+                GlobalVariables.PROVIDER,
+                Bundle.EMPTY
+            )
             s_ll.visibility = View.GONE
         }
     }

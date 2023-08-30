@@ -3,4 +3,4 @@
     android:accountType="com.maserplay.login.type"
     android:icon="@drawable/ic_auth"
     android:smallIcon="@drawable/ic_auth"
-    android:label="games.m2023.ru" />
+    android:label="@string/login_name" />

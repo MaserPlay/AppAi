@@ -16,7 +16,7 @@ object GlobalVariables{
     const val APP_NAME = "AppAi"
     const val LOGTAG_SYNC = "SyncTAG"
     const val LOGTAG_LOGIN = "LoginTAG"
-    const val PROVIDER = "com.maserplay.appai.sync.Provider"
+    const val PROVIDER = "com.maserplay.chtgpt.sync.provider"
     fun GetAC(supportFragmentManager: FragmentManager, con: Context) : Account? {
         val acs = AccountManager.get(con).accounts
         return if (acs.size > 1) { TooManyAccountsDialog().show(supportFragmentManager, DIALOGFRAGMENT_TAG)
