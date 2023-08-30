@@ -7,9 +7,10 @@
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
     <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.USE_CREDENTIALS" />
-    <uses-permission android:name="android.permission.READ_SYNC_SETTINGS"/>
-    <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS"/>
+    <uses-permission android:name="android.permission.READ_SYNC_SETTINGS" />
+    <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS" />
 
     <application
         android:name="com.maserplay.appai.App"
@@ -18,8 +19,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Moveto"
-        tools:targetApi="31">
-        <service
+        tools:targetApi="31"><service
             android:name="com.maserplay.appai.sync.SyncService"
             android:enabled="true"
             android:exported="true">
@@ -53,6 +53,7 @@
             android:exported="false"
             android:label="@string/title_activity_settings"
             android:parentActivityName="com.maserplay.appai.MainActivity" />
+
         <service
             android:name="com.maserplay.appai.login.AuthService"
             android:enabled="true"
@@ -60,6 +61,7 @@
             <intent-filter>
                 <action android:name="android.accounts.AccountAuthenticator" />
             </intent-filter>
+
             <meta-data
                 android:name="android.accounts.AccountAuthenticator"
                 android:resource="@xml/auth" />

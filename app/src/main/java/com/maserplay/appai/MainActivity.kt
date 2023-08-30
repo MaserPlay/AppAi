@@ -2,10 +2,13 @@ package com.maserplay.appai
 
 import android.R.attr.label
 import android.accounts.AccountManager
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.view.Gravity
 import android.view.Menu
@@ -34,6 +37,7 @@ import java.util.TimerTask
 
 
 class MainActivity : AppCompatActivity() {
+    val CHANNEL_ID = "1"
     private lateinit var model: HomeViewModel
     private lateinit var datetimemodel: SyncViewModel
     private lateinit var llwait: LinearLayout
@@ -43,6 +47,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        createNotificationChannel()
         CreateLoginSnackbar()
         CreateGithubSnackbar()
         val btn: Button = findViewById(R.id.button_enter)
@@ -102,7 +107,6 @@ class MainActivity : AppCompatActivity() {
             llwait.visibility = View.VISIBLE
         }
     }
-
     private fun CreateLoginSnackbar() {
         if (AccountManager.get(this).accounts.isEmpty()) {
             Timer().schedule(object : TimerTask() {
@@ -173,6 +177,20 @@ class MainActivity : AppCompatActivity() {
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val name = "The answers"
+            val descriptionText = "Get notified when AppAi answers your question!"
+            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val channel = NotificationChannel(CHANNEL_ID, name, importance).apply {
+                description = descriptionText
+            }
+            val notificationManager: NotificationManager =
+                getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(channel)
+        }
     }
 
 }
