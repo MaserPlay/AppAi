@@ -79,4 +79,5 @@
     <string name="sync_auto" translatable="false">Auto Sync</string>
     <string name="sync_int" translatable="false">Sync Interval</string>
     <string name="login_name" translatable="false">games.m2023.ru</string>
+    <string name="sync_master" translatable="false">Your Master setting is off.</string>
 </resources>

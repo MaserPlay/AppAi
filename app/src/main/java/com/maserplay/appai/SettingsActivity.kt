@@ -186,22 +186,20 @@ class SettingsActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
                 MODE_PRIVATE
             ).edit().putBoolean("debug", isChecked).apply()
         }
-        s_au.setOnCheckedChangeListener { _, isChecked ->
-            getSharedPreferences(GlobalVariables.SHAREDPREFERENCES_NAME, MODE_PRIVATE).edit()
-                .putBoolean("sync_auto", isChecked).apply()
-            OnSync_llChanged()
-        }
+        s_au.setOnCheckedChangeListener { _, _ -> OnSync_llChanged() }
         OnSync_llChanged()
     }
 
     override fun onResume() {
         super.onResume()
         ac = GlobalVariables.GetAC(supportFragmentManager, this)
-        ContentResolver.getPeriodicSyncs(ac, GlobalVariables.PROVIDER)
         if (ContentResolver.getMasterSyncAutomatically()) {
+            findViewById<TextView>(R.id.master).visibility = View.GONE
             s_au.isChecked = ContentResolver.getSyncAutomatically(ac, GlobalVariables.PROVIDER)
         } else {
+            s_au.isEnabled = false
             s_au.isChecked = false
+            findViewById<TextView>(R.id.master).visibility = View.VISIBLE
         }
         if (ac != null) {
             loginbtn.visibility = View.GONE
@@ -265,8 +263,13 @@ class SettingsActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
         if (s_au.isChecked) {
             s_ll.visibility = View.VISIBLE
         } else {
+            val acn = GlobalVariables.GetAC(supportFragmentManager, this)!!
+            ContentResolver.cancelSync(
+                acn,
+                GlobalVariables.PROVIDER
+            )
             ContentResolver.removePeriodicSync(
-                GlobalVariables.GetAC(supportFragmentManager, this),
+                acn,
                 GlobalVariables.PROVIDER,
                 Bundle.EMPTY
             )

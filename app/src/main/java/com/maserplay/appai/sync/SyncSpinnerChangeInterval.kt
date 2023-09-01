@@ -18,70 +18,54 @@ class SyncSpinnerChangeInterval : AdapterView.OnItemSelectedListener {
             GlobalVariables.SHAREDPREFERENCES_NAME,
             AppCompatActivity.MODE_PRIVATE
         ).edit()
-        if (pos == 0) {
-            if (tr == 60) {
-                return
+        when (pos) {
+            0 -> {
+                if (tr == 60) {
+                    return
+                }
+                shedit.putInt("sync_int", 60)
+                ContentResolver.addPeriodicSync(
+                    GlobalVariables.GetAC(parent.context),
+                    GlobalVariables.PROVIDER,
+                    Bundle.EMPTY,
+                    60
+                )
             }
-            shedit.putInt("sync_int", 60)
-            ContentResolver.removePeriodicSync(
-                GlobalVariables.GetAC(parent.context),
-                GlobalVariables.PROVIDER,
-                Bundle.EMPTY
-            )
-            ContentResolver.addPeriodicSync(
-                GlobalVariables.GetAC(parent.context),
-                GlobalVariables.PROVIDER,
-                Bundle.EMPTY,
-                60
-            )
-        } else if (pos == 1) {
-            if (tr == 10800) {
-                return
+            1 -> {
+                if (tr == 10800) {
+                    return
+                }
+                shedit.putInt("sync_int", 10800)
+                ContentResolver.addPeriodicSync(
+                    GlobalVariables.GetAC(parent.context),
+                    GlobalVariables.PROVIDER,
+                    Bundle.EMPTY,
+                    10800
+                )
             }
-            shedit.putInt("sync_int", 10800)
-            ContentResolver.removePeriodicSync(
-                GlobalVariables.GetAC(parent.context),
-                GlobalVariables.PROVIDER,
-                Bundle.EMPTY
-            )
-            ContentResolver.addPeriodicSync(
-                GlobalVariables.GetAC(parent.context),
-                GlobalVariables.PROVIDER,
-                Bundle.EMPTY,
-                10800
-            )
-        } else if (pos == 2) {
-            if (tr == 86400) {
-                return
+            2 -> {
+                if (tr == 86400) {
+                    return
+                }
+                shedit.putInt("sync_int", 86400)
+                ContentResolver.addPeriodicSync(
+                    GlobalVariables.GetAC(parent.context),
+                    GlobalVariables.PROVIDER,
+                    Bundle.EMPTY,
+                    86400
+                )
             }
-            shedit.putInt("sync_int", 86400)
-            ContentResolver.removePeriodicSync(
-                GlobalVariables.GetAC(parent.context),
-                GlobalVariables.PROVIDER,
-                Bundle.EMPTY
-            )
-            ContentResolver.addPeriodicSync(
-                GlobalVariables.GetAC(parent.context),
-                GlobalVariables.PROVIDER,
-                Bundle.EMPTY,
-                86400
-            )
-        } else if (pos == 3) {
-            if (tr == 604800) {
-                return
+            3 -> {
+                if (tr == 604800) {
+                    return
+                }
+                ContentResolver.addPeriodicSync(
+                    GlobalVariables.GetAC(parent.context),
+                    GlobalVariables.PROVIDER,
+                    Bundle.EMPTY,
+                    604800
+                )
             }
-            shedit.putInt("sync_int", 604800)
-            ContentResolver.removePeriodicSync(
-                GlobalVariables.GetAC(parent.context),
-                GlobalVariables.PROVIDER,
-                Bundle.EMPTY
-            )
-            ContentResolver.addPeriodicSync(
-                GlobalVariables.GetAC(parent.context),
-                GlobalVariables.PROVIDER,
-                Bundle.EMPTY,
-                604800
-            )
         }
         shedit.apply()
     }

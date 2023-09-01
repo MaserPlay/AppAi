@@ -216,6 +216,14 @@
 
                     </LinearLayout>
 
+                    <TextView
+                        android:id="@+id/master"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/sync_master"
+                        android:textSize="15sp"
+                        android:visibility="gone" />
+
                     <LinearLayout
                         android:id="@+id/l"
                         android:layout_width="match_parent"
