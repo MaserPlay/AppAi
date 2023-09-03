@@ -39,7 +39,7 @@ import java.util.TimerTask
 class MainActivity : AppCompatActivity() {
     val CHANNEL_ID = "1"
     private lateinit var model: HomeViewModel
-    private lateinit var datetimemodel: SyncViewModel
+    //private lateinit var datetimemodel: SyncViewModel
     private lateinit var llwait: LinearLayout
     private lateinit var wait: TextView
     private lateinit var edtt: LinearLayout
@@ -53,7 +53,7 @@ class MainActivity : AppCompatActivity() {
         val btn: Button = findViewById(R.id.button_enter)
         edt = findViewById(R.id.EdTxt)
         model = ViewModelProvider(this)[HomeViewModel::class.java]
-        datetimemodel = ViewModelProvider(this)[SyncViewModel::class.java]
+        //datetimemodel = ViewModelProvider(this)[SyncViewModel::class.java]
         val l: ListView = findViewById(R.id.list)
         wait = findViewById(R.id.wait)
         llwait = findViewById(R.id.llwait)
@@ -94,7 +94,7 @@ class MainActivity : AppCompatActivity() {
         llwait.visibility = View.VISIBLE
         model.exec(edt.text.toString(), applicationContext)
         edt.setText("")
-        datetimemodel.setdatetime(this)
+        //datetimemodel.setdatetime(this)
     }
 
     override fun onResume() {

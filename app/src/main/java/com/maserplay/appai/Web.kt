@@ -18,7 +18,7 @@ interface Web {
     @POST("/api/crash")
     fun errorreport(@Body body: ErrorSendClass): Call<ResponseBody>
     @Headers("Content-Type: application/json")
-    @POST("/test/mirrorjson")
+    @POST("/api/syncother")
     suspend fun sync(@Body body: SyncDataClass): Response<SyncDataClass>
     @Headers("Content-Type: application/json")
     @POST("/api/accountlogin")

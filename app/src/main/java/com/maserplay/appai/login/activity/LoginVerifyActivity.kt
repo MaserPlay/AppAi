@@ -2,6 +2,8 @@ package com.maserplay.appai.login.activity
 
 import android.accounts.Account
 import android.accounts.AccountManager
+import android.content.ContentResolver
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -14,6 +16,8 @@ import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProvider
 import com.maserplay.appai.login.LoginViewModel
 import com.maserplay.AppAi.R
+import com.maserplay.appai.GlobalVariables
+import com.maserplay.appai.SettingsActivity
 import com.maserplay.appai.login.send_get_classes.LoginVerifySendClass
 
 class LoginVerifyActivity : AppCompatActivity() {
@@ -61,7 +65,7 @@ class LoginVerifyActivity : AppCompatActivity() {
 
                 } else {
                     val resp = it.body()
-                    if (resp!!.verify) {
+                    if (resp!!.verify == true) {
                         totp.isEnabled = false
                         model.sum++
                         checksum()
@@ -70,11 +74,9 @@ class LoginVerifyActivity : AppCompatActivity() {
                         totp.error = resources.getString(R.string.login_error_code)
                     }
                 }
-
-
             }
+            model.LoginTotp(LoginVerifySendClass(model.cookie, totp.text.toString().toInt()))
         }
-        model.LoginTotp(LoginVerifySendClass(model.cookie, totp.text.toString().toInt()))
     }
 
 
@@ -89,7 +91,7 @@ class LoginVerifyActivity : AppCompatActivity() {
 
             }
             val resp = it.body()
-            if (resp!!.verify) {
+            if (resp!!.verify == true) {
                 emailaccept.isEnabled = false
                 findViewById<TextView>(R.id.textView8).visibility = View.GONE
                 model.sum++
@@ -116,6 +118,13 @@ class LoginVerifyActivity : AppCompatActivity() {
                 val acm = AccountManager.get(this)
                 acm.addAccountExplicitly(ac, null, null)
                 acm.setAuthToken(ac,"cookie" , resp.id)
+                val b = Bundle()
+                b.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true)
+                ContentResolver.requestSync(ac, GlobalVariables.PROVIDER, b)
+                Log.i(GlobalVariables.LOGTAG_SYNC, "doSync")
+                ContentResolver.addPeriodicSync(ac, GlobalVariables.PROVIDER, Bundle.EMPTY, 86400)
+                getSharedPreferences(GlobalVariables.SHAREDPREFERENCES_NAME, MODE_PRIVATE).edit().putInt("sync_int", 86400).apply()
+                startActivity(Intent(this, SettingsActivity::class.java))
             }
         }
         model.LoginCheck(LoginVerifySendClass(model.cookie))

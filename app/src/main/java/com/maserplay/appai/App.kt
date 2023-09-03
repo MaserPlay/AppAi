@@ -2,8 +2,10 @@ package com.maserplay.appai
 
 import android.app.Activity
 import android.app.Application
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 
 class App : Application(), Application.ActivityLifecycleCallbacks {
     companion object {
@@ -14,6 +16,7 @@ class App : Application(), Application.ActivityLifecycleCallbacks {
         Log.i("Data", "load")
         ServiceDop(filesDir).openText()
         this.registerActivityLifecycleCallbacks(this)
+        getSharedPreferences(GlobalVariables.SHAREDPREFERENCES_NAME, AppCompatActivity.MODE_PRIVATE).registerOnSharedPreferenceChangeListener(ShListener())
     }
 
     override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) { }

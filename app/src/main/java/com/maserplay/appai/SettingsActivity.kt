@@ -33,25 +33,27 @@ import java.util.TimerTask
 
 
 class SettingsActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
-    private lateinit var datetimemodel: SyncViewModel
-    private val PREFSFILE = GlobalVariables.SHAREDPREFERENCES_NAME
+    //private lateinit var datetimemodel: SyncViewModel
     private val PREFNAME = "api"
     private val PREFNAMEVER = "gptver"
     private lateinit var prefEditor: SharedPreferences.Editor
     private var ac: Account? = null
     private val tim: Timer = Timer(false)
     private var spam: Long = 0
-    lateinit var gpterdescr: TextView
+    private var spamsync: Long = 0
+    private lateinit var gpterdescr: TextView
     lateinit var spamtv: TextView
-    lateinit var why: TextView
-    lateinit var nickname: TextView
-    lateinit var refresh: SwipeRefreshLayout
-    lateinit var debug: SwitchCompat
-    lateinit var s_au: SwitchCompat
-    lateinit var s_ll: LinearLayout
-    lateinit var syncll: LinearLayout
-    lateinit var loginll: LinearLayout
-    lateinit var loginbtn: Button
+    private lateinit var why: TextView
+    private lateinit var nickname: TextView
+    private lateinit var refresh: SwipeRefreshLayout
+    private lateinit var debug: SwitchCompat
+    private lateinit var s_au: SwitchCompat
+    private lateinit var s_ll: LinearLayout
+    private lateinit var syncll: LinearLayout
+    private lateinit var loginll: LinearLayout
+    private lateinit var loginbtn: Button
+    private lateinit var apiedt: EditText
+    private lateinit var spinner: Spinner
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,6 +63,7 @@ class SettingsActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
                 .beginTransaction()
                 .commit()
         }
+        getSharedPreferences(GlobalVariables.SHAREDPREFERENCES_NAME, MODE_PRIVATE).registerOnSharedPreferenceChangeListener(ShListener())
         loginbtn = findViewById(R.id.login)
         why = findViewById(R.id.why)
         loginll = findViewById(R.id.lllogin)
@@ -72,7 +75,7 @@ class SettingsActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             spinnersync.adapter = adapter
         }
-        when (val v = getSharedPreferences(PREFSFILE, MODE_PRIVATE).getInt("sync_int", 86400)) {
+        when (val v = getSharedPreferences(GlobalVariables.SHAREDPREFERENCES_NAME, MODE_PRIVATE).getInt("sync_int", 86400)) {
             60 -> {
                 spinnersync.setSelection(0)
             }
@@ -105,35 +108,46 @@ class SettingsActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
             if (ac == null) {
                 refresh.isRefreshing = false
             } else {
-                val b = Bundle().apply {
-                    putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true)
-                    putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true)
+                if (SystemClock.elapsedRealtime() - spamsync < 10000) {
+                    Toast.makeText(this, "Synchronization failed. You are spamming with this button", Toast.LENGTH_LONG).show()
+                    refresh.isRefreshing = false
+                } else {
+                    val b = Bundle().apply {
+                        putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true)
+                        putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true)
+                    }
+                    ContentResolver.requestSync(ac, GlobalVariables.PROVIDER, b)
+                    ContentResolver.addStatusChangeListener(
+                        ContentResolver.SYNC_OBSERVER_TYPE_PENDING or ContentResolver.SYNC_OBSERVER_TYPE_ACTIVE
+                    ) {
+                        apiedt.setText(
+                            getSharedPreferences(
+                                GlobalVariables.SHAREDPREFERENCES_NAME,
+                                MODE_PRIVATE
+                            ).getString(PREFNAME, "")
+                        )
+                        refresh.isRefreshing = false
+                    }
+                    Log.i(GlobalVariables.LOGTAG_SYNC, "doSync")
                 }
-                ContentResolver.requestSync(ac, GlobalVariables.PROVIDER, b)
-                ContentResolver.addStatusChangeListener(
-                    ContentResolver.SYNC_OBSERVER_TYPE_PENDING or ContentResolver.SYNC_OBSERVER_TYPE_ACTIVE
-                ) { refresh.isRefreshing = false }
-                Log.i(GlobalVariables.LOGTAG_SYNC, "doSync")
+                spamsync = SystemClock.elapsedRealtime()
             }
         }
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        val apiedt: EditText = findViewById(R.id.EdtApi)
-        prefEditor = getSharedPreferences(PREFSFILE, MODE_PRIVATE).edit()
-        datetimemodel = ViewModelProvider(this)[SyncViewModel::class.java]
+        apiedt = findViewById(R.id.EdtApi)
+        prefEditor = getSharedPreferences(GlobalVariables.SHAREDPREFERENCES_NAME, MODE_PRIVATE).edit()
+        //datetimemodel = ViewModelProvider(this)[SyncViewModel::class.java]
         spamtv = findViewById(R.id.spamtv)
         debug = findViewById(R.id.debug)
         nickname = findViewById(R.id.nickname)
         gpterdescr = findViewById(R.id.gptver_descr)
         s_au = findViewById(R.id.sync_auto)
         s_ll = findViewById(R.id.l)
-        apiedt.setText(
-            applicationContext.getSharedPreferences(PREFSFILE, MODE_PRIVATE).getString(PREFNAME, "")
-        )
         apiedt.addTextChangedListener {
             prefEditor.putString(PREFNAME, apiedt.text.toString()).apply()
-            datetimemodel.setdatetime(this)
+            //datetimemodel.setdatetime(this)
         }
-        val spinner: Spinner = findViewById(R.id.EdtgptApi)
+        spinner = findViewById(R.id.EdtgptApi)
         ArrayAdapter.createFromResource(
             this,
             R.array.GPTs,
@@ -143,8 +157,23 @@ class SettingsActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
             spinner.adapter = adapter
         }
         spinner.onItemSelectedListener = this
+        debug.isChecked = getSharedPreferences(
+            GlobalVariables.SHAREDPREFERENCES_NAME,
+            MODE_PRIVATE
+        ).getBoolean("debug", false)
+        debug.setOnCheckedChangeListener { _, isChecked ->
+            getSharedPreferences(
+                GlobalVariables.SHAREDPREFERENCES_NAME,
+                MODE_PRIVATE
+            ).edit().putBoolean("debug", isChecked).apply()
+        }
+        s_au.setOnCheckedChangeListener { _, _ -> OnSync_llChanged() }
+    }
+
+    override fun onResume() {
+        super.onResume()
         when (val input =
-            getSharedPreferences(PREFSFILE, MODE_PRIVATE).getString(PREFNAMEVER, "gpt-3.5-turbo")) {
+            getSharedPreferences(GlobalVariables.SHAREDPREFERENCES_NAME, MODE_PRIVATE).getString(PREFNAMEVER, "gpt-3.5-turbo")) {
             "gpt-3.5-turbo" -> {
                 spinner.setSelection(0)
                 gpterdescr.text = getString(R.string.gptver_basic)
@@ -176,28 +205,14 @@ class SettingsActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
                 gpterdescr.text = ""
             }
         }
-        debug.isChecked = getSharedPreferences(
-            GlobalVariables.SHAREDPREFERENCES_NAME,
-            MODE_PRIVATE
-        ).getBoolean("debug", false)
-        debug.setOnCheckedChangeListener { _, isChecked ->
-            getSharedPreferences(
-                GlobalVariables.SHAREDPREFERENCES_NAME,
-                MODE_PRIVATE
-            ).edit().putBoolean("debug", isChecked).apply()
-        }
-        s_au.setOnCheckedChangeListener { _, _ -> OnSync_llChanged() }
-        OnSync_llChanged()
-    }
-
-    override fun onResume() {
-        super.onResume()
+        apiedt.setText(
+            getSharedPreferences(GlobalVariables.SHAREDPREFERENCES_NAME, MODE_PRIVATE).getString(PREFNAME, "")
+        )
         ac = GlobalVariables.GetAC(supportFragmentManager, this)
         if (ContentResolver.getMasterSyncAutomatically()) {
             findViewById<TextView>(R.id.master).visibility = View.GONE
             s_au.isChecked = ContentResolver.getSyncAutomatically(ac, GlobalVariables.PROVIDER)
         } else {
-            s_au.isEnabled = false
             s_au.isChecked = false
             findViewById<TextView>(R.id.master).visibility = View.VISIBLE
         }
@@ -207,6 +222,7 @@ class SettingsActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
             nickname.text = ac!!.name
             loginll.visibility = View.VISIBLE
             syncll.visibility = View.VISIBLE
+            OnSync_llChanged()
         } else {
             loginbtn.visibility = View.VISIBLE
             why.visibility = View.VISIBLE
@@ -319,7 +335,7 @@ class SettingsActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
                 gpterdescr.text = ""
             }
         }
-        datetimemodel.setdatetime(this)
+        //datetimemodel.setdatetime(this)
         prefEditor.apply()
     }
 

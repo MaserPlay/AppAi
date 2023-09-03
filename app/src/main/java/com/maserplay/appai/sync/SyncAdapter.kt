@@ -18,6 +18,7 @@ import kotlinx.coroutines.runBlocking
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.io.IOException
 
 class SyncAdapter(val con: Context, autoini: Boolean) : AbstractThreadedSyncAdapter(con, autoini) {
     override fun onPerformSync(
@@ -30,7 +31,9 @@ class SyncAdapter(val con: Context, autoini: Boolean) : AbstractThreadedSyncAdap
         Log.i(GlobalVariables.LOGTAG_SYNC, "onPerformSync")
         val shpref = con.getSharedPreferences(GlobalVariables.SHAREDPREFERENCES_NAME, AppCompatActivity.MODE_PRIVATE)
         val token = AccountManager.get(con).blockingGetAuthToken( account,"cookie",true)
-        runBlocking { Sync(token, shpref, syncResult) }
+        runBlocking {
+            Sync(token, shpref, syncResult)
+        }
     }
     @OptIn(BetaOpenAI::class)
     private suspend fun Sync( token: String, shpref: SharedPreferences, syncResult: SyncResult, ){
