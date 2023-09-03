@@ -109,7 +109,7 @@ class SettingsActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
                 refresh.isRefreshing = false
             } else {
                 if (SystemClock.elapsedRealtime() - spamsync < 10000) {
-                    Toast.makeText(this, "Synchronization failed. You are spamming with this button", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, getString(R.string.sync_spam), Toast.LENGTH_LONG).show()
                     refresh.isRefreshing = false
                 } else {
                     val b = Bundle().apply {
