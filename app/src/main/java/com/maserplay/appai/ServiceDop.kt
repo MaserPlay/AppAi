@@ -12,9 +12,9 @@ import kotlin.collections.List as List
 class ServiceDop(){
     private val FILE_NAME = "release"
     companion object {
-        lateinit var fdir: File
+        private lateinit var fdir: File
         @OptIn(BetaOpenAI::class)
-        lateinit var list: MutableList<ChatMessage>
+        private lateinit var list: MutableList<ChatMessage>
     }
     init {}
     constructor(file: File) : this(){

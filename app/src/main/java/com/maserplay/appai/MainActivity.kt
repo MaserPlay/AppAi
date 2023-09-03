@@ -1,10 +1,14 @@
 package com.maserplay.appai
 
 import android.R.attr.label
+import android.accounts.AccountManager
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.view.Gravity
 import android.view.Menu
@@ -24,54 +28,32 @@ import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
 import com.maserplay.AppAi.R
+import com.maserplay.appai.dialogfragment.ErrorDialog
+import com.maserplay.appai.dialogfragment.ErrorUserDialog
+import com.maserplay.appai.login.activity.LoginActivity
+import com.maserplay.appai.sync.SyncViewModel
+import java.util.Timer
+import java.util.TimerTask
 
 
 class MainActivity : AppCompatActivity() {
+    val CHANNEL_ID = "1"
     private lateinit var model: HomeViewModel
+    //private lateinit var datetimemodel: SyncViewModel
     private lateinit var llwait: LinearLayout
     private lateinit var wait: TextView
     private lateinit var edtt: LinearLayout
-    private val PREF_NAME = "api"
-    private val PREFS_FILE = "Main"
+    private lateinit var edt: EditText
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        var snack = Snackbar.make(
-            findViewById(android.R.id.content),
-            getString(R.string.from_github),
-            Snackbar.LENGTH_SHORT
-        ).setAction(
-            getString(R.string.to_github)
-        ) {
-            startActivity(
-                Intent(
-                    Intent.ACTION_VIEW,
-                    Uri.parse("https://github.com/Maserplay/AppAi")
-                )
-            )
-        }
-        var view = snack.view
-        var params = view.layoutParams as FrameLayout.LayoutParams
-        params.gravity = Gravity.TOP
-        view.layoutParams = params
-        snack.show()
-        snack = Snackbar.make(
-            findViewById(android.R.id.content),
-            getString(R.string.from_github),
-            Snackbar.LENGTH_SHORT
-        ).setAction(
-            getString(R.string.to_github)
-        ) {
-                    startActivity(Intent(this, Login_games_m2023_ru_Activity::class.java))
-        }
-        view = snack.view
-        params = view.layoutParams as FrameLayout.LayoutParams
-        params.gravity = Gravity.TOP
-        view.layoutParams = params
-        snack.show()
+        createNotificationChannel()
+        CreateLoginSnackbar()
+        CreateGithubSnackbar()
         val btn: Button = findViewById(R.id.button_enter)
-        val edt: EditText = findViewById(R.id.EdTxt)
+        edt = findViewById(R.id.EdTxt)
         model = ViewModelProvider(this)[HomeViewModel::class.java]
+        //datetimemodel = ViewModelProvider(this)[SyncViewModel::class.java]
         val l: ListView = findViewById(R.id.list)
         wait = findViewById(R.id.wait)
         llwait = findViewById(R.id.llwait)
@@ -85,20 +67,10 @@ class MainActivity : AppCompatActivity() {
             llwait.visibility = View.GONE
         }
         model.errortr.observe(this) {
-            Error_report_dialog("AppAi $it").show(supportFragmentManager, "error")
+            ErrorDialog(this,"${GlobalVariables.APP_NAME} $it").show(supportFragmentManager, GlobalVariables.DIALOGFRAGMENT_TAG)
         }
         edt.addTextChangedListener {
             btn.isEnabled = edt.text.toString() != ""
-        }
-        btn.setOnClickListener {
-            this.currentFocus?.let { view ->
-                val imm = getSystemService(INPUT_METHOD_SERVICE) as? InputMethodManager
-                imm?.hideSoftInputFromWindow(view.windowToken, 0)
-            }
-            edtt.visibility = View.GONE
-            llwait.visibility = View.VISIBLE
-            model.exec(edt.text.toString(), applicationContext)
-            edt.setText("")
         }
         l.setOnItemClickListener { _, _, position, _ ->
             val clipboard = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
@@ -113,16 +85,71 @@ class MainActivity : AppCompatActivity() {
         }
 
     }
+    fun Button_Enter(v: View){
+        this.currentFocus?.let { view ->
+            val imm = getSystemService(INPUT_METHOD_SERVICE) as? InputMethodManager
+            imm?.hideSoftInputFromWindow(view.windowToken, 0)
+        }
+        edtt.visibility = View.GONE
+        llwait.visibility = View.VISIBLE
+        model.exec(edt.text.toString(), applicationContext)
+        edt.setText("")
+        //datetimemodel.setdatetime(this)
+    }
 
     override fun onResume() {
         super.onResume()
         val api: String =
-            getSharedPreferences(PREFS_FILE, MODE_PRIVATE).getString(PREF_NAME, "alo").toString()
-        if ((api == "alo") || (api == "")) {
+            getSharedPreferences(GlobalVariables.SHAREDPREFERENCES_NAME, MODE_PRIVATE).getString("api", "").toString()
+        if (api == "") {
             edtt.visibility = View.GONE
             wait.text = getString(R.string.api_key_empty)
             llwait.visibility = View.VISIBLE
         }
+    }
+    private fun CreateLoginSnackbar() {
+        if (AccountManager.get(this).accounts.isEmpty()) {
+            Timer().schedule(object : TimerTask() {
+                override fun run() {
+                    val snack = Snackbar.make(
+                        findViewById(android.R.id.content),
+                        getString(R.string.login_why),
+                        Snackbar.LENGTH_SHORT
+                    ).setAction(
+                        getString(R.string.login_login)
+                    ) {
+                        startActivity(Intent(this@MainActivity, LoginActivity::class.java))
+                    }
+                    val view = snack.view
+                    val params = view.layoutParams as FrameLayout.LayoutParams
+                    params.gravity = Gravity.TOP
+                    view.layoutParams = params
+                    snack.show()
+                }
+            }, 3000)
+        }
+    }
+
+    private fun CreateGithubSnackbar() {
+        val snack = Snackbar.make(
+            findViewById(android.R.id.content),
+            getString(R.string.from_github),
+            Snackbar.LENGTH_SHORT
+        ).setAction(
+            getString(R.string.to_github)
+        ) {
+            startActivity(
+                Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse("https://github.com/Maserplay/AppAi")
+                )
+            )
+        }
+        val view = snack.view
+        val params = view.layoutParams as FrameLayout.LayoutParams
+        params.gravity = Gravity.TOP
+        view.layoutParams = params
+        snack.show()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -146,10 +173,24 @@ class MainActivity : AppCompatActivity() {
             }
 
             R.id.report -> {
-                Error_report_user_dialog().show(supportFragmentManager, "error")
+                ErrorUserDialog().show(supportFragmentManager, GlobalVariables.DIALOGFRAGMENT_TAG)
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val name = "The answers"
+            val descriptionText = "Get notified when AppAi answers your question!"
+            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val channel = NotificationChannel(CHANNEL_ID, name, importance).apply {
+                description = descriptionText
+            }
+            val notificationManager: NotificationManager =
+                getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(channel)
+        }
     }
 
 }

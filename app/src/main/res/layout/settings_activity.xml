@@ -6,165 +6,329 @@
     android:paddingHorizontal="10dp"
     android:paddingVertical="10dp">
 
-    <ScrollView
-        android:id="@+id/scrollView2"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/refresh"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-        <RelativeLayout
-            android:id="@+id/rl"
+        android:layout_height="match_parent">
+
+        <ScrollView
+            android:id="@+id/scrollView2"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingHorizontal="10dp"
-            android:paddingVertical="10dp">
+            android:layout_height="match_parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <Button
-                android:id="@+id/login"
+            <RelativeLayout
+                android:id="@+id/rl"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/login_login"
-                android:visibility="gone" />
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="10dp">
 
-            <LinearLayout
-                android:id="@+id/llApi"
-                android:layout_width="match_parent"
-                android:layout_below="@id/login"
-                android:layout_height="40dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/TvApi"
-                    android:layout_width="70dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:text="@string/api"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
-
-                <EditText
-                    android:id="@+id/EdtApi"
-                    android:layout_width="0dp"
+                <LinearLayout
+                    android:id="@+id/lllogin"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:autofillHints="password"
-                    android:hint="@string/api_key"
-                    android:inputType="textPassword" />
+                    android:orientation="horizontal"
+                    android:visibility="gone">
 
-            </LinearLayout>
+                    <Button
+                        android:id="@+id/button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:onClick="logout"
+                        android:text="@string/login_logout" />
 
-            <TextView
-                android:id="@+id/textV"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/llApi"
-                android:text="@string/instruction_part1"
-                android:textAlignment="center"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-            <TextView
-                android:id="@+id/textanother"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/textV"
-                android:text="@string/instruction_part2"
-                android:textSize="15sp"/>
-            <Button
-                android:id="@+id/inBrowserapp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/textanother"
-                android:text="@string/OpeninBrowser" />
-            <TextView
-                android:id="@+id/textanoafBr"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/inBrowserapp"
-                android:text="@string/instruction_part3"
-                android:textSize="15sp"/>
-            <Button
-                android:id="@+id/inBrowserappKey"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/textanoafBr"
-                android:text="@string/OpeninBrowserKey" />
+                    <TextView
+                        android:id="@+id/nickname"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="example@example.com"
+                        android:textSize="20sp" />
+                </LinearLayout>
 
-
-            <LinearLayout
-                android:id="@+id/llgptApi"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_below="@id/inBrowserappKey"
-                android:orientation="horizontal">
+                <Button
+                    android:id="@+id/login"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:onClick="Loginbtn"
+                    android:layout_below="@id/lllogin"
+                    android:text="@string/login_login"
+                    android:visibility="visible" />
 
                 <TextView
-                    android:id="@+id/TvgptApi"
+                    android:id="@+id/why"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:text="@string/gptver_name"
+                    android:layout_below="@id/login"
+                    android:text="@string/login_why"
+                    android:textSize="15sp" />
+
+                <LinearLayout
+                    android:id="@+id/llApi"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_below="@id/why"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/TvApi"
+                        android:layout_width="70dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:text="@string/api"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/EdtApi"
+                        android:minHeight="50dp"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:autofillHints="password"
+                        android:hint="@string/api_key"
+                        android:inputType="textPassword" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/textV"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/llApi"
+                    android:text="@string/instruction_part1"
+                    android:textAlignment="center"
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
-                <Spinner
-                    android:id="@+id/EdtgptApi"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1" />
+                <TextView
+                    android:id="@+id/textanother"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/textV"
+                    android:text="@string/instruction_part2"
+                    android:textSize="15sp" />
 
-            </LinearLayout>
+                <Button
+                    android:id="@+id/inBrowserapp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/textanother"
+                    android:onClick="OpenOpenAI"
+                    android:text="@string/OpeninBrowser" />
 
-            <TextView
-                android:id="@+id/gptver_descr"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/llgptApi"
-                android:textSize="15sp"
-                android:text="@string/gptver_name" />
+                <TextView
+                    android:id="@+id/textanoafBr"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/inBrowserapp"
+                    android:text="@string/instruction_part3"
+                    android:textSize="15sp" />
 
-            <View
-                android:id="@+id/vie"
-                android:layout_width="match_parent"
-                android:layout_height="5dp"
-                android:layout_below="@id/gptver_descr"
-                android:background="@color/purple_500" />
+                <Button
+                    android:id="@+id/inBrowserappKey"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/textanoafBr"
+                    android:onClick="OpenOpenAIKeys"
+                    android:text="@string/OpeninBrowserKey" />
 
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/vie"
-                android:text="@string/settings_prof"
-                android:textAlignment="center"
-                android:textSize="20sp"
-                android:textStyle="bold" />
 
-            <Button
-                android:id="@+id/save"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/textView2"
-                android:text="@string/save_data" />
+                <LinearLayout
+                    android:id="@+id/llgptApi"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_below="@id/inBrowserappKey"
+                    android:orientation="horizontal">
 
-            <Button
-                android:id="@+id/load"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/save"
-                android:text="@string/load_data" />
+                    <TextView
+                        android:id="@+id/TvgptApi"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:text="@string/gptver_name"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/spamtv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/load"
-                android:text="@string/spam_detector"
-                android:textAlignment="center"
-                android:textSize="15sp"
-                android:visibility="gone" />
+                    <Spinner
+                        android:id="@+id/EdtgptApi"
+                        android:minHeight="50dp"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1" />
 
-        </RelativeLayout>
-    </ScrollView>
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/gptver_descr"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/llgptApi"
+                    android:text="@string/gptver_name"
+                    android:textSize="15sp" />
+
+                <LinearLayout
+                    android:id="@+id/sync"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/gptver_descr"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <View
+                        android:id="@+id/vie"
+                        android:layout_width="match_parent"
+                        android:layout_height="5dp"
+                        android:background="@color/purple_500" />
+
+                    <TextView
+                        android:id="@+id/rr"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/sync"
+                        android:textAlignment="center"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:id="@+id/f"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/ada"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:text="@string/sync_auto"
+                            android:textSize="20sp"
+                            android:textStyle="bold" />
+
+                        <androidx.appcompat.widget.SwitchCompat
+                            android:id="@+id/sync_auto"
+                            android:enabled="false"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/master"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/sync_master"
+                        android:textSize="15sp"
+                        android:visibility="gone" />
+
+                    <LinearLayout
+                        android:id="@+id/l"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:orientation="horizontal"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:id="@+id/TvgtApi"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:text="@string/sync_int"
+                            android:textSize="20sp"
+                            android:textStyle="bold" />
+
+                        <Spinner
+                            android:id="@+id/sync_int"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1" />
+
+                    </LinearLayout>
+                </LinearLayout>
+
+                <View
+                    android:id="@+id/vie2"
+                    android:layout_width="match_parent"
+                    android:layout_height="5dp"
+                    android:layout_below="@id/sync"
+                    android:background="@color/purple_500" />
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/vie2"
+                    android:text="@string/settings_prof"
+                    android:textAlignment="center"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:id="@+id/fsasffd"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_below="@id/textView2"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/asda"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:text="@string/settings_debug"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/debug"
+                        android:minHeight="50dp"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/textView121"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/fsasffd"
+                    android:text="@string/settings_auto"
+                    android:textAlignment="center"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/save"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:onClick="SaveBtn"
+                    android:layout_below="@id/textView121"
+                    android:text="@string/save_data" />
+
+                <Button
+                    android:id="@+id/load"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:onClick="LoadBtn"
+                    android:layout_below="@id/save"
+                    android:text="@string/load_data" />
+
+                <TextView
+                    android:id="@+id/spamtv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/load"
+                    android:text="@string/spam_detector"
+                    android:textAlignment="center"
+                    android:textSize="15sp"
+                    android:visibility="gone" />
+            </RelativeLayout>
+        </ScrollView>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -23,7 +23,7 @@
     <string name="time_out">Time for Response out</string>
     <string name="save_data">Save your data  from file</string>
     <string name="load_data">Load your data from file</string>
-    <string name="settings_prof">This is professional settings. You dont need to do that, this happends automatically.</string>
+    <string name="settings_prof">This is professional settings.</string>
     <string name="spam_detector">Don\'t spam these buttons! It can damage or break something.</string>
     <string name="instruction_part1">How to get it?</string>
     <string name="instruction_part2">Visit the Openair website -> Learn about GPT-4 -> Try on ChatGPT Plus -> Register or log in.</string>
@@ -53,7 +53,7 @@
 
     <string name="login_email" translatable="false">Email</string>
     <string name="login_password">Password</string>
-    <string name="login_with">with games.m2023.ru</string>
+    <string name="login_with">with %1$s</string>
     <string name="login_error_email" translatable="false">Email not right</string>
     <string name="login_error_password">Password not rignt</string>
     <string name="login_twoauth">Login using two-factor authentication</string>
@@ -66,4 +66,19 @@
     <string name="request_error">An error occurred during the request, check your internet connection and try again later</string>
     <string name="login_error_code">Code not right</string>
     <string name="login_errorinput_mail">Email not verifered</string>
+    <string name="login_verifymail_tittle">Confirm your email</string>
+    <string name="login_verifymail_descr">Registration is completed, but confirmation of your mailing address is required, Check your mailbox.</string>
+    <string name="login_logout">Log Out</string>
+    <string name="login_why" translatable="false">Login / Register to sync your data with games.m2023.ru</string>
+    <string name="error_toomanyaccounts_desrr">Similar there are too many accounts created on your phone (more than one). You will have to delete them for this application to work.</string>
+    <string name="error_settings">Open Settings</string>
+    <string name="error_toomany">You already have account!</string>
+    <string name="settings_auto">" You dont need to do that, this happends automatically."</string>
+    <string name="settings_debug" translatable="false">Debug Mode</string>
+    <string name="sync" translatable="false">Sync Settings</string>
+    <string name="sync_auto" translatable="false">Auto Sync</string>
+    <string name="sync_int" translatable="false">Sync Interval</string>
+    <string name="login_name" translatable="false">games.m2023.ru</string>
+    <string name="sync_master" translatable="false">Your Master setting is off.</string>
+    <string name="sync_spam" translatable="false">Synchronization failed. You are spamming with this button</string>
 </resources>

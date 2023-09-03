@@ -19,7 +19,7 @@
     <string name="time_out">"Вышло время ожидания ответа. "</string>
     <string name="save_data">Сохранить данные переписки</string>
     <string name="load_data">Загрузить данные переписки</string>
-    <string name="settings_prof">Это профессиональные настройки. Вам не нужно этого делать, это происходит автоматически.</string>
+    <string name="settings_prof">Это профессиональные настройки.</string>
     <string name="spam_detector">"Не спамь на эти кнопки! Это может что нибудь повредить или сломать.  "</string>
     <string name="instruction_part1">Как его достать?</string>
     <string name="instruction_part2"><i>(В России его легально получить нельзя, придется пользоваться впн и виртуальными номерами).</i> Заходите на сайт Openai -> Learn about GPT-4 -> Try on ChatGPT Plus -> Регистрируетесь или входите.</string>
@@ -46,7 +46,7 @@
     <string name="gptver_0613">Снимок gpt-3.5-turbo от 13 июня 2023 года с данными вызова функции. В отличие от gpt-3.5-turbo, эта модель не будет получать обновлений и будет признана устаревшей через 3 месяца после выхода новой версии.</string>
     <string name="login_login">Войти / Зарегестрироваться</string>
     <string name="login_password">Пароль</string>
-    <string name="login_with">через games.m2023.ru</string>
+    <string name="login_with">через %1$s</string>
     <string name="login_error_password">Пароль не правильный</string>
     <string name="login_twoauth">Вход при помощи двухфакторной аутентификации</string>
     <string name="login_totp">Введите код из своего приложения по генерированию Totp кодов:</string>
@@ -58,4 +58,11 @@
     <string name="request_error">Произошла ошибка, вовремязапроса,проверьтесвоеподключениекинтернетуиповторитепопыткупозже</string>
     <string name="login_error_code">"Код не правильный "</string>
     <string name="login_errorinput_mail">Емаил не подтвержден</string>
+    <string name="login_verifymail_tittle">Подтвердите свой email</string>
+    <string name="login_verifymail_descr">Регистрация завершенна, но требуется подтверждение своего почтового адреса, Проверьте свой почтовый ящик.</string>
+    <string name="login_logout">Выйти</string>
+    <string name="error_toomanyaccounts_desrr">Похожие на твоем телефоне создано слишком много аккаунтов ( больше одного ). Тебе придется их удалить для работы этого приложения.</string>
+    <string name="error_settings">Открыть настройки</string>
+    <string name="error_toomany">У тебя уже есть аккаунт.</string>
+    <string name="settings_auto">" Вам не нужно этого делать, это происходит автоматически."</string>
 </resources>
