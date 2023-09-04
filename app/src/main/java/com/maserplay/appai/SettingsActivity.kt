@@ -21,11 +21,15 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SwitchCompat
 import androidx.core.widget.addTextChangedListener
+import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.maserplay.AppAi.R
+import com.maserplay.appai.dialogfragment.AccountLogoutDialog
 import com.maserplay.appai.dialogfragment.ErrorDialog
+import com.maserplay.appai.login.LoginViewModel
 import com.maserplay.appai.login.activity.LoginActivity
+import com.maserplay.appai.login.send_get_classes.LoginCheckTokenClass
 import com.maserplay.appai.sync.SyncSpinnerChangeInterval
 import com.maserplay.appai.sync.SyncViewModel
 import java.util.Timer
@@ -45,6 +49,7 @@ class SettingsActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
     lateinit var spamtv: TextView
     private lateinit var why: TextView
     private lateinit var nickname: TextView
+    private lateinit var lmodel: LoginViewModel
     private lateinit var refresh: SwipeRefreshLayout
     private lateinit var debug: SwitchCompat
     private lateinit var s_au: SwitchCompat
@@ -63,11 +68,15 @@ class SettingsActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
                 .beginTransaction()
                 .commit()
         }
-        getSharedPreferences(GlobalVariables.SHAREDPREFERENCES_NAME, MODE_PRIVATE).registerOnSharedPreferenceChangeListener(ShListener())
+        getSharedPreferences(
+            GlobalVariables.SHAREDPREFERENCES_NAME,
+            MODE_PRIVATE
+        ).registerOnSharedPreferenceChangeListener(ShListener())
         loginbtn = findViewById(R.id.login)
         why = findViewById(R.id.why)
         loginll = findViewById(R.id.lllogin)
         syncll = findViewById(R.id.sync)
+        lmodel = ViewModelProvider(this)[LoginViewModel::class.java]
         val spinnersync: Spinner = findViewById(R.id.sync_int)
         ArrayAdapter.createFromResource(
             this, R.array.sync, android.R.layout.simple_spinner_item
@@ -75,7 +84,10 @@ class SettingsActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             spinnersync.adapter = adapter
         }
-        when (val v = getSharedPreferences(GlobalVariables.SHAREDPREFERENCES_NAME, MODE_PRIVATE).getInt("sync_int", 86400)) {
+        when (val v = getSharedPreferences(
+            GlobalVariables.SHAREDPREFERENCES_NAME,
+            MODE_PRIVATE
+        ).getInt("sync_int", 86400)) {
             60 -> {
                 spinnersync.setSelection(0)
             }
@@ -112,30 +124,55 @@ class SettingsActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
                     Toast.makeText(this, getString(R.string.sync_spam), Toast.LENGTH_LONG).show()
                     refresh.isRefreshing = false
                 } else {
-                    val b = Bundle().apply {
-                        putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true)
-                        putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true)
+                    lmodel.LoginAcceptResponseLiveData.observe(this) {
+                        if (!it.isSuccessful) {
+                            Toast.makeText(
+                                applicationContext,
+                                getString(R.string.request_error),
+                                Toast.LENGTH_LONG
+                            ).show()
+                            refresh.isRefreshing = false
+                            return@observe
+                        }
+                        if (it.body()!!.verify == false) {
+                            AccountLogoutDialog().show(
+                                supportFragmentManager,
+                                GlobalVariables.DIALOGFRAGMENT_TAG
+                            )
+                            refresh.isRefreshing = false
+                            return@observe
+                        }
+                        val b = Bundle().apply {
+                            putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true)
+                            putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true)
+                        }
+                        ContentResolver.requestSync(ac, GlobalVariables.PROVIDER, b)
+                        ContentResolver.addStatusChangeListener(
+                            ContentResolver.SYNC_OBSERVER_TYPE_PENDING or ContentResolver.SYNC_OBSERVER_TYPE_ACTIVE
+                        ) {
+                            apiedt.setText(
+                                getSharedPreferences(
+                                    GlobalVariables.SHAREDPREFERENCES_NAME,
+                                    MODE_PRIVATE
+                                ).getString(PREFNAME, "")
+                            )
+                            refresh.isRefreshing = false
+                        }
+                        Log.i(GlobalVariables.LOGTAG_SYNC, "doSync")
                     }
-                    ContentResolver.requestSync(ac, GlobalVariables.PROVIDER, b)
-                    ContentResolver.addStatusChangeListener(
-                        ContentResolver.SYNC_OBSERVER_TYPE_PENDING or ContentResolver.SYNC_OBSERVER_TYPE_ACTIVE
-                    ) {
-                        apiedt.setText(
-                            getSharedPreferences(
-                                GlobalVariables.SHAREDPREFERENCES_NAME,
-                                MODE_PRIVATE
-                            ).getString(PREFNAME, "")
+                    lmodel.CheckToken(
+                        LoginCheckTokenClass(
+                            AccountManager.get(this).blockingGetAuthToken(ac, "cookie", true)
                         )
-                        refresh.isRefreshing = false
-                    }
-                    Log.i(GlobalVariables.LOGTAG_SYNC, "doSync")
+                    )
                 }
                 spamsync = SystemClock.elapsedRealtime()
             }
         }
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         apiedt = findViewById(R.id.EdtApi)
-        prefEditor = getSharedPreferences(GlobalVariables.SHAREDPREFERENCES_NAME, MODE_PRIVATE).edit()
+        prefEditor =
+            getSharedPreferences(GlobalVariables.SHAREDPREFERENCES_NAME, MODE_PRIVATE).edit()
         //datetimemodel = ViewModelProvider(this)[SyncViewModel::class.java]
         spamtv = findViewById(R.id.spamtv)
         debug = findViewById(R.id.debug)
@@ -173,7 +210,10 @@ class SettingsActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
     override fun onResume() {
         super.onResume()
         when (val input =
-            getSharedPreferences(GlobalVariables.SHAREDPREFERENCES_NAME, MODE_PRIVATE).getString(PREFNAMEVER, "gpt-3.5-turbo")) {
+            getSharedPreferences(GlobalVariables.SHAREDPREFERENCES_NAME, MODE_PRIVATE).getString(
+                PREFNAMEVER,
+                "gpt-3.5-turbo"
+            )) {
             "gpt-3.5-turbo" -> {
                 spinner.setSelection(0)
                 gpterdescr.text = getString(R.string.gptver_basic)
@@ -206,7 +246,10 @@ class SettingsActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
             }
         }
         apiedt.setText(
-            getSharedPreferences(GlobalVariables.SHAREDPREFERENCES_NAME, MODE_PRIVATE).getString(PREFNAME, "")
+            getSharedPreferences(GlobalVariables.SHAREDPREFERENCES_NAME, MODE_PRIVATE).getString(
+                PREFNAME,
+                ""
+            )
         )
         ac = GlobalVariables.GetAC(supportFragmentManager, this)
         if (ContentResolver.getMasterSyncAutomatically()) {
@@ -217,11 +260,36 @@ class SettingsActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
             findViewById<TextView>(R.id.master).visibility = View.VISIBLE
         }
         if (ac != null) {
-            loginbtn.visibility = View.GONE
-            why.visibility = View.GONE
-            nickname.text = ac!!.name
-            loginll.visibility = View.VISIBLE
-            syncll.visibility = View.VISIBLE
+            lmodel.LoginAcceptResponseLiveData.observe(this) {
+                if (!it.isSuccessful) {
+                    Toast.makeText(
+                        applicationContext,
+                        getString(R.string.request_error),
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+                if (it.body()!!.verify == false) {
+                    AccountLogoutDialog().show(
+                        supportFragmentManager,
+                        GlobalVariables.DIALOGFRAGMENT_TAG
+                    )
+                    loginbtn.visibility = View.VISIBLE
+                    why.visibility = View.VISIBLE
+                    loginll.visibility = View.GONE
+                    syncll.visibility = View.GONE
+                    return@observe
+                }
+                loginbtn.visibility = View.GONE
+                why.visibility = View.GONE
+                nickname.text = ac!!.name
+                loginll.visibility = View.VISIBLE
+                syncll.visibility = View.VISIBLE
+            }
+            lmodel.CheckToken(
+                LoginCheckTokenClass(
+                    AccountManager.get(this).blockingGetAuthToken(ac, "cookie", true)
+                )
+            )
             OnSync_llChanged()
         } else {
             loginbtn.visibility = View.VISIBLE
@@ -238,7 +306,7 @@ class SettingsActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
             spamtv.visibility = View.VISIBLE
         }
         spam = SystemClock.elapsedRealtime()
-        ServiceDop().saveText()
+        ServiceDop.saveText()
 
     }
 
@@ -249,7 +317,7 @@ class SettingsActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
             spamtv.visibility = View.VISIBLE
         }
         spam = SystemClock.elapsedRealtime()
-        ServiceDop().openText()
+        ServiceDop.openText()
     }
 
     fun Loginbtn(v: View) {

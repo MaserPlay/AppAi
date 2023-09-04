@@ -37,14 +37,15 @@ class SyncAdapter(val con: Context, autoini: Boolean) : AbstractThreadedSyncAdap
     }
     @OptIn(BetaOpenAI::class)
     private suspend fun Sync( token: String, shpref: SharedPreferences, syncResult: SyncResult, ){
-        val get = Send(SyncDataClass(token, shpref.getString("gptver", "gpt-3.5-turbo")!!, ServiceDop().GetList() , shpref.getString("api", "")!!, shpref.getString("lastupdate", "gpt-3.5-turbo")!!))
+        val get = Send(SyncDataClass(token, shpref.getString("gptver", "gpt-3.5-turbo")!!, ServiceDop.GetList() , shpref.getString("api", "")!!, shpref.getString("lastupdate", "gpt-3.5-turbo")!!))
         if (!get.isSuccessful){
             syncResult.stats.numIoExceptions++
             return
         }
         val getbody = get.body()
         val put = shpref.edit()
-        put.putString("gptver", getbody!!.model)
+        ServiceDop.SetList(getbody!!.content)
+        put.putString("gptver", getbody.model)
         put.putString("api", getbody.token)
         put.apply()
     }

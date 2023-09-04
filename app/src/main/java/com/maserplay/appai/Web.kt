@@ -1,5 +1,6 @@
 package com.maserplay.appai
 
+import com.maserplay.appai.login.send_get_classes.LoginCheckTokenClass
 import com.maserplay.appai.login.send_get_classes.LoginClass
 import com.maserplay.appai.login.send_get_classes.LoginResponseClass
 import com.maserplay.appai.login.send_get_classes.LoginVerifyClass
@@ -32,6 +33,9 @@ interface Web {
     @Headers("Content-Type: application/json")
     @POST("/api/accountlogin/acceptlogin/check")
     suspend fun checkaccept(@Body body: LoginVerifySendClass): Response<LoginResponseClass>
+    @Headers("Content-Type: application/json")
+    @POST("/api/accountlogin/acceptlogin/check")
+    suspend fun checktoken(@Body body: LoginCheckTokenClass): Response<LoginVerifyClass>
     @Headers("Content-Type: application/json")
     @GET("/api/time")
     suspend fun gettime(): Response<String>

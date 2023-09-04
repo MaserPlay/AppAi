@@ -14,7 +14,8 @@ class App : Application(), Application.ActivityLifecycleCallbacks {
     override fun onCreate() {
         super.onCreate()
         Log.i("Data", "load")
-        ServiceDop(filesDir).openText()
+        ServiceDop.start(filesDir)
+        ServiceDop.openText()
         this.registerActivityLifecycleCallbacks(this)
         getSharedPreferences(GlobalVariables.SHAREDPREFERENCES_NAME, AppCompatActivity.MODE_PRIVATE).registerOnSharedPreferenceChangeListener(ShListener())
     }

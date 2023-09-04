@@ -53,8 +53,8 @@
 
     <string name="login_email" translatable="false">Email</string>
     <string name="login_password">Password</string>
-    <string name="login_with">with %1$s</string>
-    <string name="login_error_email" translatable="false">Email not right</string>
+    <string name="login_with">with games.m2023.ru</string>
+    <string name="login_error_email">Email not right</string>
     <string name="login_error_password">Password not rignt</string>
     <string name="login_twoauth">Login using two-factor authentication</string>
     <string name="login_totp">Enter the code from your Totp code generation application:</string>
@@ -69,16 +69,18 @@
     <string name="login_verifymail_tittle">Confirm your email</string>
     <string name="login_verifymail_descr">Registration is completed, but confirmation of your mailing address is required, Check your mailbox.</string>
     <string name="login_logout">Log Out</string>
-    <string name="login_why" translatable="false">Login / Register to sync your data with games.m2023.ru</string>
+    <string name="login_why">Login / Register to sync your data with games.m2023.ru</string>
     <string name="error_toomanyaccounts_desrr">Similar there are too many accounts created on your phone (more than one). You will have to delete them for this application to work.</string>
     <string name="error_settings">Open Settings</string>
     <string name="error_toomany">You already have account!</string>
     <string name="settings_auto">" You dont need to do that, this happends automatically."</string>
-    <string name="settings_debug" translatable="false">Debug Mode</string>
-    <string name="sync" translatable="false">Sync Settings</string>
-    <string name="sync_auto" translatable="false">Auto Sync</string>
-    <string name="sync_int" translatable="false">Sync Interval</string>
+    <string name="settings_debug">Debug Mode</string>
+    <string name="sync">Sync Settings</string>
+    <string name="sync_auto">Auto Sync</string>
+    <string name="sync_int">Sync Interval</string>
     <string name="login_name" translatable="false">games.m2023.ru</string>
-    <string name="sync_master" translatable="false">Your Master setting is off.</string>
-    <string name="sync_spam" translatable="false">Synchronization failed. You are spamming with this button</string>
+    <string name="sync_master">Your Master setting is off.</string>
+    <string name="sync_spam">Synchronization failed. You are spamming with this button</string>
+    <string name="error_quota">You exceeded your current quota, please check your plan and billing details.</string>
+    <string name="error_invreq">It looks like you have exceeded the limit of the allowed chat length for this bot. Click three dots - clear</string>
 </resources>

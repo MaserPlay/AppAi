@@ -59,6 +59,7 @@ class MainActivity : AppCompatActivity() {
         llwait = findViewById(R.id.llwait)
         edtt = findViewById(R.id.ll)
         model.start(this)
+        if (savedInstanceState == null) {model.parse()}
         model.ada.observe(this) {
             l.adapter = it as ListAdapter?
         }
@@ -167,8 +168,8 @@ class MainActivity : AppCompatActivity() {
 
             R.id.clear -> {
                 model.clear()
-                ServiceDop().clear()
-                ServiceDop().saveText()
+                ServiceDop.clear()
+                ServiceDop.saveText()
                 return true
             }
 
