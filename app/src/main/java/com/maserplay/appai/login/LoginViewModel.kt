@@ -10,7 +10,6 @@ import com.maserplay.appai.login.send_get_classes.LoginResponseClass
 import com.maserplay.appai.login.send_get_classes.LoginVerifyClass
 import com.maserplay.appai.login.send_get_classes.LoginVerifySendClass
 import com.maserplay.appai.Web
-import com.maserplay.appai.login.send_get_classes.LoginCheckTokenClass
 import kotlinx.coroutines.launch
 import retrofit2.Response
 import retrofit2.Retrofit
@@ -56,11 +55,4 @@ class LoginViewModel : ViewModel() {
             LoginResponseLiveData.postValue(response)
         }
     }
-    fun CheckToken(st: LoginCheckTokenClass) {
-        viewModelScope.launch {
-            val response = api.checktoken(st)
-            LoginAcceptResponseLiveData.postValue(response)
-        }
-    }
-
 }

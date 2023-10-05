@@ -21,17 +21,13 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SwitchCompat
 import androidx.core.widget.addTextChangedListener
-import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.maserplay.AppAi.R
-import com.maserplay.appai.dialogfragment.AccountLogoutDialog
 import com.maserplay.appai.dialogfragment.ErrorDialog
 import com.maserplay.appai.login.LoginViewModel
 import com.maserplay.appai.login.activity.LoginActivity
-import com.maserplay.appai.login.send_get_classes.LoginCheckTokenClass
 import com.maserplay.appai.sync.SyncSpinnerChangeInterval
-import com.maserplay.appai.sync.SyncViewModel
 import java.util.Timer
 import java.util.TimerTask
 
@@ -124,24 +120,6 @@ class SettingsActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
                     Toast.makeText(this, getString(R.string.sync_spam), Toast.LENGTH_LONG).show()
                     refresh.isRefreshing = false
                 } else {
-                    lmodel.LoginAcceptResponseLiveData.observe(this) {
-                        if (!it.isSuccessful) {
-                            Toast.makeText(
-                                applicationContext,
-                                getString(R.string.request_error),
-                                Toast.LENGTH_LONG
-                            ).show()
-                            refresh.isRefreshing = false
-                            return@observe
-                        }
-                        if (it.body()!!.verify == false) {
-                            AccountLogoutDialog().show(
-                                supportFragmentManager,
-                                GlobalVariables.DIALOGFRAGMENT_TAG
-                            )
-                            refresh.isRefreshing = false
-                            return@observe
-                        }
                         val b = Bundle().apply {
                             putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true)
                             putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true)
@@ -159,12 +137,6 @@ class SettingsActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
                             refresh.isRefreshing = false
                         }
                         Log.i(GlobalVariables.LOGTAG_SYNC, "doSync")
-                    }
-                    lmodel.CheckToken(
-                        LoginCheckTokenClass(
-                            AccountManager.get(this).blockingGetAuthToken(ac, "cookie", true)
-                        )
-                    )
                 }
                 spamsync = SystemClock.elapsedRealtime()
             }
@@ -173,7 +145,6 @@ class SettingsActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
         apiedt = findViewById(R.id.EdtApi)
         prefEditor =
             getSharedPreferences(GlobalVariables.SHAREDPREFERENCES_NAME, MODE_PRIVATE).edit()
-        //datetimemodel = ViewModelProvider(this)[SyncViewModel::class.java]
         spamtv = findViewById(R.id.spamtv)
         debug = findViewById(R.id.debug)
         nickname = findViewById(R.id.nickname)
@@ -182,7 +153,6 @@ class SettingsActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
         s_ll = findViewById(R.id.l)
         apiedt.addTextChangedListener {
             prefEditor.putString(PREFNAME, apiedt.text.toString()).apply()
-            //datetimemodel.setdatetime(this)
         }
         spinner = findViewById(R.id.EdtgptApi)
         ArrayAdapter.createFromResource(
@@ -260,36 +230,11 @@ class SettingsActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
             findViewById<TextView>(R.id.master).visibility = View.VISIBLE
         }
         if (ac != null) {
-            lmodel.LoginAcceptResponseLiveData.observe(this) {
-                if (!it.isSuccessful) {
-                    Toast.makeText(
-                        applicationContext,
-                        getString(R.string.request_error),
-                        Toast.LENGTH_LONG
-                    ).show()
-                }
-                if (it.body()!!.verify == false) {
-                    AccountLogoutDialog().show(
-                        supportFragmentManager,
-                        GlobalVariables.DIALOGFRAGMENT_TAG
-                    )
-                    loginbtn.visibility = View.VISIBLE
-                    why.visibility = View.VISIBLE
-                    loginll.visibility = View.GONE
-                    syncll.visibility = View.GONE
-                    return@observe
-                }
-                loginbtn.visibility = View.GONE
-                why.visibility = View.GONE
-                nickname.text = ac!!.name
-                loginll.visibility = View.VISIBLE
-                syncll.visibility = View.VISIBLE
-            }
-            lmodel.CheckToken(
-                LoginCheckTokenClass(
-                    AccountManager.get(this).blockingGetAuthToken(ac, "cookie", true)
-                )
-            )
+            loginbtn.visibility = View.GONE
+            why.visibility = View.GONE
+            nickname.text = ac!!.name
+            loginll.visibility = View.VISIBLE
+            syncll.visibility = View.VISIBLE
             OnSync_llChanged()
         } else {
             loginbtn.visibility = View.VISIBLE
@@ -403,7 +348,6 @@ class SettingsActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
                 gpterdescr.text = ""
             }
         }
-        //datetimemodel.setdatetime(this)
         prefEditor.apply()
     }
 

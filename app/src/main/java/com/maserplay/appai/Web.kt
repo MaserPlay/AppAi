@@ -34,7 +34,7 @@ interface Web {
     @POST("/api/accountlogin/acceptlogin/check")
     suspend fun checkaccept(@Body body: LoginVerifySendClass): Response<LoginResponseClass>
     @Headers("Content-Type: application/json")
-    @POST("/api/accountlogin/acceptlogin/check")
+    @POST("/api/accountlogin/actualcookie")
     suspend fun checktoken(@Body body: LoginCheckTokenClass): Response<LoginVerifyClass>
     @Headers("Content-Type: application/json")
     @GET("/api/time")

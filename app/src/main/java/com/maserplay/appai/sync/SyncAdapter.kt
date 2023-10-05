@@ -14,11 +14,12 @@ import com.aallam.openai.api.BetaOpenAI
 import com.maserplay.appai.GlobalVariables
 import com.maserplay.appai.ServiceDop
 import com.maserplay.appai.Web
+import com.maserplay.appai.login.send_get_classes.LoginCheckTokenClass
+import com.maserplay.appai.login.send_get_classes.LoginVerifyClass
 import kotlinx.coroutines.runBlocking
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.io.IOException
 
 class SyncAdapter(val con: Context, autoini: Boolean) : AbstractThreadedSyncAdapter(con, autoini) {
     override fun onPerformSync(
@@ -29,16 +30,42 @@ class SyncAdapter(val con: Context, autoini: Boolean) : AbstractThreadedSyncAdap
         syncResult: SyncResult
     ) {
         Log.i(GlobalVariables.LOGTAG_SYNC, "onPerformSync")
-        val shpref = con.getSharedPreferences(GlobalVariables.SHAREDPREFERENCES_NAME, AppCompatActivity.MODE_PRIVATE)
-        val token = AccountManager.get(con).blockingGetAuthToken( account,"cookie",true)
+        val shpref = con.getSharedPreferences(
+            GlobalVariables.SHAREDPREFERENCES_NAME,
+            AppCompatActivity.MODE_PRIVATE
+        )
+        val token = AccountManager.get(con).blockingGetAuthToken(account, "cookie", true)
         runBlocking {
-            Sync(token, shpref, syncResult)
+            Sync(token, shpref, syncResult, account)
         }
     }
+
     @OptIn(BetaOpenAI::class)
-    private suspend fun Sync( token: String, shpref: SharedPreferences, syncResult: SyncResult, ){
-        val get = Send(SyncDataClass(token, shpref.getString("gptver", "gpt-3.5-turbo")!!, ServiceDop.GetList() , shpref.getString("api", "")!!, shpref.getString("lastupdate", "gpt-3.5-turbo")!!))
-        if (!get.isSuccessful){
+    private suspend fun Sync(
+        token: String,
+        shpref: SharedPreferences,
+        syncResult: SyncResult,
+        ac: Account
+    ) {
+        val check = SendCheck(LoginCheckTokenClass(token))
+        if (!check.isSuccessful) {
+            syncResult.stats.numIoExceptions++
+            return
+        }
+        if (check.body()!!.verify == false) {
+            AccountManager.get(con).removeAccountExplicitly(ac)
+            return
+        }
+        val get = Send(
+            SyncDataClass(
+                token,
+                shpref.getString("gptver", "gpt-3.5-turbo")!!,
+                ServiceDop.GetList(),
+                shpref.getString("api", "")!!,
+                shpref.getString("lastupdate", "gpt-3.5-turbo")!!
+            )
+        )
+        if (!get.isSuccessful) {
             syncResult.stats.numIoExceptions++
             return
         }
@@ -49,11 +76,20 @@ class SyncAdapter(val con: Context, autoini: Boolean) : AbstractThreadedSyncAdap
         put.putString("api", getbody.token)
         put.apply()
     }
-    private suspend fun Send(send: SyncDataClass) : Response<SyncDataClass> {
+
+    private suspend fun Send(send: SyncDataClass): Response<SyncDataClass> {
         return Retrofit.Builder()
             .baseUrl(GlobalVariables.WEB_ADR_FULL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(Web::class.java).sync(send)
+    }
+
+    private suspend fun SendCheck(send: LoginCheckTokenClass): Response<LoginVerifyClass> {
+        return Retrofit.Builder()
+            .baseUrl(GlobalVariables.WEB_ADR_FULL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(Web::class.java).checktoken(send)
     }
 }

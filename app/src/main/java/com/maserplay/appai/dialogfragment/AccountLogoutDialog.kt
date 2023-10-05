@@ -9,7 +9,7 @@ import com.maserplay.AppAi.R
 class AccountLogoutDialog : DialogFragment(){
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val builder: AlertDialog.Builder = AlertDialog.Builder(activity)
-        return builder.setTitle(getString(R.string.error_tittle)).setMessage("a")
+        return builder.setTitle(getString(R.string.login_logout)).setMessage(getString(R.string.login_notact))
             .setPositiveButton("Ok", null)
             .create()
     }
