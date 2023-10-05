@@ -26,6 +26,9 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProvider
+import com.github.javiersantos.appupdater.AppUpdater
+import com.github.javiersantos.appupdater.enums.Display
+import com.github.javiersantos.appupdater.enums.UpdateFrom
 import com.google.android.material.snackbar.Snackbar
 import com.maserplay.AppAi.R
 import com.maserplay.appai.dialogfragment.ErrorDialog
@@ -45,6 +48,13 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        AppUpdater(this)
+            .setButtonDoNotShowAgain("")
+            .showEvery(5)
+            .setDisplay(Display.DIALOG)
+            .setUpdateFrom(UpdateFrom.GITHUB)
+            .setGitHubUserAndRepo("MaserPlay", "AppAi")
+            .start()
         createNotificationChannel()
         CreateLoginSnackbar()
         CreateGithubSnackbar()

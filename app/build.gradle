@@ -36,7 +36,7 @@ android {
 }
 
 dependencies {
-
+    api 'org.jsoup:jsoup:1.11.3'
     implementation 'com.google.android.gms:play-services-auth:20.6.0'
     implementation "com.aallam.openai:openai-client:3.2.3"
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
