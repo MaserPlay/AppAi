@@ -25,8 +25,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.maserplay.AppAi.R
 import com.maserplay.appai.dialogfragment.ErrorDialog
-import com.maserplay.appai.login.LoginViewModel
-import com.maserplay.appai.login.activity.LoginActivity
+import com.maserplay.loginlib.LoginViewModel
+import com.maserplay.loginlib.activity.LoginActivity
 import com.maserplay.appai.sync.SyncSpinnerChangeInterval
 import java.util.Timer
 import java.util.TimerTask
@@ -72,7 +72,7 @@ class SettingsActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
         why = findViewById(R.id.why)
         loginll = findViewById(R.id.lllogin)
         syncll = findViewById(R.id.sync)
-        lmodel = ViewModelProvider(this)[LoginViewModel::class.java]
+        lmodel = ViewModelProvider(this)[com.maserplay.loginlib.LoginViewModel::class.java]
         val spinnersync: Spinner = findViewById(R.id.sync_int)
         ArrayAdapter.createFromResource(
             this, R.array.sync, android.R.layout.simple_spinner_item

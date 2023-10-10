@@ -55,7 +55,7 @@
                     android:layout_height="wrap_content"
                     android:onClick="Loginbtn"
                     android:layout_below="@id/lllogin"
-                    android:text="@string/login_login"
+                    android:text="@string/login_loginregister"
                     android:visibility="visible" />
 
                 <TextView

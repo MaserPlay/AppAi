@@ -33,7 +33,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.maserplay.AppAi.R
 import com.maserplay.appai.dialogfragment.ErrorDialog
 import com.maserplay.appai.dialogfragment.ErrorUserDialog
-import com.maserplay.appai.login.activity.LoginActivity
+import com.maserplay.loginlib.activity.LoginActivity
 import java.util.Timer
 import java.util.TimerTask
 
@@ -123,7 +123,7 @@ class MainActivity : AppCompatActivity() {
                         getString(R.string.login_why),
                         Snackbar.LENGTH_SHORT
                     ).setAction(
-                        getString(R.string.login_login)
+                        getString(R.string.login_loginregister)
                     ) {
                         startActivity(Intent(this@MainActivity, LoginActivity::class.java))
                     }

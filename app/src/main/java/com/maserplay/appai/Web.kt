@@ -1,10 +1,5 @@
 package com.maserplay.appai
 
-import com.maserplay.appai.login.send_get_classes.LoginCheckTokenClass
-import com.maserplay.appai.login.send_get_classes.LoginClass
-import com.maserplay.appai.login.send_get_classes.LoginResponseClass
-import com.maserplay.appai.login.send_get_classes.LoginVerifyClass
-import com.maserplay.appai.login.send_get_classes.LoginVerifySendClass
 import com.maserplay.appai.sync.SyncDataClass
 import okhttp3.ResponseBody
 import retrofit2.Call
@@ -22,20 +17,8 @@ interface Web {
     @POST("/api/syncother")
     suspend fun sync(@Body body: SyncDataClass): Response<SyncDataClass>
     @Headers("Content-Type: application/json")
-    @POST("/api/accountlogin")
-    suspend fun login(@Body body: LoginClass): Response<LoginResponseClass>
-    @Headers("Content-Type: application/json")
-    @POST("/api/accountlogin/acceptlogin/email")
-    suspend fun emailaccept(@Body body: LoginVerifySendClass): Response<LoginVerifyClass>
-    @Headers("Content-Type: application/json")
-    @POST("/api/accountlogin/acceptlogin/totp")
-    suspend fun totpaccept(@Body body: LoginVerifySendClass): Response<LoginVerifyClass>
-    @Headers("Content-Type: application/json")
-    @POST("/api/accountlogin/acceptlogin/check")
-    suspend fun checkaccept(@Body body: LoginVerifySendClass): Response<LoginResponseClass>
-    @Headers("Content-Type: application/json")
     @POST("/api/accountlogin/actualcookie")
-    suspend fun checktoken(@Body body: LoginCheckTokenClass): Response<LoginVerifyClass>
+    suspend fun checktoken(@Body body: com.maserplay.loginlib.send_get_classes.LoginCheckTokenClass): Response<com.maserplay.loginlib.send_get_classes.LoginVerifyClass>
     @Headers("Content-Type: application/json")
     @GET("/api/time")
     suspend fun gettime(): Response<String>
