@@ -36,6 +36,8 @@ android {
 }
 
 dependencies {
+
+    implementation 'com.github.maserplay:AppUpdater:1.0'
     implementation 'com.google.android.gms:play-services-auth:20.6.0'
     implementation "com.aallam.openai:openai-client:3.2.3"
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
