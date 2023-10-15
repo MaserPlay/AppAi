@@ -55,5 +55,6 @@ dependencies {
     implementation 'com.squareup.okhttp3:okhttp:5.0.0-alpha.11'
     implementation 'androidx.core:core-ktx:1.10.1'
     implementation files('D:\\Users\\super\\AndroidStudioProjects\\AppUpdater\\library\\build\\outputs\\aar\\library-debug.aar')
-    implementation project(path: ':LoginLib')
+    implementation files('D:\\Users\\super\\AndroidStudioProjects\\AppUpdater\\library\\build\\outputs\\aar\\library-debug.aar')
+    implementation files('D:\\Users\\super\\AndroidStudioProjects\\LoginApplication\\LoginLib\\build\\outputs\\aar\\LoginLib-debug.aar')
 }

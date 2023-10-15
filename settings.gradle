@@ -14,4 +14,3 @@ dependencyResolutionManagement {
 }
 rootProject.name = "moveto"
 include ':app'
-include ':LoginLib'
