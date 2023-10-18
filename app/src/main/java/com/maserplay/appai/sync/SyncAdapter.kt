@@ -14,8 +14,6 @@ import com.aallam.openai.api.BetaOpenAI
 import com.maserplay.appai.GlobalVariables
 import com.maserplay.appai.ServiceDop
 import com.maserplay.appai.Web
-import com.maserplay.loginlib.send_get_classes.LoginCheckTokenClass
-import com.maserplay.loginlib.send_get_classes.LoginVerifyClass
 import kotlinx.coroutines.runBlocking
 import retrofit2.Response
 import retrofit2.Retrofit
@@ -47,15 +45,6 @@ class SyncAdapter(val con: Context, autoini: Boolean) : AbstractThreadedSyncAdap
         syncResult: SyncResult,
         ac: Account
     ) {
-        val check = SendCheck(com.maserplay.loginlib.send_get_classes.LoginCheckTokenClass(token))
-        if (!check.isSuccessful) {
-            syncResult.stats.numIoExceptions++
-            return
-        }
-        if (check.body()!!.verify == false) {
-            AccountManager.get(con).removeAccountExplicitly(ac)
-            return
-        }
         val get = Send(
             SyncDataClass(
                 token,
@@ -83,13 +72,5 @@ class SyncAdapter(val con: Context, autoini: Boolean) : AbstractThreadedSyncAdap
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(Web::class.java).sync(send)
-    }
-
-    private suspend fun SendCheck(send: com.maserplay.loginlib.send_get_classes.LoginCheckTokenClass): Response<com.maserplay.loginlib.send_get_classes.LoginVerifyClass> {
-        return Retrofit.Builder()
-            .baseUrl(GlobalVariables.WEB_ADR_FULL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-            .create(Web::class.java).checktoken(send)
     }
 }

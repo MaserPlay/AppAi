@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" >
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
+    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
+    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+
+    <application
+        android:supportsRtl="true"
+        tools:targetApi="31" >
+        <activity
+            android:name=".activity.RegisterActivity"
+            android:exported="false"
+            android:label="@string/login_register"
+            android:theme="@style/Theme.AppCompat.DayNight" />
+        <activity
+            android:name=".activity.LoginActivity"
+            android:exported="false"
+            android:label="@string/login_login"
+            android:windowSoftInputMode="adjustResize" />
+
+        <service
+            android:name=".AuthService"
+            android:enabled="true"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="android.accounts.AccountAuthenticator" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.accounts.AccountAuthenticator"
+                android:resource="@xml/auth" />
+        </service>
+    </application>
+
+</manifest>

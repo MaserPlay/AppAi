@@ -17,9 +17,6 @@ interface Web {
     @POST("/api/syncother")
     suspend fun sync(@Body body: SyncDataClass): Response<SyncDataClass>
     @Headers("Content-Type: application/json")
-    @POST("/api/accountlogin/actualcookie")
-    suspend fun checktoken(@Body body: com.maserplay.loginlib.send_get_classes.LoginCheckTokenClass): Response<com.maserplay.loginlib.send_get_classes.LoginVerifyClass>
-    @Headers("Content-Type: application/json")
     @GET("/api/time")
     suspend fun gettime(): Response<String>
 

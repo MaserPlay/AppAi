@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="enter_text">Пожалуста, введите текст</string>
+    <string name="enter_text_btn">Ввод</string>
+    <string name="no_intenet">"Нету интернета. "</string>
+    <string name="fatal_error">Фатальная ошибка. Не волнуйтесь.</string>
+    <string name="time_out">"Вышло время ожидания ответа. "</string>
+    <string name="error_tittle">Ошибка</string>
+    <string name="error_desc">В приложении произошла ошибка, сообщить ли об этом?</string>
+    <string name="error_pos">Сообщить</string>
+    <string name="error_nega">Отмена</string>
+    <string name="error_thanks">Спасибо )</string>
+    <string name="error_descrs">Опишите вашу проблему</string>
+    <string name="report_report">Сообщить</string>
+    <string name="login_loginregister">Войти / Зарегестрироваться</string>
+    <string name="login_password">Пароль</string>
+    <string name="login_with">через games.m2023.ru</string>
+    <string name="login_error_email">Email не правильный</string>
+    <string name="login_error_password">Пароль не правильный</string>
+    <string name="login_codehint">Код</string>
+    <string name="login_emailaccept">Мы выслали на вашу почту письмо со ссылкой на подтверждение входа:</string>
+    <string name="login_check">Проверить подтверждение</string>
+    <string name="login_login">Войти</string>
+    <string name="login_back">Назад</string>
+    <string name="request_error">Произошла ошибка, вовремязапроса,проверьтесвоеподключениекинтернетуиповторитепопыткупозже</string>
+    <string name="login_errorinput_mail">Емаил не подтвержден</string>
+    <string name="login_verifymail_tittle">Подтвердите свой email</string>
+    <string name="login_verifymail_descr">Регистрация завершенна, но требуется подтверждение своего почтового адреса, Проверьте свой почтовый ящик.</string>
+    <string name="login_logout">Выйти</string>
+    <string name="login_why">Войдите / Зарегестрируйтесь , чтобы Синхронизировать свои данные с games.m2023.ru</string>
+    <string name="error_settings">Open Settings</string>
+    <string name="error_toomanyaccounts_desrr">Похожие на твоем телефоне создано слишком много аккаунтов ( больше одного ). Тебе придется их удалить для работы этого приложения.</string>
+    <string name="error_toomany">У тебя уже есть аккаунт.</string>
+    <string name="login_notact">Ваш токен не актуален. Вам необходимо перевойти.</string>
+    <string name="login_register">Зарегестрировать</string>
+</resources>
