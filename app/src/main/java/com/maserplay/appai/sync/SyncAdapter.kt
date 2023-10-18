@@ -15,9 +15,12 @@ import com.maserplay.appai.GlobalVariables
 import com.maserplay.appai.ServiceDop
 import com.maserplay.appai.Web
 import kotlinx.coroutines.runBlocking
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+
 
 class SyncAdapter(val con: Context, autoini: Boolean) : AbstractThreadedSyncAdapter(con, autoini) {
     override fun onPerformSync(
@@ -47,12 +50,11 @@ class SyncAdapter(val con: Context, autoini: Boolean) : AbstractThreadedSyncAdap
     ) {
         val get = Send(
             SyncDataClass(
-                token,
                 shpref.getString("gptver", "gpt-3.5-turbo")!!,
                 ServiceDop.GetList(),
                 shpref.getString("api", "")!!,
-                shpref.getString("lastupdate", "gpt-3.5-turbo")!!
-            )
+                shpref.getString("lastupdate", "2023-10-08T20:15:41.3529085Z")!!
+            ), token
         )
         if (!get.isSuccessful) {
             syncResult.stats.numIoExceptions++
@@ -66,11 +68,15 @@ class SyncAdapter(val con: Context, autoini: Boolean) : AbstractThreadedSyncAdap
         put.apply()
     }
 
-    private suspend fun Send(send: SyncDataClass): Response<SyncDataClass> {
+    private suspend fun Send(send: SyncDataClass, cookie: String): Response<SyncDataClass> {
+        val interceptor = HttpLoggingInterceptor()
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
+        val client: OkHttpClient = OkHttpClient.Builder().addInterceptor(interceptor).build()
         return Retrofit.Builder()
             .baseUrl(GlobalVariables.WEB_ADR_FULL)
             .addConverterFactory(GsonConverterFactory.create())
+            .client(client)
             .build()
-            .create(Web::class.java).sync(send)
+            .create(Web::class.java).sync(send, cookie)
     }
 }

@@ -66,4 +66,6 @@
     <string name="login_notact">You token is not actual. You need to relogin.</string>
 
     <string name="appupdater_channel" translatable="false">appupdater_channel_01</string>
+    <string name="login_login">Login</string>
+    <string name="login_register">Register</string>
 </resources>

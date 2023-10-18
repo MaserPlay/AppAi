@@ -3,6 +3,8 @@ package com.maserplay.appai
 import android.accounts.Account
 import android.accounts.AccountManager
 import android.content.ContentResolver
+import java.util.Calendar;
+import java.util.Date;
 import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
@@ -25,9 +27,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.maserplay.AppAi.R
 import com.maserplay.appai.dialogfragment.ErrorDialog
+import com.maserplay.appai.sync.SyncSpinnerChangeInterval
 import com.maserplay.loginlib.LoginViewModel
 import com.maserplay.loginlib.activity.LoginActivity
-import com.maserplay.appai.sync.SyncSpinnerChangeInterval
 import java.util.Timer
 import java.util.TimerTask
 
@@ -52,6 +54,7 @@ class SettingsActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
     private lateinit var s_ll: LinearLayout
     private lateinit var syncll: LinearLayout
     private lateinit var loginll: LinearLayout
+    private lateinit var registerbtn: Button
     private lateinit var loginbtn: Button
     private lateinit var apiedt: EditText
     private lateinit var spinner: Spinner
@@ -68,7 +71,8 @@ class SettingsActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
             GlobalVariables.SHAREDPREFERENCES_NAME,
             MODE_PRIVATE
         ).registerOnSharedPreferenceChangeListener(ShListener())
-        loginbtn = findViewById(R.id.login)
+        loginbtn = findViewById(R.id.btn_prim)
+        registerbtn = findViewById(R.id.btn_sec)
         why = findViewById(R.id.why)
         loginll = findViewById(R.id.lllogin)
         syncll = findViewById(R.id.sync)
@@ -100,6 +104,8 @@ class SettingsActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
                 spinnersync.setSelection(3)
             }
 
+            -1 -> { }
+
             else -> {
                 ErrorDialog(
                     this,
@@ -128,12 +134,12 @@ class SettingsActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
                         ContentResolver.addStatusChangeListener(
                             ContentResolver.SYNC_OBSERVER_TYPE_PENDING or ContentResolver.SYNC_OBSERVER_TYPE_ACTIVE
                         ) {
-                            apiedt.setText(
+                            /*apiedt.setText(
                                 getSharedPreferences(
                                     GlobalVariables.SHAREDPREFERENCES_NAME,
                                     MODE_PRIVATE
                                 ).getString(PREFNAME, "")
-                            )
+                            )*/
                             refresh.isRefreshing = false
                         }
                         Log.i(GlobalVariables.LOGTAG_SYNC, "doSync")
@@ -230,6 +236,7 @@ class SettingsActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
             findViewById<TextView>(R.id.master).visibility = View.VISIBLE
         }
         if (ac != null) {
+            registerbtn.visibility = View.GONE
             loginbtn.visibility = View.GONE
             why.visibility = View.GONE
             nickname.text = ac!!.name
@@ -237,6 +244,7 @@ class SettingsActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
             syncll.visibility = View.VISIBLE
             OnSync_llChanged()
         } else {
+            registerbtn.visibility = View.VISIBLE
             loginbtn.visibility = View.VISIBLE
             why.visibility = View.VISIBLE
             loginll.visibility = View.GONE
@@ -267,6 +275,9 @@ class SettingsActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
 
     fun Loginbtn(v: View) {
         startActivity(Intent(this, LoginActivity::class.java))
+    }
+    fun Registerbtn(v: View) {
+        startActivity(Intent(this, LoginActivity::class.java).putExtra("Register", true))
     }
 
     fun OpenOpenAI(v: View) {

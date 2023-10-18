@@ -8,7 +8,6 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Intent
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.view.Gravity
 import android.view.Menu
@@ -123,7 +122,7 @@ class MainActivity : AppCompatActivity() {
                         getString(R.string.login_why),
                         Snackbar.LENGTH_SHORT
                     ).setAction(
-                        getString(R.string.login_loginregister)
+                        getString(R.string.login_login)
                     ) {
                         startActivity(Intent(this@MainActivity, LoginActivity::class.java))
                     }
