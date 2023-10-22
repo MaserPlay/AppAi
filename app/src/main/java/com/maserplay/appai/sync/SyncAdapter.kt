@@ -31,6 +31,12 @@ class SyncAdapter(val con: Context, autoini: Boolean) : AbstractThreadedSyncAdap
         syncResult: SyncResult
     ) {
         Log.i(GlobalVariables.LOGTAG_SYNC, "onPerformSync")
+        if (!com.maserplay.loginlib.GlobalVariables.isAcValid(account, con))
+        {
+            syncResult.fullSyncRequested = false
+
+            return
+        }
         val shpref = con.getSharedPreferences(
             GlobalVariables.SHAREDPREFERENCES_NAME,
             AppCompatActivity.MODE_PRIVATE

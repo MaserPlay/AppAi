@@ -17,6 +17,10 @@ import com.maserplay.loginlib.LoginViewModel
 import com.maserplay.loginlib.R
 import com.maserplay.loginlib.RegisterClass
 import com.maserplay.loginlib.dialogfragment.AccountMailDialog
+import org.json.JSONObject
+import java.nio.charset.StandardCharsets
+import java.util.Base64
+import java.util.concurrent.TimeUnit
 
 
 class LoginActivity : AppCompatActivity() {
@@ -57,7 +61,13 @@ class LoginActivity : AppCompatActivity() {
                     val ac = Account(resp!!.user.login, "com.maserplay.login.type")
                     val acm = AccountManager.get(this)
                     acm.addAccountExplicitly(ac, null, null)
-                    acm.setAuthToken(ac,"cookie" , it.headers()["Set-Cookie"]!!.split(";")[0])
+                    val cook = it.headers()["Set-Cookie"]!!.split(";")[0]
+                    val bytes: ByteArray = Base64.getDecoder().decode(cook.split(".")[1])
+                    val s = JSONObject(String(bytes, StandardCharsets.UTF_8))
+                    acm.setAuthToken(ac,"cookie" , cook)
+                    val timeMillis = System.currentTimeMillis()
+                    val timeSeconds: Long = TimeUnit.MILLISECONDS.toSeconds(timeMillis)
+                    acm.setUserData(ac, "exp", (timeSeconds + s.getLong("exp")).toString())
                     val b = Bundle()
                     b.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true)
                     ContentResolver.requestSync(ac, "com.maserplay.chtgpt.sync.provider", b)

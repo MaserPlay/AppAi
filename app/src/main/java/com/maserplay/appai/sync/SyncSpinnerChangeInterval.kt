@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.AdapterView
 import androidx.appcompat.app.AppCompatActivity
 import com.maserplay.appai.GlobalVariables
+import com.maserplay.loginlib.GlobalVariables as loglvar
 
 class SyncSpinnerChangeInterval : AdapterView.OnItemSelectedListener {
 
@@ -25,7 +26,7 @@ class SyncSpinnerChangeInterval : AdapterView.OnItemSelectedListener {
                 }
                 shedit.putInt("sync_int", 60)
                 ContentResolver.addPeriodicSync(
-                    GlobalVariables.GetAC(parent.context),
+                    loglvar.GetAC(parent.context),
                     GlobalVariables.PROVIDER,
                     Bundle.EMPTY,
                     60
@@ -37,7 +38,7 @@ class SyncSpinnerChangeInterval : AdapterView.OnItemSelectedListener {
                 }
                 shedit.putInt("sync_int", 10800)
                 ContentResolver.addPeriodicSync(
-                    GlobalVariables.GetAC(parent.context),
+                    loglvar.GetAC(parent.context),
                     GlobalVariables.PROVIDER,
                     Bundle.EMPTY,
                     10800
@@ -49,7 +50,7 @@ class SyncSpinnerChangeInterval : AdapterView.OnItemSelectedListener {
                 }
                 shedit.putInt("sync_int", 86400)
                 ContentResolver.addPeriodicSync(
-                    GlobalVariables.GetAC(parent.context),
+                    loglvar.GetAC(parent.context),
                     GlobalVariables.PROVIDER,
                     Bundle.EMPTY,
                     86400
@@ -60,7 +61,7 @@ class SyncSpinnerChangeInterval : AdapterView.OnItemSelectedListener {
                     return
                 }
                 ContentResolver.addPeriodicSync(
-                    GlobalVariables.GetAC(parent.context),
+                    loglvar.GetAC(parent.context),
                     GlobalVariables.PROVIDER,
                     Bundle.EMPTY,
                     604800

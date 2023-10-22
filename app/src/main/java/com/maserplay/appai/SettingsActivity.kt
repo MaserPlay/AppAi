@@ -1,10 +1,7 @@
 package com.maserplay.appai
 
 import android.accounts.Account
-import android.accounts.AccountManager
 import android.content.ContentResolver
-import java.util.Calendar;
-import java.util.Date;
 import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
@@ -32,6 +29,7 @@ import com.maserplay.loginlib.LoginViewModel
 import com.maserplay.loginlib.activity.LoginActivity
 import java.util.Timer
 import java.util.TimerTask
+import com.maserplay.loginlib.GlobalVariables as loglvar
 
 
 class SettingsActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
@@ -76,7 +74,7 @@ class SettingsActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
         why = findViewById(R.id.why)
         loginll = findViewById(R.id.lllogin)
         syncll = findViewById(R.id.sync)
-        lmodel = ViewModelProvider(this)[com.maserplay.loginlib.LoginViewModel::class.java]
+        lmodel = ViewModelProvider(this)[LoginViewModel::class.java]
         val spinnersync: Spinner = findViewById(R.id.sync_int)
         ArrayAdapter.createFromResource(
             this, R.array.sync, android.R.layout.simple_spinner_item
@@ -211,13 +209,12 @@ class SettingsActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
             }
 
             else -> {
-                ErrorDialog(
-                    this,
-                    "${GlobalVariables.APP_NAME} error in set ItemSelected Settings, choose version. Input $input != gpt-3.5-turbo, gpt-3.5-turbo-0301, gpt-3.5-turbo-0613 or gpt-3.5-turbo-16k."
-                ).show(
-                    supportFragmentManager,
-                    GlobalVariables.DIALOGFRAGMENT_TAG
-                )
+                val arr: MutableList<String> = resources.getStringArray(R.array.GPTs).toMutableList()
+                arr.add(input.toString())
+                val adapter =
+                    ArrayAdapter(this, android.R.layout.simple_spinner_item, arr)
+                spinner.adapter = adapter
+                spinner.setSelection(arr.size - 1)
                 gpterdescr.text = ""
             }
         }
@@ -227,7 +224,7 @@ class SettingsActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
                 ""
             )
         )
-        ac = GlobalVariables.GetAC(supportFragmentManager, this)
+        ac = loglvar.GetAC(supportFragmentManager, this)
         if (ContentResolver.getMasterSyncAutomatically()) {
             findViewById<TextView>(R.id.master).visibility = View.GONE
             s_au.isChecked = ContentResolver.getSyncAutomatically(ac, GlobalVariables.PROVIDER)
@@ -303,7 +300,7 @@ class SettingsActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
         if (s_au.isChecked) {
             s_ll.visibility = View.VISIBLE
         } else {
-            val acn = GlobalVariables.GetAC(supportFragmentManager, this)!!
+            val acn = loglvar.GetAC(supportFragmentManager, this)!!
             ContentResolver.cancelSync(
                 acn,
                 GlobalVariables.PROVIDER
@@ -349,13 +346,7 @@ class SettingsActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
             }
 
             else -> {
-                ErrorDialog(
-                    this,
-                    "${GlobalVariables.APP_NAME} error in OnItemSelected Settings, choose version. Position $position > 3"
-                ).show(
-                    supportFragmentManager,
-                    GlobalVariables.DIALOGFRAGMENT_TAG
-                )
+                prefEditor.putString(PREFNAMEVER, spinner.adapter.getItem(position).toString())
                 gpterdescr.text = ""
             }
         }
@@ -363,7 +354,7 @@ class SettingsActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
     }
 
     fun logout(v: View) {
-        AccountManager.get(this).removeAccountExplicitly(ac)
+        loglvar.logout(ac!!, this)
         ac = null
         loginbtn.visibility = View.VISIBLE
         why.visibility = View.VISIBLE
