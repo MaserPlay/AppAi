@@ -12,7 +12,6 @@
     <string name="user_disc">This is user image</string>
     <string name="OpeninBrowser">Open openAi.com site Browser in app</string>
     <string name="title_activity_settings">Settings</string>
-    <string name="title_activity_browser">BrowserActivity</string>
     <string name="title_activity_main2" translatable="false">MainActivity2</string>
     <string name="copy_watermark">Getting from AppAi</string>
     <string name="text_copy">Text copied!</string>
@@ -48,37 +47,25 @@
     <string name="gptver_basic">Most capable GPT-3.5 model and optimized for chat at 1/10th the cost of text-davinci-003. Will be updated with our latest model iteration 2 weeks after it is released.</string>
     <string name="gptver_16k">Same capabilities as the standard gpt-3.5-turbo model but with 4 times the context.</string>
     <string name="gptver_0613">Snapshot of gpt-3.5-turbo from June 13th 2023 with function calling data. Unlike gpt-3.5-turbo, this model will not receive updates, and will be deprecated 3 months after a new version is released.</string>
-    <string name="login_login">Login / Register</string>
-    <!-- Strings used for fragments for navigation -->
-
-    <string name="login_email" translatable="false">Email</string>
-    <string name="login_password">Password</string>
-    <string name="login_with">with %1$s</string>
-    <string name="login_error_email" translatable="false">Email not right</string>
-    <string name="login_error_password">Password not rignt</string>
-    <string name="login_twoauth">Login using two-factor authentication</string>
-    <string name="login_totp">Enter the code from your Totp code generation application:</string>
-    <string name="login_codehint">Code</string>
-    <string name="login_emailaccept">We have sent an email to your email with a link to the login confirmation:</string>
-    <string name="login_check">Check Email accept</string>
-    <string name="login_loginlogin">Login</string>
+    <string name="login_loginregister">Login / Register</string>
     <string name="login_back">Back</string>
     <string name="request_error">An error occurred during the request, check your internet connection and try again later</string>
-    <string name="login_error_code">Code not right</string>
-    <string name="login_errorinput_mail">Email not verifered</string>
-    <string name="login_verifymail_tittle">Confirm your email</string>
-    <string name="login_verifymail_descr">Registration is completed, but confirmation of your mailing address is required, Check your mailbox.</string>
     <string name="login_logout">Log Out</string>
-    <string name="login_why" translatable="false">Login / Register to sync your data with games.m2023.ru</string>
-    <string name="error_toomanyaccounts_desrr">Similar there are too many accounts created on your phone (more than one). You will have to delete them for this application to work.</string>
+    <string name="login_why">Login / Register to sync your data with games.m2023.ru</string>
     <string name="error_settings">Open Settings</string>
     <string name="error_toomany">You already have account!</string>
     <string name="settings_auto">" You dont need to do that, this happends automatically."</string>
-    <string name="settings_debug" translatable="false">Debug Mode</string>
-    <string name="sync" translatable="false">Sync Settings</string>
-    <string name="sync_auto" translatable="false">Auto Sync</string>
-    <string name="sync_int" translatable="false">Sync Interval</string>
-    <string name="login_name" translatable="false">games.m2023.ru</string>
-    <string name="sync_master" translatable="false">Your Master setting is off.</string>
-    <string name="sync_spam" translatable="false">Synchronization failed. You are spamming with this button</string>
+    <string name="settings_debug">Debug Mode</string>
+    <string name="sync">Sync Settings</string>
+    <string name="sync_auto">Auto Sync</string>
+    <string name="sync_int">Sync Interval</string>
+    <string name="sync_master">Your Master setting is off.</string>
+    <string name="sync_spam">Synchronization failed. You are spamming with this button</string>
+    <string name="error_quota">You exceeded your current quota, please check your plan and billing details.</string>
+    <string name="error_invreq">It looks like you have exceeded the limit of the allowed chat length for this bot. Click three dots - clear</string>
+    <string name="login_notact">You token is not actual. You need to relogin.</string>
+
+    <string name="appupdater_channel" translatable="false">appupdater_channel_01</string>
+    <string name="login_login">Login</string>
+    <string name="login_register">Register</string>
 </resources>

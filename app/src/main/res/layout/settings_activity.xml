@@ -49,20 +49,36 @@
                         android:textSize="20sp" />
                 </LinearLayout>
 
-                <Button
-                    android:id="@+id/login"
+                <LinearLayout
+                    android:id="@+id/Loginll"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:onClick="Loginbtn"
+                    android:layout_height="40dp"
                     android:layout_below="@id/lllogin"
-                    android:text="@string/login_login"
-                    android:visibility="visible" />
+                    android:orientation="horizontal">
+                    <Button
+                        android:id="@+id/btn_prim"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:onClick="Loginbtn"
+                        android:layout_weight="1"
+                        android:text="@string/login_login"
+                        android:visibility="visible" />
 
+                    <Button
+                        android:id="@+id/btn_sec"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:onClick="Registerbtn"
+                        android:layout_weight="1"
+                        android:text="@string/login_register"
+                        android:visibility="visible" />
+
+                </LinearLayout>
                 <TextView
                     android:id="@+id/why"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/login"
+                    android:layout_below="@id/Loginll"
                     android:text="@string/login_why"
                     android:textSize="15sp" />
 
@@ -181,8 +197,7 @@
                     <View
                         android:id="@+id/vie"
                         android:layout_width="match_parent"
-                        android:layout_height="5dp"
-                        android:background="@color/purple_500" />
+                        android:layout_height="5dp" />
 
                     <TextView
                         android:id="@+id/rr"

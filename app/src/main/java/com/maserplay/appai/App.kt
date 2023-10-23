@@ -6,6 +6,7 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.color.DynamicColors
 
 class App : Application(), Application.ActivityLifecycleCallbacks {
     companion object {
@@ -14,7 +15,8 @@ class App : Application(), Application.ActivityLifecycleCallbacks {
     override fun onCreate() {
         super.onCreate()
         Log.i("Data", "load")
-        ServiceDop(filesDir).openText()
+        ServiceDop.start(filesDir)
+        ServiceDop.openText()
         this.registerActivityLifecycleCallbacks(this)
         getSharedPreferences(GlobalVariables.SHAREDPREFERENCES_NAME, AppCompatActivity.MODE_PRIVATE).registerOnSharedPreferenceChangeListener(ShListener())
     }

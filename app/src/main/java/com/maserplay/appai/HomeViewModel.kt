@@ -5,6 +5,7 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.os.Bundle
 import android.util.Log
 import android.widget.Adapter
 import android.widget.Toast
@@ -21,7 +22,9 @@ import com.aallam.openai.api.chat.ChatMessage
 import com.aallam.openai.api.chat.ChatRole
 import com.aallam.openai.api.exception.AuthenticationException
 import com.aallam.openai.api.exception.GenericIOException
+import com.aallam.openai.api.exception.InvalidRequestException
 import com.aallam.openai.api.exception.OpenAITimeoutException
+import com.aallam.openai.api.exception.RateLimitException
 import com.aallam.openai.api.http.Timeout
 import com.aallam.openai.api.model.ModelId
 import com.aallam.openai.client.OpenAI
@@ -32,14 +35,13 @@ import kotlin.time.Duration.Companion.seconds
 
 
 class HomeViewModel : ViewModel() {
-    val CHANNEL_ID = "1"
-    var notificationId = 1
+    private val CHANNEL_ID = "1"
+    private var notificationId = 1
     val ada: MutableLiveData<Adapter> = MutableLiveData()
     val writen: MutableLiveData<Boolean> = MutableLiveData()
     val errortr: MutableLiveData<String> = MutableLiveData()
     private var products = ArrayList<Product>()
     private lateinit var adapter: Adapter
-    private lateinit var ServiceNeed: ServiceDop
 
     fun getpr(): ArrayList<Product> {
         return products
@@ -55,7 +57,21 @@ class HomeViewModel : ViewModel() {
             products
         )
         ada.postValue(adapter)
-        ServiceNeed = ServiceDop()
+    }
+    @OptIn(BetaOpenAI::class)
+    fun parse(){
+        for (i in ServiceDop.GetList())
+        {
+            if (i.role == ChatRole.User) {
+                products.add(Product(i.content, 2))
+            }
+            if (i.role == ChatRole.Assistant) {
+                products.add(Product(i.content, 1))
+            }
+            if (i.role == ChatRole.System) {
+                products.add(Product(i.content, 3))
+            }
+        }
     }
 
     fun clear() {
@@ -69,7 +85,7 @@ class HomeViewModel : ViewModel() {
         val pr = Product(con.getString(R.string.bot_writting), 1)
         products.add(pr)
         ada.postValue(adapter)
-        ServiceNeed.add(ChatMessage(role = ChatRole.User, content = prompt))
+        ServiceDop.add(ChatMessage(role = ChatRole.User, content = prompt))
 
         viewModelScope.launch {
             val shpref = con.getSharedPreferences(
@@ -86,13 +102,13 @@ class HomeViewModel : ViewModel() {
             )
             val chatCompletionRequest = ChatCompletionRequest(
                 model = ModelId(gptver.toString()),
-                messages = ServiceNeed.GetList()
+                messages = ServiceDop.GetList()
 
             )
             try {
                 val completion = openAI.chatCompletion(chatCompletionRequest)
                 pr.name = completion.choices[0].message?.content.toString()
-                completion.choices[0].message?.let { ServiceNeed.add(it) }
+                completion.choices[0].message?.let { ServiceDop.add(it) }
                 CreateNotification(completion.choices[0].message?.content.toString(), con)
                 ada.postValue(adapter)
                 writen.postValue(true)
@@ -134,6 +150,34 @@ class HomeViewModel : ViewModel() {
                 }
                 errortr.postValue(e.toString())
                 writen.postValue(true)
+            } catch (e: RateLimitException) {
+                Toast.makeText(con, con.getString(R.string.error_quota), Toast.LENGTH_LONG).show()
+                products.remove(pr)
+                products.add(Product(con.getString(R.string.error_quota), 3))
+                CreateNotification(con.getString(R.string.error_quota), con)
+                if (con.getSharedPreferences(
+                        GlobalVariables.SHAREDPREFERENCES_NAME,
+                        AppCompatActivity.MODE_PRIVATE
+                    ).getBoolean(GlobalVariables.SHAREDPREFERENCES_DEBUG, false)
+                ) {
+                    products.add(Product(e.toString(), 4))
+                }
+                errortr.postValue(e.toString())
+                writen.postValue(true)
+            } catch (e: InvalidRequestException) {
+                Toast.makeText(con, con.getString(R.string.error_invreq), Toast.LENGTH_LONG).show()
+                products.remove(pr)
+                products.add(Product(con.getString(R.string.error_invreq), 3))
+                CreateNotification(con.getString(R.string.error_invreq), con)
+                if (con.getSharedPreferences(
+                        GlobalVariables.SHAREDPREFERENCES_NAME,
+                        AppCompatActivity.MODE_PRIVATE
+                    ).getBoolean(GlobalVariables.SHAREDPREFERENCES_DEBUG, false)
+                ) {
+                    products.add(Product(e.toString(), 4))
+                }
+                errortr.postValue(e.toString())
+                writen.postValue(true)
             } catch (e: Exception) {
                 Toast.makeText(con, con.getString(R.string.fatal_error), Toast.LENGTH_LONG).show()
                 products.remove(pr)
@@ -155,7 +199,7 @@ class HomeViewModel : ViewModel() {
 
     override fun onCleared() {
         super.onCleared()
-        ServiceDop().saveText()
+        ServiceDop.saveText()
     }
 
     fun CreateNotification(message: String, con: Context) {

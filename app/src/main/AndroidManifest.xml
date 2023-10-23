@@ -2,11 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
-    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
-    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.USE_CREDENTIALS" />
     <uses-permission android:name="android.permission.READ_SYNC_SETTINGS" />
@@ -19,7 +17,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Moveto"
+        android:theme="@style/Theme.Material3.DayNight"
         tools:targetApi="31">
         <service
             android:name="com.maserplay.appai.sync.SyncService"
@@ -35,39 +33,11 @@
         </service>
 
         <activity
-            android:name="com.maserplay.appai.login.activity.LoginVerifyMailActivity"
-            android:exported="false"
-            android:label="@string/login_login"
-            android:parentActivityName="com.maserplay.appai.login.activity.LoginActivity" />
-        <activity
-            android:name="com.maserplay.appai.login.activity.LoginVerifyActivity"
-            android:exported="false"
-            android:label="@string/login_login"
-            android:parentActivityName="com.maserplay.appai.login.activity.LoginActivity" />
-        <activity
-            android:name="com.maserplay.appai.login.activity.LoginActivity"
-            android:exported="false"
-            android:label="@string/login_login"
-            android:parentActivityName="com.maserplay.appai.SettingsActivity"
-            android:windowSoftInputMode="adjustResize" />
-        <activity
             android:name="com.maserplay.appai.SettingsActivity"
             android:exported="false"
             android:label="@string/title_activity_settings"
             android:parentActivityName="com.maserplay.appai.MainActivity" />
 
-        <service
-            android:name="com.maserplay.appai.login.AuthService"
-            android:enabled="true"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.accounts.AccountAuthenticator" />
-            </intent-filter>
-
-            <meta-data
-                android:name="android.accounts.AccountAuthenticator"
-                android:resource="@xml/auth" />
-        </service>
 
         <activity
             android:name="com.maserplay.appai.MainActivity"

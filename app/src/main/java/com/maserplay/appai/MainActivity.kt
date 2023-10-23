@@ -8,7 +8,6 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Intent
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.view.Gravity
 import android.view.Menu
@@ -26,12 +25,14 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProvider
+import com.github.MaserPlay.appupdater.AppUpdater
+import com.github.MaserPlay.appupdater.enums.Display
+import com.github.MaserPlay.appupdater.enums.UpdateFrom
 import com.google.android.material.snackbar.Snackbar
 import com.maserplay.AppAi.R
 import com.maserplay.appai.dialogfragment.ErrorDialog
 import com.maserplay.appai.dialogfragment.ErrorUserDialog
-import com.maserplay.appai.login.activity.LoginActivity
-import com.maserplay.appai.sync.SyncViewModel
+import com.maserplay.loginlib.activity.LoginActivity
 import java.util.Timer
 import java.util.TimerTask
 
@@ -39,7 +40,6 @@ import java.util.TimerTask
 class MainActivity : AppCompatActivity() {
     val CHANNEL_ID = "1"
     private lateinit var model: HomeViewModel
-    //private lateinit var datetimemodel: SyncViewModel
     private lateinit var llwait: LinearLayout
     private lateinit var wait: TextView
     private lateinit var edtt: LinearLayout
@@ -47,18 +47,26 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        AppUpdater(this)
+            .setButtonDoNotShowAgain("")
+            .showEvery(2)
+            .setDisplay(Display.NOTIFICATION)
+            .setDisplay(Display.DIALOG)
+            .setUpdateFrom(UpdateFrom.JSON)
+            .setUpdateJSON("https://games.m2023.ru/appai_version.json")
+            .start()
         createNotificationChannel()
         CreateLoginSnackbar()
         CreateGithubSnackbar()
         val btn: Button = findViewById(R.id.button_enter)
         edt = findViewById(R.id.EdTxt)
         model = ViewModelProvider(this)[HomeViewModel::class.java]
-        //datetimemodel = ViewModelProvider(this)[SyncViewModel::class.java]
         val l: ListView = findViewById(R.id.list)
         wait = findViewById(R.id.wait)
         llwait = findViewById(R.id.llwait)
         edtt = findViewById(R.id.ll)
         model.start(this)
+        if (savedInstanceState == null) {model.parse()}
         model.ada.observe(this) {
             l.adapter = it as ListAdapter?
         }
@@ -94,7 +102,6 @@ class MainActivity : AppCompatActivity() {
         llwait.visibility = View.VISIBLE
         model.exec(edt.text.toString(), applicationContext)
         edt.setText("")
-        //datetimemodel.setdatetime(this)
     }
 
     override fun onResume() {
@@ -167,8 +174,8 @@ class MainActivity : AppCompatActivity() {
 
             R.id.clear -> {
                 model.clear()
-                ServiceDop().clear()
-                ServiceDop().saveText()
+                ServiceDop.clear()
+                ServiceDop.saveText()
                 return true
             }
 
@@ -180,17 +187,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun createNotificationChannel() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val name = "The answers"
-            val descriptionText = "Get notified when AppAi answers your question!"
-            val importance = NotificationManager.IMPORTANCE_DEFAULT
-            val channel = NotificationChannel(CHANNEL_ID, name, importance).apply {
-                description = descriptionText
-            }
-            val notificationManager: NotificationManager =
-                getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-            notificationManager.createNotificationChannel(channel)
+        val name = "The answers"
+        val descriptionText = "Get notified when AppAi answers your question!"
+        val importance = NotificationManager.IMPORTANCE_DEFAULT
+        val channel = NotificationChannel(CHANNEL_ID, name, importance).apply {
+            description = descriptionText
         }
+        val notificationManager: NotificationManager =
+            getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+        notificationManager.createNotificationChannel(channel)
     }
 
 }
