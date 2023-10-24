@@ -33,6 +33,9 @@ import com.maserplay.AppAi.R
 import com.maserplay.appai.dialogfragment.ErrorDialog
 import com.maserplay.appai.dialogfragment.ErrorUserDialog
 import com.maserplay.loginlib.activity.LoginActivity
+import ru.rustore.sdk.appupdate.manager.factory.RuStoreAppUpdateManagerFactory
+import ru.rustore.sdk.appupdate.model.AppUpdateOptions
+import ru.rustore.sdk.appupdate.model.AppUpdateType.Companion.IMMEDIATE
 import java.util.Timer
 import java.util.TimerTask
 
@@ -47,14 +50,28 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        AppUpdater(this)
-            .setButtonDoNotShowAgain("")
-            .showEvery(2)
-            .setDisplay(Display.NOTIFICATION)
-            .setDisplay(Display.DIALOG)
-            .setUpdateFrom(UpdateFrom.JSON)
-            .setUpdateJSON("https://games.m2023.ru/appai_version.json")
-            .start()
+        val updateManager = RuStoreAppUpdateManagerFactory.create(this)
+        updateManager.getAppUpdateInfo()
+            .addOnSuccessListener { info ->
+                if (info.isUpdateTypeAllowed(IMMEDIATE)) {
+                    updateManager.startUpdateFlow(
+                        info,
+                        AppUpdateOptions.Builder().appUpdateType(IMMEDIATE).build()
+                    )
+                }
+            }
+            .addOnFailureListener { throwable ->
+                AppUpdater(this)
+                    .setButtonDoNotShowAgain("")
+                    .showEvery(3)
+                    .setDisplay(Display.DIALOG)
+                    .setUpdateFrom(UpdateFrom.JSON)
+                    .setUpdateJSON("https://games.m2023.ru/appai_version.json")
+                    .start()
+                if (getSharedPreferences("Main", MODE_PRIVATE).getBoolean("debug", false)) {
+                    Toast.makeText(this, throwable.message, Toast.LENGTH_LONG).show()
+                }
+            }
         createNotificationChannel()
         CreateLoginSnackbar()
         CreateGithubSnackbar()
@@ -66,7 +83,9 @@ class MainActivity : AppCompatActivity() {
         llwait = findViewById(R.id.llwait)
         edtt = findViewById(R.id.ll)
         model.start(this)
-        if (savedInstanceState == null) {model.parse()}
+        if (savedInstanceState == null) {
+            model.parse()
+        }
         model.ada.observe(this) {
             l.adapter = it as ListAdapter?
         }
@@ -75,7 +94,10 @@ class MainActivity : AppCompatActivity() {
             llwait.visibility = View.GONE
         }
         model.errortr.observe(this) {
-            ErrorDialog(this,"${GlobalVariables.APP_NAME} $it").show(supportFragmentManager, GlobalVariables.DIALOGFRAGMENT_TAG)
+            ErrorDialog(this, "${GlobalVariables.APP_NAME} $it").show(
+                supportFragmentManager,
+                GlobalVariables.DIALOGFRAGMENT_TAG
+            )
         }
         edt.addTextChangedListener {
             btn.isEnabled = edt.text.toString() != ""
@@ -93,7 +115,8 @@ class MainActivity : AppCompatActivity() {
         }
 
     }
-    fun Button_Enter(v: View){
+
+    fun Button_Enter(v: View) {
         this.currentFocus?.let { view ->
             val imm = getSystemService(INPUT_METHOD_SERVICE) as? InputMethodManager
             imm?.hideSoftInputFromWindow(view.windowToken, 0)
@@ -107,13 +130,17 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         val api: String =
-            getSharedPreferences(GlobalVariables.SHAREDPREFERENCES_NAME, MODE_PRIVATE).getString("api", "").toString()
+            getSharedPreferences(
+                GlobalVariables.SHAREDPREFERENCES_NAME,
+                MODE_PRIVATE
+            ).getString("api", "").toString()
         if (api == "") {
             edtt.visibility = View.GONE
             wait.text = getString(R.string.api_key_empty)
             llwait.visibility = View.VISIBLE
         }
     }
+
     private fun CreateLoginSnackbar() {
         if (AccountManager.get(this).accounts.isEmpty()) {
             Timer().schedule(object : TimerTask() {

@@ -13,8 +13,8 @@ android {
         applicationId 'com.maserplay.appai'
         minSdk 26
         targetSdk 33
-        versionCode 13
-        versionName "1.5.1"
+        versionCode 15
+        versionName "1.5.3"
     }
 
     buildTypes {
@@ -36,6 +36,8 @@ android {
 }
 
 dependencies {
+
+    implementation("ru.rustore.sdk:appupdate:1.0.0")
     implementation 'com.google.android.gms:play-services-auth:20.6.0'
     implementation "com.aallam.openai:openai-client:3.2.3"
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
@@ -54,9 +56,7 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.10.1'
     implementation 'com.squareup.okhttp3:okhttp:5.0.0-alpha.11'
     implementation 'androidx.core:core-ktx:1.10.1'
-    //implementation files('D:\\appupdater\\library-debug.aar')
-    implementation project(path: ':LoginLib')
     implementation files('D:\\Users\\super\\AndroidStudioProjects\\AppUpdater\\library\\build\\outputs\\aar\\library-debug.aar')
     implementation 'com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.11'
-    //implementation files('D:\\Users\\super\\AndroidStudioProjects\\LoginApplication\\LoginLib\\build\\outputs\\aar\\LoginLib-debug.aar')
+    implementation files('D:\\Users\\super\\AndroidStudioProjects\\LoginApplication\\LoginLib\\build\\outputs\\aar\\LoginLib-debug.aar')
 }
