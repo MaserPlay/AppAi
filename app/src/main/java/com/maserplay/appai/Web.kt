@@ -12,7 +12,7 @@ import retrofit2.http.POST
 
 interface Web {
     @Headers("Content-Type: application/json")
-    @POST("/api/crash")
+    @POST("/api/crush")
     fun errorreport(@Body body: ErrorSendClass): Call<ResponseBody>
     @Headers("Content-Type: application/json")
     @POST("/api/syncother")
