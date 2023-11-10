@@ -15,7 +15,6 @@ import com.maserplay.appai.GlobalVariables
 import com.maserplay.appai.ServiceDop
 import com.maserplay.appai.Web
 import kotlinx.coroutines.runBlocking
-import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Response
 import retrofit2.Retrofit
@@ -77,11 +76,9 @@ class SyncAdapter(val con: Context, autoini: Boolean) : AbstractThreadedSyncAdap
     private suspend fun Send(send: SyncDataClass, cookie: String): Response<SyncDataClass> {
         val interceptor = HttpLoggingInterceptor()
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
-        val client: OkHttpClient = OkHttpClient.Builder().addInterceptor(interceptor).build()
         return Retrofit.Builder()
             .baseUrl(GlobalVariables.WEB_ADR_FULL)
             .addConverterFactory(GsonConverterFactory.create())
-            .client(client)
             .build()
             .create(Web::class.java).sync(send, cookie)
     }

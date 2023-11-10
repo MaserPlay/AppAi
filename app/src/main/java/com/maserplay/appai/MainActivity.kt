@@ -50,6 +50,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        com.maserplay.loginlib.GlobalVariables.GetAC(supportFragmentManager, this)
         val updateManager = RuStoreAppUpdateManagerFactory.create(this)
         updateManager.getAppUpdateInfo()
             .addOnSuccessListener { info ->
@@ -214,8 +215,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun createNotificationChannel() {
-        val name = "The answers"
-        val descriptionText = "Get notified when AppAi answers your question!"
+        val name = getString(R.string.notification_channel)
+        val descriptionText = getString(R.string.notification_description)
         val importance = NotificationManager.IMPORTANCE_DEFAULT
         val channel = NotificationChannel(CHANNEL_ID, name, importance).apply {
             description = descriptionText

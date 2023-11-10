@@ -342,6 +342,23 @@
                     android:textAlignment="center"
                     android:textSize="15sp"
                     android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/thx"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:layout_below="@id/spamtv"
+                    android:text="@string/thx" />
+                <TextView
+                    android:id="@+id/thxAppUpd"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/thx"
+                    android:text="javiersantos for AppUpdater"
+                    android:textSize="15sp" />
             </RelativeLayout>
         </ScrollView>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

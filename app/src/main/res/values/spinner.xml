@@ -2,8 +2,7 @@
 <resources>
     <string-array name="GPTs">
         <item>gpt-3.5-turbo</item>
-        <item>gpt-3.5-turbo-0301</item>
-        <item>gpt-3.5-turbo-0613</item>
+        <item>gpt-3.5-turbo-1106</item>
         <item>gpt-3.5-turbo-16k</item>
     </string-array>
     <string-array name="sync">

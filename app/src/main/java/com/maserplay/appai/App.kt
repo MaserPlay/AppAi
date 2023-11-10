@@ -2,11 +2,9 @@ package com.maserplay.appai
 
 import android.app.Activity
 import android.app.Application
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.material.color.DynamicColors
 
 class App : Application(), Application.ActivityLifecycleCallbacks {
     companion object {
@@ -18,7 +16,14 @@ class App : Application(), Application.ActivityLifecycleCallbacks {
         ServiceDop.start(filesDir)
         ServiceDop.openText()
         this.registerActivityLifecycleCallbacks(this)
-        getSharedPreferences(GlobalVariables.SHAREDPREFERENCES_NAME, AppCompatActivity.MODE_PRIVATE).registerOnSharedPreferenceChangeListener(ShListener())
+        val shpref = getSharedPreferences(GlobalVariables.SHAREDPREFERENCES_NAME, AppCompatActivity.MODE_PRIVATE)
+        if (shpref.getBoolean("isFirst", true))
+        {
+            shpref.edit().putString("api", "gpt-3.5-turbo")
+                .putString("gptver", "gpt-3.5-turbo")
+                .putBoolean("isFirst", false).apply()
+        }
+        shpref.registerOnSharedPreferenceChangeListener(ShListener())
     }
 
     override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) { }
