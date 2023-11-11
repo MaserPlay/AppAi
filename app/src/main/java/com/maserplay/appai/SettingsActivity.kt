@@ -156,7 +156,7 @@ class SettingsActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
         s_au = findViewById(R.id.sync_auto)
         s_ll = findViewById(R.id.l)
         apiedt.addTextChangedListener {
-            prefEditor.putString(PREFNAME, apiedt.text.toString()).apply()
+            prefEditor.putString(PREFNAME, apiedt.text.toString().trim()).apply()
         }
         spinner = findViewById(R.id.EdtgptApi)
         ArrayAdapter.createFromResource(
@@ -193,18 +193,13 @@ class SettingsActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
                 gpterdescr.text = getString(R.string.gptver_basic)
             }
 
-            "gpt-3.5-turbo-0301" -> {
+            "gpt-3.5-turbo-1106" -> {
                 spinner.setSelection(1)
-                gpterdescr.text = getString(R.string.gptver_basic)
-            }
-
-            "gpt-3.5-turbo-0613" -> {
-                spinner.setSelection(2)
-                gpterdescr.text = getString(R.string.gptver_0613)
+                gpterdescr.text = getString(R.string.gptver_1106)
             }
 
             "gpt-3.5-turbo-16k" -> {
-                spinner.setSelection(3)
+                spinner.setSelection(2)
                 gpterdescr.text = getString(R.string.gptver_16k)
             }
 
@@ -331,17 +326,12 @@ class SettingsActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
             }
 
             1 -> {
-                prefEditor.putString(PREFNAMEVER, "gpt-3.5-turbo-0301")
-                gpterdescr.text = getString(R.string.gptver_basic)
+                prefEditor.putString(PREFNAMEVER, "gpt-3.5-turbo-1106")
+                gpterdescr.text = getString(R.string.gptver_1106)
             }
 
             2 -> {
                 prefEditor.putString(PREFNAMEVER, "gpt-3.5-turbo-0613")
-                gpterdescr.text = getString(R.string.gptver_0613)
-            }
-
-            3 -> {
-                prefEditor.putString(PREFNAMEVER, "gpt-3.5-turbo-16k")
                 gpterdescr.text = getString(R.string.gptver_16k)
             }
 
