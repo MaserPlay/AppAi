@@ -27,6 +27,8 @@ import com.maserplay.appai.dialogfragment.ErrorDialog
 import com.maserplay.appai.sync.SyncSpinnerChangeInterval
 import com.maserplay.loginlib.LoginViewModel
 import com.maserplay.loginlib.activity.LoginActivity
+import io.ktor.client.engine.ProxyBuilder
+import io.ktor.client.engine.http
 import java.util.Timer
 import java.util.TimerTask
 import com.maserplay.loginlib.GlobalVariables as loglvar
@@ -41,6 +43,9 @@ class SettingsActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
     private val tim: Timer = Timer(false)
     private var spam: Long = 0
     private var spamsync: Long = 0
+    private lateinit var proxyurlll: LinearLayout
+    private lateinit var proxyadrll: LinearLayout
+    private lateinit var proxyportll: LinearLayout
     private lateinit var gpterdescr: TextView
     lateinit var spamtv: TextView
     private lateinit var why: TextView
@@ -51,10 +56,14 @@ class SettingsActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
     private lateinit var s_au: SwitchCompat
     private lateinit var s_ll: LinearLayout
     private lateinit var syncll: LinearLayout
+    private lateinit var proxyll: LinearLayout
     private lateinit var loginll: LinearLayout
     private lateinit var registerbtn: Button
     private lateinit var loginbtn: Button
     private lateinit var apiedt: EditText
+    private lateinit var proxyurledt: EditText
+    private lateinit var proxyadredt: EditText
+    private lateinit var proxyportedt: EditText
     private lateinit var spinner: Spinner
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -74,7 +83,18 @@ class SettingsActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
         why = findViewById(R.id.why)
         loginll = findViewById(R.id.lllogin)
         syncll = findViewById(R.id.sync)
+        proxyadrll = findViewById(R.id.llApsafsi)
+        proxyportll = findViewById(R.id.llApsujafsi)
+        proxyurlll = findViewById(R.id.llApsasi)
         lmodel = ViewModelProvider(this)[LoginViewModel::class.java]
+        val spinnertype: Spinner = findViewById(R.id.EsdtgptApi)
+        ArrayAdapter.createFromResource(
+            this, R.array.Proxy, android.R.layout.simple_spinner_item
+        ).also { adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            spinnertype.adapter = adapter
+            spinnertype.onItemSelectedListener = ProxySpinner(this)
+        }
         val spinnersync: Spinner = findViewById(R.id.sync_int)
         ArrayAdapter.createFromResource(
             this, R.array.sync, android.R.layout.simple_spinner_item
@@ -147,6 +167,9 @@ class SettingsActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
         }
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         apiedt = findViewById(R.id.EdtApi)
+        proxyurledt = findViewById(R.id.EdadsatApi)
+        proxyadredt = findViewById(R.id.EdadsatfApi)
+        proxyportedt = findViewById(R.id.EdapdsatfApi)
         prefEditor =
             getSharedPreferences(GlobalVariables.SHAREDPREFERENCES_NAME, MODE_PRIVATE).edit()
         spamtv = findViewById(R.id.spamtv)
@@ -157,6 +180,39 @@ class SettingsActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
         s_ll = findViewById(R.id.l)
         apiedt.addTextChangedListener {
             prefEditor.putString(PREFNAME, apiedt.text.toString().trim()).apply()
+        }
+        proxyurledt.addTextChangedListener {
+            try {
+                ProxyBuilder.http(proxyurledt.text.toString().trim())
+                prefEditor.putStringSet("proxy", setOf(proxyurledt.text.toString().trim())).apply()
+                proxyurledt.error = null
+            } catch (e: Exception) {
+                proxyurledt.error = e.message
+            }
+        }
+        proxyadredt.addTextChangedListener {
+            try {
+                ProxyBuilder.socks(proxyadredt.text.toString().trim(), proxyportedt.text.toString().trim().toInt())
+                prefEditor.putStringSet("proxy", setOf(proxyadredt.text.toString().trim(), proxyportedt.text.toString().trim())).apply()
+                proxyadredt.error = null
+                proxyportedt.error = null
+            } catch (e: Exception)
+            {
+                proxyadredt.error = e.message
+                proxyportedt.error = e.message
+            }
+        }
+        proxyportedt.addTextChangedListener {
+            try {
+                ProxyBuilder.socks(proxyadredt.text.toString().trim(), proxyportedt.text.toString().trim().toInt())
+                prefEditor.putStringSet("proxy", setOf(proxyadredt.text.toString().trim(), proxyportedt.text.toString().trim())).apply()
+                proxyadredt.error = null
+                proxyportedt.error = null
+            } catch (e: Exception)
+            {
+                proxyadredt.error = e.message
+                proxyportedt.error = e.message
+            }
         }
         spinner = findViewById(R.id.EdtgptApi)
         ArrayAdapter.createFromResource(
@@ -179,6 +235,18 @@ class SettingsActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
             ).edit().putBoolean("debug", isChecked).apply()
         }
         s_au.setOnCheckedChangeListener { _, _ -> OnSync_llChanged() }
+        proxyll = findViewById(R.id.llgptsApi)
+        findViewById<SwitchCompat>(R.id.debsug).setOnCheckedChangeListener { buttonView, isChecked -> if (isChecked) {
+            proxyll.visibility = View.VISIBLE
+        } else {
+            prefEditor.putInt("proxytype", -1).apply()
+            prefEditor.putStringSet("proxy", null).apply()
+            proxyll.visibility = View.GONE
+            proxyurlll.visibility = View.GONE
+            proxyportll.visibility = View.GONE
+            proxyadrll.visibility = View.GONE
+        }}
+
     }
 
     override fun onResume() {
@@ -355,6 +423,47 @@ class SettingsActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
 
     override fun onNothingSelected(parent: AdapterView<*>?) {
         return
+    }
+    class ProxySpinner(con: AppCompatActivity) : AdapterView.OnItemSelectedListener {
+        private var proxyurlll: LinearLayout
+        private var proxyadrll: LinearLayout
+        private lateinit var prefEditor: SharedPreferences.Editor
+        private var proxyportll: LinearLayout
+        init{
+            proxyadrll = con.findViewById(R.id.llApsafsi)
+            proxyportll = con.findViewById(R.id.llApsujafsi)
+            proxyurlll = con.findViewById(R.id.llApsasi)
+            prefEditor = con.getSharedPreferences(GlobalVariables.SHAREDPREFERENCES_NAME, MODE_PRIVATE).edit()
+        }
+        override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+            prefEditor.putInt("proxytype", position).apply()
+            when (position){
+                0 -> {
+                    prefEditor.putStringSet("proxy", setOf("")).apply()
+                    proxyurlll.visibility = View.VISIBLE
+                    proxyportll.visibility = View.GONE
+                    proxyadrll.visibility = View.GONE
+                }
+                1 -> {
+                    prefEditor.putStringSet("proxy", setOf("", "")).apply()
+                    proxyportll.visibility = View.VISIBLE
+                    proxyadrll.visibility = View.VISIBLE
+                    proxyurlll.visibility = View.GONE
+                }
+                else ->{
+                    proxyurlll.visibility = View.GONE
+                    proxyportll.visibility = View.GONE
+                    proxyadrll.visibility = View.GONE
+                }
+            }
+        }
+
+        override fun onNothingSelected(parent: AdapterView<*>?) {
+            proxyurlll.visibility = View.GONE
+            proxyportll.visibility = View.GONE
+            proxyadrll.visibility = View.GONE
+        }
+
     }
 
 }

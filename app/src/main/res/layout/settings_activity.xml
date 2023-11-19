@@ -19,11 +19,13 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <RelativeLayout
+            <LinearLayout
                 android:id="@+id/rl"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:orientation="vertical"
                 android:paddingHorizontal="10dp"
+
                 android:paddingVertical="10dp">
 
                 <LinearLayout
@@ -53,14 +55,14 @@
                     android:id="@+id/Loginll"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
-                    android:layout_below="@id/lllogin"
                     android:orientation="horizontal">
+
                     <Button
                         android:id="@+id/btn_prim"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:onClick="Loginbtn"
                         android:layout_weight="1"
+                        android:onClick="Loginbtn"
                         android:text="@string/login_login"
                         android:visibility="visible" />
 
@@ -68,25 +70,25 @@
                         android:id="@+id/btn_sec"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:onClick="Registerbtn"
                         android:layout_weight="1"
+                        android:onClick="Registerbtn"
                         android:text="@string/login_register"
                         android:visibility="visible" />
 
                 </LinearLayout>
+
                 <TextView
                     android:id="@+id/why"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/Loginll"
                     android:text="@string/login_why"
                     android:textSize="15sp" />
+
 
                 <LinearLayout
                     android:id="@+id/llApi"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
-                    android:layout_below="@id/why"
                     android:orientation="horizontal">
 
                     <TextView
@@ -100,13 +102,13 @@
 
                     <EditText
                         android:id="@+id/EdtApi"
-                        android:minHeight="50dp"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:autofillHints="password"
                         android:hint="@string/api_key"
-                        android:inputType="textPassword" />
+                        android:inputType="textPassword"
+                        android:minHeight="50dp" />
 
                 </LinearLayout>
 
@@ -114,7 +116,6 @@
                     android:id="@+id/textV"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/llApi"
                     android:text="@string/instruction_part1"
                     android:textAlignment="center"
                     android:textSize="20sp"
@@ -124,7 +125,6 @@
                     android:id="@+id/textanother"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/textV"
                     android:text="@string/instruction_part2"
                     android:textSize="15sp" />
 
@@ -132,7 +132,6 @@
                     android:id="@+id/inBrowserapp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/textanother"
                     android:onClick="OpenOpenAI"
                     android:text="@string/OpeninBrowser" />
 
@@ -140,7 +139,6 @@
                     android:id="@+id/textanoafBr"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/inBrowserapp"
                     android:text="@string/instruction_part3"
                     android:textSize="15sp" />
 
@@ -148,7 +146,6 @@
                     android:id="@+id/inBrowserappKey"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/textanoafBr"
                     android:onClick="OpenOpenAIKeys"
                     android:text="@string/OpeninBrowserKey" />
 
@@ -157,7 +154,6 @@
                     android:id="@+id/llgptApi"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
-                    android:layout_below="@id/inBrowserappKey"
                     android:orientation="horizontal">
 
                     <TextView
@@ -171,10 +167,10 @@
 
                     <Spinner
                         android:id="@+id/EdtgptApi"
-                        android:minHeight="50dp"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="1" />
+                        android:layout_weight="1"
+                        android:minHeight="50dp" />
 
                 </LinearLayout>
 
@@ -182,7 +178,6 @@
                     android:id="@+id/gptver_descr"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/llgptApi"
                     android:text="@string/gptver_name"
                     android:textSize="15sp" />
 
@@ -190,7 +185,6 @@
                     android:id="@+id/sync"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/gptver_descr"
                     android:orientation="vertical"
                     android:visibility="gone">
 
@@ -225,10 +219,10 @@
 
                         <androidx.appcompat.widget.SwitchCompat
                             android:id="@+id/sync_auto"
-                            android:enabled="false"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
-                            android:layout_weight="1" />
+                            android:layout_weight="1"
+                            android:enabled="false" />
 
                     </LinearLayout>
 
@@ -264,19 +258,151 @@
 
                     </LinearLayout>
                 </LinearLayout>
+                <View
+                    android:id="@+id/vie22"
+                    android:layout_width="match_parent"
+                    android:layout_height="5dp"
+                    android:background="@color/purple_500" />
 
+                <LinearLayout
+                    android:id="@+id/fsasffds"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/asdsa"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:text="Use Proxy"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/debsug"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:minHeight="50dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/llgptsApi"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/TvgsptApi"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:text="ProxyType"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <Spinner
+                        android:id="@+id/EsdtgptApi"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:minHeight="50dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/llApsasi"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/TvAadapi"
+                        android:layout_width="70dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:text="Proxy"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/EdadsatApi"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:hint="Proxy Url"
+                        android:inputType="textUri"
+                        android:minHeight="50dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/llApsafsi"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/TvAfadapi"
+                        android:layout_width="70dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:text="Proxy"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/EdadsatfApi"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:hint="Proxy Adress"
+                        android:inputType="textUri"
+                        android:minHeight="50dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/llApsujafsi"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/TvAofadapi"
+                        android:layout_width="70dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:text="Port"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/EdapdsatfApi"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:hint="Proxy port"
+                        android:inputType="number"
+                        android:maxLength="4"
+                        android:minHeight="50dp" />
+
+                </LinearLayout>
                 <View
                     android:id="@+id/vie2"
                     android:layout_width="match_parent"
                     android:layout_height="5dp"
-                    android:layout_below="@id/sync"
                     android:background="@color/purple_500" />
 
                 <TextView
                     android:id="@+id/textView2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/vie2"
                     android:text="@string/settings_prof"
                     android:textAlignment="center"
                     android:textSize="20sp"
@@ -286,7 +412,6 @@
                     android:id="@+id/fsasffd"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
-                    android:layout_below="@id/textView2"
                     android:orientation="horizontal">
 
                     <TextView
@@ -300,10 +425,10 @@
 
                     <androidx.appcompat.widget.SwitchCompat
                         android:id="@+id/debug"
-                        android:minHeight="50dp"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="1" />
+                        android:layout_weight="1"
+                        android:minHeight="50dp" />
 
                 </LinearLayout>
 
@@ -311,7 +436,6 @@
                     android:id="@+id/textView121"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/fsasffd"
                     android:text="@string/settings_auto"
                     android:textAlignment="center"
                     android:textSize="20sp"
@@ -322,7 +446,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:onClick="SaveBtn"
-                    android:layout_below="@id/textView121"
                     android:text="@string/save_data" />
 
                 <Button
@@ -330,14 +453,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:onClick="LoadBtn"
-                    android:layout_below="@id/save"
                     android:text="@string/load_data" />
 
                 <TextView
                     android:id="@+id/spamtv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/load"
                     android:text="@string/spam_detector"
                     android:textAlignment="center"
                     android:textSize="15sp"
@@ -347,19 +468,18 @@
                     android:id="@+id/thx"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:text="@string/thx"
                     android:textAlignment="center"
                     android:textSize="20sp"
-                    android:textStyle="bold"
-                    android:layout_below="@id/spamtv"
-                    android:text="@string/thx" />
+                    android:textStyle="bold" />
+
                 <TextView
                     android:id="@+id/thxAppUpd"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/thx"
                     android:text="javiersantos for AppUpdater"
                     android:textSize="15sp" />
-            </RelativeLayout>
+            </LinearLayout>
         </ScrollView>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 

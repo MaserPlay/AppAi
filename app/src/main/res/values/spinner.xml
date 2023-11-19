@@ -11,4 +11,8 @@
         <item>1 day</item>
         <item>1 week</item>
     </string-array>
+    <string-array name="Proxy">
+        <item>Http</item>
+        <item>Socks</item>
+    </string-array>
 </resources>

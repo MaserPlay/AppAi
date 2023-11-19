@@ -5,7 +5,6 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.os.Bundle
 import android.util.Log
 import android.widget.Adapter
 import android.widget.Toast
@@ -29,6 +28,7 @@ import com.aallam.openai.api.http.Timeout
 import com.aallam.openai.api.model.ModelId
 import com.aallam.openai.client.OpenAI
 import com.aallam.openai.client.OpenAIConfig
+import com.aallam.openai.client.ProxyConfig
 import com.maserplay.AppAi.R
 import kotlinx.coroutines.launch
 import kotlin.time.Duration.Companion.seconds
@@ -58,10 +58,10 @@ class HomeViewModel : ViewModel() {
         )
         ada.postValue(adapter)
     }
+
     @OptIn(BetaOpenAI::class)
-    fun parse(){
-        for (i in ServiceDop.GetList())
-        {
+    fun parse() {
+        for (i in ServiceDop.GetList()) {
             if (i.role == ChatRole.User) {
                 products.add(Product(i.content, 2))
             }
@@ -94,18 +94,36 @@ class HomeViewModel : ViewModel() {
             )
             val apiKey = shpref.getString("api", "")
             val gptver = shpref.getString("gptver", GlobalVariables.GPTVER_DEFVAl)
-            val openAI = OpenAI(
-                OpenAIConfig(
-                    token = apiKey.toString(),
-                    timeout = Timeout(socket = 60.seconds)
-                )
-            )
+            var proxy: ProxyConfig? = null
             val chatCompletionRequest = ChatCompletionRequest(
                 model = ModelId(gptver.toString()),
                 messages = ServiceDop.GetList()
 
             )
             try {
+                when (shpref.getInt("proxytype", -1)) {
+                    (0) -> {
+                        val sh = shpref.getStringSet("proxy", null)
+                        if (sh != null) {
+                            proxy = ProxyConfig.Http(sh.elementAt(0))
+                        }
+                    }
+
+                    (1) -> {
+                        val sh = shpref.getStringSet("proxy", null)
+                        if (sh != null) {
+                            proxy = ProxyConfig.Socks(sh.elementAt(0), sh.elementAt(1).toInt())
+                        }
+                    }
+
+                }
+                val openAI = OpenAI(
+                    OpenAIConfig(
+                        token = apiKey.toString(),
+                        timeout = Timeout(socket = 60.seconds),
+                        proxy = proxy
+                    )
+                )
                 val completion = openAI.chatCompletion(chatCompletionRequest)
                 pr.name = completion.choices[0].message?.content.toString()
                 completion.choices[0].message?.let { ServiceDop.add(it) }
